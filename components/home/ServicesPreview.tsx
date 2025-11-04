@@ -4,246 +4,190 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { services } from '@/types/service'
 
-export default function ServicesSection() {
-    const [expandedId, setExpandedId] = useState<string | null>(null)
+export default function ServicesCompare() {
+	const [expanded, setExpanded] = useState(false)
 
-    const toggleExpand = (id: string) => {
-        setExpandedId(expandedId === id ? null : id)
-    }
+	const allLabels = Array.from(
+		new Set(services.flatMap(s => s.allFeatures.map(f => f.label)))
+	)
+	const orderedLabels = allLabels.sort((a, b) => {
+		const countA = services.filter(s =>
+			s.allFeatures.find(f => f.label === a && f.included)
+		).length
+		const countB = services.filter(s =>
+			s.allFeatures.find(f => f.label === b && f.included)
+		).length
+		return countB - countA
+	})
 
-    return (
-        <section className="py-32 px-4 sm:px-6 lg:px-8 bg-white">
-            <div className="max-w-7xl mx-auto">
-                {/* Header */}
-                <motion.div
-                    className="mb-20 max-w-3xl"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <p className="text-sm text-gray-500 mb-4 uppercase tracking-wider">
-                        Nos Services
-                    </p>
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-                        Ce qu'on fait pour vous
-                    </h2>
-                </motion.div>
+	return (
+		<section className="relative transition-all py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-gray-50 to-white overflow-hidden">
+			<div className="max-w-7xl mx-auto relative z-10">
+				{/* Header */}
+				<motion.div
+					className="mb-20 text-center"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.6 }}
+				>
+					<p className="text-sm text-gray-500 mb-4 uppercase tracking-wider">
+						Nos Formules
+					</p>
+					<h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+						Comparez nos services
+					</h2>
 
-                {/* Services List */}
-                <div className="space-y-4">
-                    {services.map((service, index) => {
-                        const isExpanded = expandedId === service.id
+					{/* {!expanded && (
+						<motion.p
+							className="text-gray-600 mt-6 text-lg relative inline-block"
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{ delay: 0.4 }}
+						>
+							<span className="animate-pulse">Cliquez sur une formule</span>
+							<motion.span
+								className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-black/10 to-black/50 rounded-full"
+								initial={{ scaleX: 0 }}
+								animate={{ scaleX: 1 }}
+								transition={{ duration: 1.2, delay: 0.5 }}
+							/>
+						</motion.p>
+					)} */}
+				</motion.div>
 
-                        return (
-                            <motion.div
-                                key={service.id}
-                                className="relative"
-                                initial={{ opacity: 0, x: -30 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true, margin: "-50px" }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                            >
-                                {/* Collapsed Box */}
-                                <motion.div
-                                    className="relative border border-gray-200 rounded-2xl overflow-hidden cursor-pointer"
-                                    onClick={() => toggleExpand(service.id)}
-                                    whileHover={{
-                                        borderColor: '#000',
-                                        transition: { duration: 0.2 }
-                                    }}
-                                    animate={{
-                                        backgroundColor: isExpanded ? '#000' : '#fff'
-                                    }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    {/* Main Info (always visible) */}
-                                    <div className="p-8 flex items-center justify-between">
-                                        <div className="flex items-center gap-8">
-                                            {/* Number */}
-                                            <motion.span
-                                                className="text-2xl font-bold"
-                                                animate={{
-                                                    color: isExpanded ? '#fff' : '#d1d5db'
-                                                }}
-                                            >
-                                                {service.number}
-                                            </motion.span>
+				{/* Cards */}
+				<div
+					className={`grid md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500 ${expanded ? 'items-start' : ''
+						}`}
+				>
+					{services.map((service, i) => (
+						<motion.div
+							layout
+							key={service.id}
+							onClick={() => setExpanded(!expanded)}
+							className={`border border-gray-200 rounded-3xl p-8 flex flex-col justify-between bg-white cursor-pointer transition-all duration-500 ${expanded
+								? 'hover:shadow-2xl hover:-translate-y-2'
+								: 'hover:shadow-lg hover:-translate-y-1'
+								} `}
+							initial={{ opacity: 0, y: 30 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.6 }}
+							whileHover={{
+								background:
+									'linear-gradient(145deg, rgba(255,255,255,1) 0%, rgba(245,245,245,1) 100%)',
+							}}
+						>
+							{/* Header */}
+							<div>
+								<span className="text-sm uppercase tracking-wider text-gray-400">
+									{service.number}
+								</span>
+								<h3 className="text-2xl font-bold text-gray-900 mt-1">
+									{service.title}
+								</h3>
+								<p className="text-gray-600 mt-1">{service.tagline}</p>
+							</div>
 
-                                            {/* Title & Tagline */}
-                                            <div>
-                                                <motion.h3
-                                                    className="text-2xl md:text-3xl font-bold mb-1"
-                                                    animate={{
-                                                        color: isExpanded ? '#fff' : '#000'
-                                                    }}
-                                                >
-                                                    {service.title}
-                                                </motion.h3>
-                                                <motion.p
-                                                    className="text-sm"
-                                                    animate={{
-                                                        color: isExpanded ? '#d1d5db' : '#6b7280'
-                                                    }}
-                                                >
-                                                    {service.tagline}
-                                                </motion.p>
-                                            </div>
-                                        </div>
+							{/* Description (smooth collapse instead of lag) */}
+							<motion.div
+								animate={{
+									height: expanded ? 0 : 'auto',
+									opacity: expanded ? 0 : 1,
+								}}
+								transition={{ duration: 0.3, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
+								className="overflow-hidden mb-6"
+							>
+								<p className="text-gray-700 leading-relaxed">
+									{service.description}
+								</p>
+							</motion.div>
+							{/* Features (animated reveal when expanded) */}
+							<AnimatePresence>
+								{expanded && (
+									<motion.ul
+										key="features"
+										className="space-y-3 mb-8"
+										initial="hidden"
+										animate="visible"
+										exit="hidden"
+										variants={{
+											hidden: { opacity: 0 },
+											visible: {
+												opacity: 1,
+												transition: { staggerChildren: 0.05 },
+											},
+										}}
+									>
+										{orderedLabels.map((label, idx) => {
+											const feature = service.allFeatures.find(
+												f => f.label === label
+											)
+											const included = feature?.included
+											return (
+												<motion.li
+													key={idx}
+													variants={{
+														hidden: { opacity: 0, y: 10 },
+														visible: { opacity: 1, y: 0 },
+													}}
+													className={`text-sm md:text-base transition-all flex items-center gap-2 ${included
+														? 'text-gray-900'
+														: 'text-gray-300 line-through'
+														}`}
+												>
+													<motion.span
+														className={`block w-2 h-2 rounded-full ${included ? 'bg-gray-900' : 'bg-gray-300'
+															}`}
+														initial={{ scale: 0 }}
+														animate={{ scale: 1 }}
+														transition={{ delay: idx * 0.03 }}
+													/>
+													{label}
+												</motion.li>
+											)
+										})}
+									</motion.ul>
+								)}
+							</AnimatePresence>
 
-                                        {/* Price & Toggle */}
-                                        <div className="flex items-center gap-6">
-                                            <motion.span
-                                                className="text-xl font-bold whitespace-nowrap"
-                                                animate={{
-                                                    color: isExpanded ? '#fff' : '#000'
-                                                }}
-                                            >
-                                                {service.price}
-                                            </motion.span>
+							{/* Footer */}
+							<div className="text-gray-700 text-sm flex items-center gap-2 mt-auto">
+								<span>⏱️</span>
+								<span>
+									Durée estimée : <strong>{service.duration}</strong>
+								</span>
+							</div>
+						</motion.div>
+					))}
+				</div>
 
-                                            {/* Toggle Icon */}
-                                            <motion.div
-                                                className="w-10 h-10 rounded-full border flex items-center justify-center"
-                                                animate={{
-                                                    borderColor: isExpanded ? '#fff' : '#000',
-                                                    rotate: isExpanded ? 45 : 0
-                                                }}
-                                                transition={{ duration: 0.3 }}
-                                            >
-                                                <motion.span
-                                                    className="text-2xl font-light"
-                                                    animate={{
-                                                        color: isExpanded ? '#fff' : '#000'
-                                                    }}
-                                                >
-                                                    +
-                                                </motion.span>
-                                            </motion.div>
-                                        </div>
-                                    </div>
-
-                                    {/* Expanded Panel */}
-                                    <AnimatePresence>
-                                        {isExpanded && (
-                                            <motion.div
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: 'auto', opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                transition={{ duration: 0.4, ease: 'easeInOut' }}
-                                                className="overflow-hidden"
-                                            >
-                                                <div className="px-8 pb-8 pt-4 border-t border-gray-800">
-                                                    <div className="grid md:grid-cols-2 gap-12">
-                                                        {/* Left Column */}
-                                                        <div className="space-y-8">
-                                                            {/* Description */}
-                                                            <div>
-                                                                <h4 className="text-white font-bold mb-3 text-sm uppercase tracking-wider">
-                                                                    En détail
-                                                                </h4>
-                                                                <p className="text-gray-300 leading-relaxed">
-                                                                    {service.description}
-                                                                </p>
-                                                            </div>
-
-                                                            {/* Features */}
-                                                            <div>
-                                                                <h4 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">
-                                                                    Ce qui est inclus
-                                                                </h4>
-                                                                <ul className="space-y-3">
-                                                                    {service.features.map((feature, i) => (
-                                                                        <motion.li
-                                                                            key={i}
-                                                                            className="flex items-center gap-3 text-gray-300"
-                                                                            initial={{ opacity: 0, x: -10 }}
-                                                                            animate={{ opacity: 1, x: 0 }}
-                                                                            transition={{ delay: 0.1 * i }}
-                                                                        >
-                                                                            <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                                                                            <span>{feature}</span>
-                                                                        </motion.li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Right Column */}
-                                                        <div className="space-y-8">
-                                                            {/* Deliverables */}
-                                                            <div>
-                                                                <h4 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">
-                                                                    Livrables
-                                                                </h4>
-                                                                <ul className="space-y-3">
-                                                                    {service.deliverables.map((item, i) => (
-                                                                        <motion.li
-                                                                            key={i}
-                                                                            className="flex items-center gap-3 text-gray-300"
-                                                                            initial={{ opacity: 0, x: -10 }}
-                                                                            animate={{ opacity: 1, x: 0 }}
-                                                                            transition={{ delay: 0.1 * i + 0.2 }}
-                                                                        >
-                                                                            <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                                                                            <span>{item}</span>
-                                                                        </motion.li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-
-                                                            {/* Duration & CTA */}
-                                                            <div className="space-y-4">
-                                                                <div className="flex items-center gap-3 text-gray-300">
-                                                                    <span className="text-sm">⏱️ Durée :</span>
-                                                                    <span className="font-medium">{service.duration}</span>
-                                                                </div>
-
-                                                                <motion.button
-                                                                    className="w-full py-4 bg-white text-black rounded-xl font-bold hover:bg-gray-100 transition-colors"
-                                                                    whileHover={{ scale: 1.02 }}
-                                                                    whileTap={{ scale: 0.98 }}
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation()
-                                                                        // Action: ouvrir formulaire de contact ou modal
-                                                                    }}
-                                                                >
-                                                                    Discutons de ce projet →
-                                                                </motion.button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </motion.div>
-                            </motion.div>
-                        )
-                    })}
-                </div>
-
-                {/* Bottom CTA */}
-                <motion.div
-                    className="mt-20 text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                    <p className="text-gray-600 mb-6">
-                        Pas sûr de ce dont vous avez besoin ?
-                    </p>
-                    <motion.button
-                        className="px-8 py-4 bg-gray-900 text-white rounded-full font-medium inline-flex items-center gap-2"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        Prenons un café pour en discuter
-                        <span>☕</span>
-                    </motion.button>
-                </motion.div>
-            </div>
-        </section>
-    )
+{/* 			
+				<AnimatePresence>
+					{expanded && (
+						<motion.div
+							key="cta"
+							className="mt-20 text-center"
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: -20 }}
+						>
+							<motion.button
+								onClick={() => setExpanded(false)}
+								className="px-8 py-4 bg-gray-900 text-white rounded-full font-medium inline-flex items-center gap-2 shadow-md"
+								whileHover={{
+									scale: 1.05,
+									boxShadow: '0px 8px 24px rgba(0,0,0,0.15)',
+								}}
+								whileTap={{ scale: 0.95 }}
+							>
+								Revenir aux formules <span>↩️</span>
+							</motion.button>
+						</motion.div>
+					)}
+				</AnimatePresence> */}
+			</div>
+		</section>
+	)
 }
