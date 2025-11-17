@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { services } from '@/types/service'
+import { BadgeCheck } from 'lucide-react'
 
 export default function ServicesCompare() {
 	const [expanded, setExpanded] = useState(false)
@@ -37,23 +38,6 @@ export default function ServicesCompare() {
 					<h2 className="text-4xl md:text-5xl font-bold text-gray-900">
 						Comparez nos services
 					</h2>
-
-					{/* {!expanded && (
-						<motion.p
-							className="text-gray-600 mt-6 text-lg relative inline-block"
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ delay: 0.4 }}
-						>
-							<span className="animate-pulse">Cliquez sur une formule</span>
-							<motion.span
-								className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-black/10 to-black/50 rounded-full"
-								initial={{ scaleX: 0 }}
-								animate={{ scaleX: 1 }}
-								transition={{ duration: 1.2, delay: 0.5 }}
-							/>
-						</motion.p>
-					)} */}
 				</motion.div>
 
 				{/* Cards */}
@@ -90,12 +74,8 @@ export default function ServicesCompare() {
 								<p className="text-gray-600 mt-1">{service.tagline}</p>
 							</div>
 
-							{/* Description (smooth collapse instead of lag) */}
+							{/* Description */}
 							<motion.div
-								animate={{
-									height: expanded ? 0 : 'auto',
-									opacity: expanded ? 0 : 1,
-								}}
 								transition={{ duration: 0.3, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
 								className="overflow-hidden mb-6"
 							>
@@ -103,7 +83,8 @@ export default function ServicesCompare() {
 									{service.description}
 								</p>
 							</motion.div>
-							{/* Features (animated reveal when expanded) */}
+
+							{/* Features */}
 							<AnimatePresence>
 								{expanded && (
 									<motion.ul
@@ -132,18 +113,16 @@ export default function ServicesCompare() {
 														hidden: { opacity: 0, y: 10 },
 														visible: { opacity: 1, y: 0 },
 													}}
-													className={`text-sm md:text-base transition-all flex items-center gap-2 ${included
+													className={`flex items-center gap-2 text-sm md:text-base transition-all ${included
 														? 'text-gray-900'
 														: 'text-gray-300 line-through'
 														}`}
 												>
-													<motion.span
-														className={`block w-2 h-2 rounded-full ${included ? 'bg-gray-900' : 'bg-gray-300'
-															}`}
-														initial={{ scale: 0 }}
-														animate={{ scale: 1 }}
-														transition={{ delay: idx * 0.03 }}
+													<BadgeCheck
+														size={18}
+														className={`${included ? "text-green-500" : "text-gray-300"} flex-shrink-0`}
 													/>
+
 													{label}
 												</motion.li>
 											)
@@ -162,31 +141,6 @@ export default function ServicesCompare() {
 						</motion.div>
 					))}
 				</div>
-
-{/* 			
-				<AnimatePresence>
-					{expanded && (
-						<motion.div
-							key="cta"
-							className="mt-20 text-center"
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y: -20 }}
-						>
-							<motion.button
-								onClick={() => setExpanded(false)}
-								className="px-8 py-4 bg-gray-900 text-white rounded-full font-medium inline-flex items-center gap-2 shadow-md"
-								whileHover={{
-									scale: 1.05,
-									boxShadow: '0px 8px 24px rgba(0,0,0,0.15)',
-								}}
-								whileTap={{ scale: 0.95 }}
-							>
-								Revenir aux formules <span>↩️</span>
-							</motion.button>
-						</motion.div>
-					)}
-				</AnimatePresence> */}
 			</div>
 		</section>
 	)
