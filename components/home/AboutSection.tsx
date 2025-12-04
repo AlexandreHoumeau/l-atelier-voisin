@@ -1,121 +1,139 @@
-'use client'
+"use client";
 
-import React, { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { PenTool, Code, Heart, Dog, MapPin } from 'lucide-react'
+import Image from "next/image";
+import { motion } from "framer-motion";
 
-export default function AboutTimeline() {
-	const ref = useRef<HTMLDivElement | null>(null)
-	const { scrollYProgress } = useScroll({
-		target: ref,
-		offset: ['start end', 'end start'],
-	})
+export default function AboutSection() {
+    return (
+        <div className="pt-48 px-10">
+            <div>
+                {/* Title Reveal */}
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    viewport={{ once: true }}
+                    className="text-2xl md:text-3xl font-semibold text-white pb-10"
+                >
+                    Le duo derrière l’Atelier voisin
+                </motion.h2>
 
-	const items = [
-		{
-			icon: PenTool,
-			title: 'Une designeuse hors pair',
-			text: "Agathe imagine des identités et interfaces qui respirent la simplicité.",
-		},
-		{
-			icon: Code,
-			title: 'Un développeur curieux',
-			text: "Moïse transforme les idées en expériences fluides et agréables.",
-		},
-		{
-			icon: Heart,
-			title: 'On aime les petits commerces',
-			text: "On accompagne artisans, cafés et boutiques avec bienveillance.",
-		},
-		{
-			icon: Dog,
-			title: 'Et le lévrier italien',
-			text: "Présent à l'atelier, souvent en train de dormir mais très impliqué.",
-		},
-		{
-			icon: MapPin,
-			title: 'Basés à Bordeaux',
-			text: "Atelier lumineux entre Chartrons et centre — café assuré.",
-		},
-	]
+                <div className="grid md:grid-cols-2 items-start max-w-7xl gap-10 mx-auto">
+                    {/* IMAGE WITH COOL ANIMATIONS */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        whileHover={{
+                            scale: 1.03,
+                            rotate: -1,
+                            transition: { type: "spring", stiffness: 150 },
+                        }}
+                        viewport={{ once: true }}
+                        className=""
+                    >
+                        <motion.div
+                            animate={{
+                                y: [0, -6, 0],
+                            }}
+                            transition={{
+                                repeat: Infinity,
+                                duration: 6,
+                                ease: "easeInOut",
+                            }}
+                            className="overflow-hidden rounded-3xl shadow-xl"
+                        >
+                            <motion.div
+                                initial={{ clipPath: "inset(0 0 100% 0)" }}
+                                whileInView={{
+                                    clipPath: "inset(0 0 0% 0)",
+                                }}
+                                transition={{ duration: 1, ease: "easeOut" }}
+                                viewport={{ once: true }}
+                            >
+                                <Image
+                                    src="/images/team/about_us.png"
+                                    alt="Le duo derrière l’Atelier voisin"
+                                    width={600}
+                                    height={400}
+                                    className="w-full h-auto object-cover"
+                                    priority
+                                />
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
 
-	return (
-		<section ref={ref} className="relative py-32 bg-white">
-			<div className="max-w-5xl mx-auto px-6">
-				<div className="text-center mb-24">
-					<p className="text-sm text-gray-500 uppercase tracking-wider">À propos</p>
-					<h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-						L’Atelier Voisin — notre route
-					</h2>
-					<p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-						Une route simple : créer, coder et partager avec passion (et un chien).
-					</p>
-				</div>
+                    {/* TEXT BLOCK WITH STAGGERED REVEAL */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: {
+                                opacity: 1,
+                                transition: {
+                                    staggerChildren: 0.25,
+                                },
+                            },
+                        }}
+                        className="text-white leading-relaxed space-y-10"
+                    >
+                        {/* BLOCK 1 */}
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, x: 40 },
+                                visible: { opacity: 1, x: 0 },
+                            }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                        >
+                            <h3 className="font-semibold text-xl mb-2">
+                                Deux parcours complémentaires
+                            </h3>
+                            <p>
+                                Clara, designeuse UX/UI et Alex, développeur full-stack depuis 6 ans.
+                                Nous avons tous les deux acquis notre expérience au sein de grandes
+                                entreprises à Paris et Amsterdam. Pendant plusieurs années, nous avons
+                                travaillé sur des projets d’envergure, collaborant avec des équipes
+                                internationales et développant une expertise solide dans nos domaines
+                                respectifs.
+                            </p>
+                        </motion.div>
 
-				<div className="relative">
-					{/* Ligne verticale pointillée */}
-					<motion.div
-						className="absolute left-1/2 top-0 w-[2px] bg-gradient-to-b from-gray-300 to-transparent"
-						style={{
-							height: useTransform(scrollYProgress, [0, 1], ['0%', '100%']),
-						}}
-					/>
-					{/* Ligne grise de fond */}
-					<div className="absolute left-1/2 top-0 w-[2px] h-full border-l-2 border-dashed border-gray-200" />
+                        {/* BLOCK 2 */}
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, x: 40 },
+                                visible: { opacity: 1, x: 0 },
+                            }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                        >
+                            <h3 className="font-semibold text-xl mb-2">
+                                L’Atelier voisin est né d’un retour à Bordeaux
+                            </h3>
+                            <p>
+                                En rentrant vivre dans notre ville d’origine, nous nous sommes réunis
+                                autour d’une envie simple : faire du digital quelque chose de plus humain
+                                et accessible. Nous avons créé une agence web, pensée pour les entreprises
+                                et particuliers qui veulent un site fiable, clair et facile à gérer, sans
+                                jargon, sans complications inutiles.
+                            </p>
+                        </motion.div>
 
-					{/* Cards */}
-					<div className="space-y-32 relative">
-						{items.map((it, i) => {
-							const Icon = it.icon
-							const yOffset = useTransform(
-								scrollYProgress,
-								[0, 0.2 * i, 0.2 * (i + 1)],
-								[50, 20, 0]
-							)
-							const opacity = useTransform(
-								scrollYProgress,
-								[0.2 * i, 0.2 * (i + 1)],
-								[0, 1]
-							)
-
-							const isLeft = i % 2 === 0
-
-							return (
-								<motion.div
-									key={i}
-									style={{ opacity, y: yOffset }}
-									className={`relative flex items-center ${isLeft ? 'justify-start' : 'justify-end'
-										}`}
-								>
-									<div
-										className={`w-full md:w-1/2 bg-gray-50 border border-gray-200 rounded-3xl shadow-sm p-8 transition-all ${isLeft ? 'mr-auto' : 'ml-auto'
-											}`}
-									>
-										<div className="flex items-start gap-4">
-											<div className="p-3 bg-gray-100 rounded-full shrink-0">
-												<Icon className="w-6 h-6 text-gray-800" />
-											</div>
-											<div>
-												<h3 className="text-lg font-semibold text-gray-900">
-													{it.title}
-												</h3>
-												<p className="mt-2 text-gray-600 text-sm leading-relaxed">
-													{it.text}
-												</p>
-											</div>
-										</div>
-									</div>
-
-									{/* Point central */}
-									<div className="absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-white rounded-full border-2 border-gray-300 flex items-center justify-center">
-										<div className="w-2 h-2 bg-gray-800 rounded-full" />
-									</div>
-								</motion.div>
-							)
-						})}
-					</div>
-				</div>
-			</div>
-		</section>
-	)
+                        {/* FINAL SENTENCE */}
+                        <motion.p
+                            variants={{
+                                hidden: { opacity: 0, x: 40 },
+                                visible: { opacity: 1, x: 0 },
+                            }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                            className="font-semibold text-xl"
+                        >
+                            On vous écoute, on vous accompagne, on vous explique chaque étape !
+                        </motion.p>
+                    </motion.div>
+                </div>
+            </div>
+        </div>
+    );
 }

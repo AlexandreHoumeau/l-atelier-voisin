@@ -1,138 +1,162 @@
 'use client'
 
-import React, { useRef, useState, useEffect, useCallback } from 'react'
-import { motion, useAnimation } from 'framer-motion'
-import { useRouter } from 'next/navigation';
-import { usePageTransition } from '../animations/PageTransition';
-
-type Projet = { title: string; description: string }
-
-const projets: Projet[] = [
-	{ title: "Projet A", description: "Description courte A" },
-	{ title: "Projet B", description: "Description courte B" },
-	{ title: "Projet C", description: "Description courte C" },
-	{ title: "Projet D", description: "Description courte D" },
-	{ title: "Projet E", description: "Description courte E" },
-]
+import projects from "@/types/project";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Button from "../ui/Button";
+import { ExternalLink, MoveLeft, MoveRight } from 'lucide-react';
 
 export default function ProjetsSection() {
-	const wrapperRef = useRef<HTMLDivElement | null>(null)
-	const scrollerRef = useRef<HTMLDivElement | null>(null)
-	const router = useRouter()
-	const controls = useAnimation()
-	const [singleWidth, setSingleWidth] = useState(0)
-	const [tooltip, setTooltip] = useState<{ x: number; y: number; title: string; desc: string } | null>(null)
-	const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null)
-	const { startTransition } = usePageTransition()
+	const [activeProjectIndex, setActiveProjectIndex] = useState<number>(0);
+	const [hovered, setHovered] = useState<string | null>(null);
 
-	const measure = useCallback(() => {
-		const sc = scrollerRef.current
-		if (!sc) return
-		setSingleWidth(sc.scrollWidth / 2)
-	}, [])
+	const imgs = projects[activeProjectIndex].photos;
+	const fadeUp = {
+		hidden: { opacity: 0, y: 40 },
+		visible: { opacity: 1, y: 0 }
+	};
 
-	useEffect(() => {
-		measure()
-		window.addEventListener('resize', measure)
-		return () => window.removeEventListener('resize', measure)
-	}, [measure])
+	const transition: any = { duration: 0.5, type: "spring" };
 
-	const startAutoScroll = useCallback(
-		(from = 0) => {
-			if (!singleWidth) return
-			const speed = 60
-			const duration = singleWidth / speed
-			controls.start({
-				x: [from, from - singleWidth],
-				transition: { duration, ease: 'linear', repeat: Infinity },
-			})
-		},
-		[controls, singleWidth]
-	)
+	const getDimmedStyles = (id: string) => {
+		if (!hovered) return {}; // normal state
+		if (hovered === id) return {}; // hovered image stays bright
+		return {
+			opacity: 0.1,
+			scale: 0.1,
+			filter: "blur(1px)"
+		};
+	};
 
-	useEffect(() => {
-		if (singleWidth > 0) startAutoScroll(0)
-	}, [singleWidth, startAutoScroll])
+	const nextProject = () => {
+		setActiveProjectIndex((prev) => (prev + 1) % projects.length);
+		setHovered(null);
+	};
 
-	// Cursor + Tooltip
-	const handleMouseMove = (e: React.MouseEvent, p: Projet) => {
-		setTooltip({ x: e.clientX + 14, y: e.clientY + 14, title: p.title, desc: p.description })
-		setCursor({ x: e.clientX, y: e.clientY })
-	}
-	const handleMouseLeave = () => {
-		setTooltip(null)
-		setCursor(null)
-	}
+	const prevProject = () => {
+		setActiveProjectIndex((prev) => (prev - 1 + projects.length) % projects.length);
+		setHovered(null);
+	};
 
-	const handleClick = (slug: string) => {
-		startTransition(() => {
-			router.push(`/projets/${slug}`)
-		})
-	}
 
 	return (
-		<section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8">
-			<h2 className="text-3xl md:text-4xl font-bold mb-12 text-gray-900 text-center">Nos projets récents</h2>
+		<div id="projects" className="relative overflow-hidden pt-20 sm:px-6 lg:px-8 pt-24">
+			{/* <h2 className="text-2xl sm:text-4xl font-light text-white">Nos projets</h2> */}
 
-			<div ref={wrapperRef} className="relative overflow-hidden">
-				<motion.div
-					ref={scrollerRef}
-					className="flex gap-8"
-					animate={controls}
-					drag="x"
-					dragConstraints={{ left: -999999, right: 999999 }}
-					dragElastic={0.1}
-				>
-					{[...projets, ...projets].map((proj, i) => (
-						<motion.div
-							key={i}
-							className="relative w-[40vw] md:w-[30vw] h-[66vh] bg-black rounded-2xl flex-shrink-0 cursor-none"
-							onMouseMove={(e) => handleMouseMove(e, proj)}
-							onClick={() => handleClick(proj.title.toLowerCase().replace(/\s+/g, '-'))}
-							whileTap={{ scale: 0.97 }}
-							onMouseLeave={handleMouseLeave}
-							initial={{ opacity: 0, y: 30 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: 0.6, delay: (i % projets.length) * 0.12 }}
-						/>
-					))}
-				</motion.div>
+			<div className="flex flex-col items-center">
+				<h2 className="text-2xl sm:text-3xl font-bold text-white text-center px-2">
+					{projects[activeProjectIndex].title}
+				</h2>
+				<h2 className="text-lg sm:text-2xl font-light text-white text-center px-2">
+					{projects[activeProjectIndex].subtitle}
+				</h2>
+
+				<div className="relative w-full max-w-5xl h-[260px] sm:h-[320px] md:h-[380px] flex items-center justify-center">
+					<motion.div
+						initial={{ x: 0, scale: 0.75, opacity: 0.4 }}
+						whileInView={{ x: "-18vw", scale: 1, opacity: 1 }}
+						animate={getDimmedStyles("left")}
+						whileHover={{
+							x: "-22vw",
+							scale: 1.3,
+							zIndex: 30,
+							opacity: 1,
+							filter: "blur(0px)"
+						}}
+						onHoverStart={() => setHovered("left")}
+						onHoverEnd={() => setHovered(null)}
+						transition={transition}
+						className="absolute cursor-pointer hidden sm:block"
+					>
+						<Image width={350} height={250} src={imgs[1]} alt="left" className="rounded-lg shadow-lg" />
+					</motion.div>
+
+					{/* CENTER IMAGE */}
+					<motion.div
+						initial={{ scale: 0.9, opacity: 0 }}
+						whileInView={{ scale: 1.1, opacity: 1 }}
+						animate={getDimmedStyles("center")}
+						whileHover={{
+							scale: 1.3,
+							zIndex: 40,
+							opacity: 1,
+							filter: "blur(0px)"
+						}}
+						onHoverStart={() => setHovered("center")}
+						onHoverEnd={() => setHovered(null)}
+						transition={transition}
+						className="z-20 cursor-pointer"
+					>
+						<Image width={380} height={280} src={imgs[0]} alt="center" className="rounded-lg shadow-lg" />
+					</motion.div>
+
+					{/* RIGHT IMAGE */}
+					<motion.div
+						initial={{ x: 0, scale: 0.75, opacity: 0.4 }}
+						whileInView={{ x: "18vw", scale: 1, opacity: 1 }}
+						animate={getDimmedStyles("right")}
+						whileHover={{
+							x: "22vw",
+							scale: 1.3,
+							zIndex: 30,
+							opacity: 1,
+							filter: "blur(0px)"
+						}}
+						onHoverStart={() => setHovered("right")}
+						onHoverEnd={() => setHovered(null)}
+						transition={transition}
+						className="absolute cursor-pointer hidden sm:block"
+					>
+						<Image width={350} height={250} src={imgs[2]} alt="right" className="rounded-lg shadow-lg" />
+					</motion.div>
+
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto">
+					<div className="">
+						<h1 className="text-white font-bold text-lg mb-2">LE PROJET</h1>
+						<p className="text-white text-sm">{projects[activeProjectIndex].description}</p>
+					</div>
+					<div>
+						<h1 className="text-white font-bold text-lg mb-2">L’AVIS DE NOS CLIENTS</h1>
+						<p className="text-white text-sm">{projects[activeProjectIndex].review.quote}</p>
+						<p className="text-white text-sm mt-2 italic">- {projects[activeProjectIndex].review.author}</p>
+					</div>
+					<div>
+						<h1 className="text-white font-bold text-lg mb-2">LE SITE EN LIGNE</h1>
+						<p className="text-white text-sm">Pour une meilleure expérience, vous pouvez accéder à l’entièreté du site en cliquant sur ce bouton.</p>
+						<Button className="bg-white mt-4 text-[#E07A5F]" onClick={() => window.open(projects[activeProjectIndex].website, "_blank")} icon={() => <ExternalLink size={20} />}>
+							<p className="ml-2 font-bold text-lg">VOIR LE SITE</p>
+						</Button>
+					</div>
+				</div>
+
+				<div className="flex gap-4">
+					<motion.div
+						className="flex gap-4"
+						variants={fadeUp}
+						transition={{ delay: 0.9 }}
+					>
+						<motion.button
+							className="border-white border p-2 rounded-full shadow-lg"
+							onClick={prevProject}
+							whileHover={{ scale: 1.1 }}
+							whileTap={{ scale: 0.9 }}
+						>
+							<MoveLeft size={24} className="text-white" />
+						</motion.button>
+
+						<motion.button
+							className="border-white border p-2 rounded-full shadow-lg"
+							onClick={nextProject}
+							whileHover={{ scale: 1.1 }}
+							whileTap={{ scale: 0.9 }}
+						>
+							<MoveRight size={24} className="text-white" />
+						</motion.button>
+					</motion.div>
+				</div>
 			</div>
-
-			{/* Tooltip */}
-			{tooltip && (
-				<motion.div
-					initial={{ opacity: 0, scale: 0.95 }}
-					animate={{ opacity: 1, scale: 1 }}
-					exit={{ opacity: 0, scale: 0.95 }}
-					style={{ position: 'fixed', left: tooltip.x, top: tooltip.y }}
-					className="pointer-events-none bg-white shadow-lg rounded-md p-3 text-gray-900 w-60 z-40"
-				>
-					<h3 className="font-bold">{tooltip.title}</h3>
-					<p className="text-sm mt-1">{tooltip.desc}</p>
-				</motion.div>
-			)}
-
-			{/* Custom cursor */}
-			{cursor && (
-				<motion.div
-					className="fixed z-50 pointer-events-none flex items-center justify-center rounded-full bg-white text-black border border-gray-300 shadow-sm"
-					style={{
-						left: cursor.x,
-						top: cursor.y,
-						width: 60,
-						height: 60,
-						translateX: '-50%',
-						translateY: '-50%',
-					}}
-					initial={{ opacity: 0, scale: 0.8 }}
-					animate={{ opacity: 1, scale: 1 }}
-					transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-				>
-					<span className="text-3xl font-bold">+</span>
-				</motion.div>
-			)}
-		</section>
-	)
+		</div>
+	);
 }

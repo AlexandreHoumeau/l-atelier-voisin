@@ -1,48 +1,58 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 export default function HeroSection() {
-  const { scrollY } = useScroll()
-  const yMotion = useTransform(scrollY, [0, 300], [0, -20]) // effet parallax léger
+  const [pinned, setPinned] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setPinned(!entry.isIntersecting)
+      },
+      { threshold: 0.5 }
+    )
+
+    const section = document.getElementById('hero')
+    if (section) observer.observe(section)
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section className="flex flex-col md:flex-row items-center justify-center gap-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
+    <section
+      id="hero"
+      className="flex flex-col items-center justify-center gap-8 h-screen w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative"
+    >
       <motion.div
-        className="flex-shrink-0 w-40 h-40 md:w-96 md:h-96 bg-black rounded-3xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.5, ease: 'easeInOut' }}
+        layout
+        className={`transition-all duration-300 ${
+          pinned
+            ? 'fixed -top-3 z-50 transform scale-50'
+            : 'static'
+        }`}
       >
-        <motion.div
-          style={{ y: yMotion }}
-          className="flex-shrink-0 w-40 h-40 md:w-96 md:h-96 bg-black rounded-3xl"
-          initial={{ y: 0 }}
-          animate={{ y: [-5, 5, -5] }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+        <Image
+          src="/logo-mini.svg"
+          width={160}
+          height={100}
+          alt="Atelier Voisin Logo"
         />
       </motion.div>
 
-      {/* Texte à droite avec reveal */}
-      <div className="flex flex-col gap-3 md:gap-4 max-w-xl text-center md:text-left">
-        <motion.h1
-          className="text-3xl md:text-4xl font-bold text-gray-900"
+      {!pinned && (
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          Le digital, sans le jargon.
-        </motion.h1>
-        <motion.p
-          className="text-md md:text-lg text-gray-600"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          Votre agence web de quartier à Bordeaux.
-        </motion.p>
-      </div>
-
+          <p className="text-2xl font-lexend text-white max-w-xl">
+            Votre agence web de quartier à Bordeaux.
+          </p>
+        </motion.div>
+      )}
     </section>
   )
 }

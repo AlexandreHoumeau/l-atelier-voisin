@@ -93,46 +93,46 @@ export const services: Service[] = [
       { label: 'Maintenance continue', included: false }
     ]
   },
-  {
-    id: 'shop',
-    number: '03',
-    title: 'Shop',
-    tagline: 'Pour vendre en ligne',
-    price: '3 200€',
-    description:
-      "Une boutique en ligne simple mais complète. Système de paiement sécurisé, gestion de vos produits, et tout ce qu'il faut pour commencer à vendre sur le web sans complications.",
-    features: [
-      'Design e-commerce professionnel',
-      'Jusqu’à 50 produits',
-      'Paiement en ligne sécurisé (Stripe)',
-      'Panier et tunnel de commande',
-      'Gestion simple des commandes',
-      'Suivi des stocks basique',
-      'Optimisation SEO e-commerce',
-      'Hébergement 1 an offert'
-    ],
-    deliverables: [
-      'Boutique en ligne fonctionnelle',
-      'Formation approfondie (3h)',
-      'Vidéos tutos de gestion',
-      'Documentation e-commerce',
-      'Support prioritaire 3 mois',
-      'Ajout de 10 produits offert'
-    ],
-    duration: '4-5 semaines',
-    allFeatures: [
-      { label: 'Design sur-mesure', included: true },
-      { label: 'Jusqu’à 10 pages', included: true },
-      { label: 'E-commerce intégré', included: true },
-      { label: 'Responsive design', included: true },
-      { label: 'Formulaire de contact', included: true },
-      { label: 'Optimisation SEO de base', included: true },
-      { label: 'Support prioritaire', included: true },
-      { label: 'Formation incluse', included: true },
-      { label: 'Hébergement offert 1 an', included: true },
-      { label: 'Maintenance continue', included: true }
-    ]
-  }
+  // {
+  //   id: 'shop',
+  //   number: '03',
+  //   title: 'Shop',
+  //   tagline: 'Pour vendre en ligne',
+  //   price: '3 200€',
+  //   description:
+  //     "Une boutique en ligne simple mais complète. Système de paiement sécurisé, gestion de vos produits, et tout ce qu'il faut pour commencer à vendre sur le web sans complications.",
+  //   features: [
+  //     'Design e-commerce professionnel',
+  //     'Jusqu’à 50 produits',
+  //     'Paiement en ligne sécurisé (Stripe)',
+  //     'Panier et tunnel de commande',
+  //     'Gestion simple des commandes',
+  //     'Suivi des stocks basique',
+  //     'Optimisation SEO e-commerce',
+  //     'Hébergement 1 an offert'
+  //   ],
+  //   deliverables: [
+  //     'Boutique en ligne fonctionnelle',
+  //     'Formation approfondie (3h)',
+  //     'Vidéos tutos de gestion',
+  //     'Documentation e-commerce',
+  //     'Support prioritaire 3 mois',
+  //     'Ajout de 10 produits offert'
+  //   ],
+  //   duration: '4-5 semaines',
+  //   allFeatures: [
+  //     { label: 'Design sur-mesure', included: true },
+  //     { label: 'Jusqu’à 10 pages', included: true },
+  //     { label: 'E-commerce intégré', included: true },
+  //     { label: 'Responsive design', included: true },
+  //     { label: 'Formulaire de contact', included: true },
+  //     { label: 'Optimisation SEO de base', included: true },
+  //     { label: 'Support prioritaire', included: true },
+  //     { label: 'Formation incluse', included: true },
+  //     { label: 'Hébergement offert 1 an', included: true },
+  //     { label: 'Maintenance continue', included: true }
+  //   ]
+  // }
 ]
 
 // Helper function pour récupérer un service par ID
