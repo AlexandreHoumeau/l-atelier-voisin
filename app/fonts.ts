@@ -11,3 +11,5 @@ export const lexend = localFont({
   variable: "--font-lexend",
   weight: "100 900", // variable font range
 });
+
+

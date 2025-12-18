@@ -1,139 +1,158 @@
 "use client";
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutSection() {
-    return (
-        <div className="pt-48 px-10">
-            <div>
-                {/* Title Reveal */}
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                    viewport={{ once: true }}
-                    className="text-2xl md:text-3xl font-semibold text-white pb-10"
-                >
-                    Le duo derrière l’Atelier voisin
-                </motion.h2>
+	const sectionRef = useRef<HTMLDivElement>(null);
+	const pinRef = useRef<HTMLDivElement>(null);
 
-                <div className="grid md:grid-cols-2 items-start max-w-7xl gap-10 mx-auto">
-                    {/* IMAGE WITH COOL ANIMATIONS */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                        whileHover={{
-                            scale: 1.03,
-                            rotate: -1,
-                            transition: { type: "spring", stiffness: 150 },
-                        }}
-                        viewport={{ once: true }}
-                        className=""
-                    >
-                        <motion.div
-                            animate={{
-                                y: [0, -6, 0],
-                            }}
-                            transition={{
-                                repeat: Infinity,
-                                duration: 6,
-                                ease: "easeInOut",
-                            }}
-                            className="overflow-hidden rounded-3xl shadow-xl"
-                        >
-                            <motion.div
-                                initial={{ clipPath: "inset(0 0 100% 0)" }}
-                                whileInView={{
-                                    clipPath: "inset(0 0 0% 0)",
-                                }}
-                                transition={{ duration: 1, ease: "easeOut" }}
-                                viewport={{ once: true }}
-                            >
-                                <Image
-                                    src="/images/team/about_us.png"
-                                    alt="Le duo derrière l’Atelier voisin"
-                                    width={600}
-                                    height={400}
-                                    className="w-full h-auto object-cover"
-                                    priority
-                                />
-                            </motion.div>
-                        </motion.div>
-                    </motion.div>
+	const imageWrapperRef = useRef<HTMLDivElement>(null);
+	const description1Ref = useRef<HTMLDivElement>(null);
+	const description2Ref = useRef<HTMLDivElement>(null);
+	const alexBubbleRef = useRef<HTMLImageElement>(null);
+	const claraBubbleRef = useRef<HTMLImageElement>(null);
 
-                    {/* TEXT BLOCK WITH STAGGERED REVEAL */}
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={{
-                            hidden: { opacity: 0 },
-                            visible: {
-                                opacity: 1,
-                                transition: {
-                                    staggerChildren: 0.25,
-                                },
-                            },
-                        }}
-                        className="text-white leading-relaxed space-y-10"
-                    >
-                        {/* BLOCK 1 */}
-                        <motion.div
-                            variants={{
-                                hidden: { opacity: 0, x: 40 },
-                                visible: { opacity: 1, x: 0 },
-                            }}
-                            transition={{ duration: 0.6, ease: "easeOut" }}
-                        >
-                            <h3 className="font-semibold text-xl mb-2">
-                                Deux parcours complémentaires
-                            </h3>
-                            <p>
-                                Clara, designeuse UX/UI et Alex, développeur full-stack depuis 6 ans.
-                                Nous avons tous les deux acquis notre expérience au sein de grandes
-                                entreprises à Paris et Amsterdam. Pendant plusieurs années, nous avons
-                                travaillé sur des projets d’envergure, collaborant avec des équipes
-                                internationales et développant une expertise solide dans nos domaines
-                                respectifs.
-                            </p>
-                        </motion.div>
+	useEffect(() => {
+		const ctx = gsap.context(() => {
+			gsap.set(imageWrapperRef.current, { scale: 1 });
+			gsap.set(
+				[
+					description1Ref.current,
+					description2Ref.current,
+					alexBubbleRef.current,
+					claraBubbleRef.current,
+				],
+				{ opacity: 0, y: 30 }
+			);
 
-                        {/* BLOCK 2 */}
-                        <motion.div
-                            variants={{
-                                hidden: { opacity: 0, x: 40 },
-                                visible: { opacity: 1, x: 0 },
-                            }}
-                            transition={{ duration: 0.6, ease: "easeOut" }}
-                        >
-                            <h3 className="font-semibold text-xl mb-2">
-                                L’Atelier voisin est né d’un retour à Bordeaux
-                            </h3>
-                            <p>
-                                En rentrant vivre dans notre ville d’origine, nous nous sommes réunis
-                                autour d’une envie simple : faire du digital quelque chose de plus humain
-                                et accessible. Nous avons créé une agence web, pensée pour les entreprises
-                                et particuliers qui veulent un site fiable, clair et facile à gérer, sans
-                                jargon, sans complications inutiles.
-                            </p>
-                        </motion.div>
+			const tl = gsap.timeline({
+				scrollTrigger: {
+					trigger: sectionRef.current,
+					start: "top top",
+					end: "+=300%", // THIS is your scroll distance
+					scrub: true,
+					pin: true,
+					anticipatePin: 1,
+				},
+			});
 
-                        {/* FINAL SENTENCE */}
-                        <motion.p
-                            variants={{
-                                hidden: { opacity: 0, x: 40 },
-                                visible: { opacity: 1, x: 0 },
-                            }}
-                            transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="font-semibold text-xl"
-                        >
-                            On vous écoute, on vous accompagne, on vous explique chaque étape !
-                        </motion.p>
-                    </motion.div>
-                </div>
-            </div>
-        </div>
-    );
+			tl
+				// Image shrinks
+				.to(imageWrapperRef.current, {
+					scale: 0.55,
+					ease: "none",
+				})
+
+				// First description
+				.to(description1Ref.current, {
+					opacity: 1,
+					y: 0,
+				})
+
+				// Alex bubble
+				.to(alexBubbleRef.current, {
+					opacity: 1
+				})
+
+				// Second description
+				.to(description2Ref.current, {
+					opacity: 1,
+					y: 0,
+				})
+
+				// Clara bubble
+				.to(claraBubbleRef.current, {
+					opacity: 1
+				});
+		}, sectionRef);
+
+		return () => ctx.revert();
+	}, []);
+
+	return (
+		// OUTER SCROLL CONTAINER (creates scroll distance)
+		<section
+			ref={sectionRef}
+			className="relative h-screen w-full overflow-hidden bg-[#7FA3A1]"
+		>
+			{/* PINNED CONTENT */}
+			<div ref={pinRef} className="sticky top-0 h-screen overflow-hidden">
+				{/* IMAGE */}
+				<div
+					ref={imageWrapperRef}
+					className="absolute inset-0 flex items-center justify-center"
+				>
+					<div className="w-[90vw] h-[90vh] max-w-6xl rounded-3xl overflow-hidden shadow-2xl">
+						<Image
+							src="/images/team/about_us.png"
+							alt="Le duo derrière l’Atelier voisin"
+							fill
+							className="object-cover"
+							priority
+						/>
+					</div>
+				</div>
+
+				{/* TITLE */}
+				<h2 className="absolute top-20 md:top-8 md:top-20 z-10 max-w-xl
+                       text-white text-2xl md:text-5xl font-momo">
+					Le duo derrière l’Atelier voisin
+				</h2>
+
+				{/* DESCRIPTION 1 */}
+				<div
+					ref={description1Ref}
+					className="absolute top-36 max-w-xs md:max-w-xl left-6 md:top-24 md:top-32 md:right-4 md:right-10
+                     max-w-md bg-[#FBE8D8] text-[#C87056]
+                     md:px-6 md:py-8 px-4 py-2 rounded-xl shadow-lg"
+				>
+					<h3 className="text-md md:text-2xl mb-2">
+						Deux parcours complémentaires
+					</h3>
+					<p className="text-sm md:text-lg">
+						Clara, designeuse UX/UI et Alex, développeur full-stack depuis 6 ans.
+					</p>
+				</div>
+
+				{/* DESCRIPTION 2 */}
+				<div
+					ref={description2Ref}
+					className="absolute bottom-24 left-4 md:left-10
+                     max-w-md bg-[#FBE8D8] text-[#C87056]
+                     px-6 py-8 rounded-xl shadow-lg"
+				>
+					<h3 className="text-xl md:text-2xl mb-2">
+						L’Atelier voisin est né d’un retour à Bordeaux
+					</h3>
+					<p>
+						Une agence pensée pour des sites clairs, humains et simples à gérer.
+					</p>
+				</div>
+
+				{/* BUBBLES */}
+				<Image
+					ref={alexBubbleRef}
+					src="/images/team/alex_pixel-speech-bubble.png"
+					alt=""
+					width={140}
+					height={140}
+					className="left-3/10 top-7/20 -translate-y-40 hidden md:abslute"
+				/>
+
+				<Image
+					ref={claraBubbleRef}
+					src="/images/team/clara_pixel-speech-bubble.png"
+					alt=""
+					width={110}
+					height={110}
+					className="md:absolute hidden right-5/14 top-8/18"
+				/>
+			</div>
+		</section>
+	);
 }

@@ -1,160 +1,197 @@
-import { CircleCheck, CircleX } from 'lucide-react';
-import { motion } from 'framer-motion';
+"use client";
+
+import { CircleCheck, CircleX } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+
+const card: Variants = {
+  hidden: { opacity: 0, y: 60 },
+  visible: (i = 1) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.15,
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+};
+
+const list: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, x: 12 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.35, ease: "easeOut" },
+  },
+};
 
 export default function ServicesPage() {
-    const cardVariants: any = {
-        hidden: { opacity: 0, y: 40 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: "easeOut" }
-        }
-    };
-
-    const listContainer = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.12
-            }
-        }
-    };
-
-    const listItem = {
-        hidden: { opacity: 0, x: 20 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
-    };
-
-    return (
-        <div className="pt-36">
-            <div className="max-w-7xl mx-auto">
-                <div className="grid md:grid-cols-2 gap-10">
-                    <motion.div
-                        variants={cardVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className="bg-white rounded-3xl p-10 shadow-lg"
-                    >
-                        <h2 className="text-2xl font-semibold">Formule essentielle</h2>
-                        <p className="text-md font-light text-gray-600 mb-8">Pour démarrer en ligne</p>
-
-                        <p className="text-gray-700 leading-relaxed mb-8">
-                            Le minimum vital pour exister sur le web.
-                            Un site simple, efficace et professionnel qui présente votre activité.
-                        </p>
-
-                        <h3 className="font-semibold mb-4">Ce qu’on propose :</h3>
-                        <motion.ul
-                            variants={listContainer}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            className="text-gray-700"
-                        >
-                            {[
-                                "Design sur mesure",
-                                "3 à 5 pages (Accueil, Services, À propos, Contact)",
-                                "Responsive (mobile, tablette, desktop)",
-                                "Formulaire de contact",
-                                "Optimisation SEO de base"
-                            ].map((item, i) => (
-                                <motion.li
-                                    key={i}
-                                    variants={listItem}
-                                    className="flex items-center gap-2"
-                                >
-                                    <span className="text-yellow-500"><CircleCheck size={16} /></span> {item}
-                                </motion.li>
-                            ))}
-
-                            {[
-                                "Base de donnée intégrée",
-                                "Sécurisation des données",
-                                "Analytics de votre site web",
-                            ].map((item, i) => (
-                                <motion.li
-                                    key={i}
-                                    variants={listItem}
-                                    className="flex items-center gap-3 opacity-50 line-through"
-                                >
-                                    <span className="text-gray-400"><CircleX size={16} /></span> {item}
-                                </motion.li>
-                            ))}
-                        </motion.ul>
-                    </motion.div>
-
-                    {/* PREMIUM CARD */}
-                    <motion.div
-                        variants={cardVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className="bg-white rounded-3xl p-10 shadow-lg"
-                    >
-                        <h2 className="text-2xl font-semibold">Formule premium</h2>
-                        <p className="text-md font-light text-gray-600 mb-8">Pour démarrer en ligne</p>
-
-                        <p className="text-gray-700 leading-relaxed mb-8">
-                            Un site sur-mesure et personnalisable une fois en ligne.
-                            Idéal pour les entreprises qui veulent vraiment marquer leur présence en ligne.
-                        </p>
-
-                        <h3 className="font-semibold mb-4">Ce qu’on propose :</h3>
-
-                        <motion.ul
-                            variants={listContainer}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            className="text-gray-700"
-                        >
-                            {[
-                                "Design sur mesure",
-                                "Nombre de page illimité",
-                                "Responsive (mobile, tablette, desktop)",
-                                "Formulaire de contact",
-                                "SEO complet",
-                                "Base de donnée intégrée",
-                                "Sécurisation des données",
-                                "Analytics de votre site web",
-                            ].map((item, i) => (
-                                <motion.li
-                                    key={i}
-                                    variants={listItem}
-                                    className="flex items-center gap-3"
-                                >
-                                    <span className="text-yellow-500"><CircleCheck size={16} /></span> {item}
-                                </motion.li>
-                            ))}
-                        </motion.ul>
-
-                        <motion.p
-                            variants={listItem}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            className="font-semibold mt-4"
-                        >
-                            Le plus de cette formule : vous gardez la main !
-                        </motion.p>
-
-                        <motion.p
-                            variants={listItem}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            className="text-gray-700 leading-relaxed"
-                        >
-                            Avec un accès personnalisé à votre espace d’administration,
-                            vous pourrez modifier vos contenus quand vous le souhaitez
-                            sans dépendre de nous pour chaque petite mise à jour.
-                        </motion.p>
-                    </motion.div>
-
-                </div>
-            </div>
+  return (
+    <section className="min-h-screen flex items-center bg-[#F2CC8F] py-24 px-6">
+      <div className="max-w-7xl mx-auto w-full">
+        {/* Header */}
+        <div className="max-w-2xl mb-16">
+          <h2 className="text-4xl font-momo text-black mb-4">
+            Des formules claires, sans surprise
+          </h2>
+          <p className="text-black text-lg">
+            Que vous ayez besoin d’un site simple ou d’un outil évolutif,
+            nous concevons une solution adaptée — sans jargon, sans usine à gaz.
+          </p>
         </div>
-    );
+
+        <div className="grid md:grid-cols-2 gap-10 items-start">
+          {/* ESSENTIAL */}
+          <motion.div
+            custom={0}
+            variants={card}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="bg-white backdrop-blur rounded-3xl p-10 shadow-md"
+          >
+            <h3 className="text-sm uppercase tracking-wide text-[#C87056] mb-2">
+              Formule essentielle
+            </h3>
+            <h4 className="text-2xl font-semibold mb-4">
+              L’essentiel pour exister
+            </h4>
+
+            <p className="text-gray-700 mb-8 leading-relaxed">
+              Un site clair et professionnel pour présenter votre activité,
+              inspirer confiance et être contacté facilement.
+            </p>
+
+            <motion.ul
+              variants={list}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="space-y-3 text-gray-700"
+            >
+              {[
+                "Design sur mesure",
+                "3 à 5 pages",
+                "Responsive",
+                "Formulaire de contact",
+                "SEO de base",
+              ].map((t) => (
+                <motion.li
+                  key={t}
+                  variants={item}
+                  className="flex items-start gap-3"
+                >
+                  <CircleCheck size={16} className="mt-1 text-[#C87056]" />
+                  <span>{t}</span>
+                </motion.li>
+              ))}
+
+              {[
+                "Base de données",
+                "Analytics",
+                "Sécurisation avancée",
+              ].map((t) => (
+                <motion.li
+                  key={t}
+                  variants={item}
+                  className="flex items-start gap-3 opacity-40"
+                >
+                  <CircleX size={16} className="mt-1" />
+                  <span>{t}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
+
+          {/* PREMIUM */}
+          <motion.div
+            custom={1}
+            variants={card}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="
+              relative bg-white rounded-3xl p-10 shadow-xl
+              border-2 border-[#C87056]
+              scale-[1.03]
+            "
+          >
+            {/* Badge */}
+            <span className="absolute -top-4 left-8 bg-[#C87056] text-white text-xs px-4 py-1 rounded-full">
+              Personnalisée
+            </span>
+
+            <h3 className="text-sm uppercase tracking-wide text-[#C87056] mb-2">
+              Formule premium
+            </h3>
+            <h4 className="text-2xl font-semibold mb-4">
+              Un vrai outil de travail
+            </h4>
+
+            <p className="text-gray-700 mb-8 leading-relaxed">
+              Un site évolutif, performant et administrable,
+              pensé pour accompagner la croissance de votre activité.
+            </p>
+
+            <motion.ul
+              variants={list}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="space-y-3 text-gray-700 mb-8"
+            >
+              {[
+                "Design sur mesure",
+                "Pages illimitées",
+                "Responsive",
+                "SEO avancé",
+                "Base de données",
+                "Sécurisation des données",
+                "Analytics",
+                "Espace d’administration",
+              ].map((t) => (
+                <motion.li
+                  key={t}
+                  variants={item}
+                  className="flex items-start gap-3"
+                >
+                  <CircleCheck size={16} className="mt-1 text-[#C87056]" />
+                  <span>{t}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+
+            <motion.p
+              variants={item}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="font-semibold mb-2"
+            >
+              Vous êtes autonome
+            </motion.p>
+            <motion.p
+              variants={item}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="text-gray-700 leading-relaxed"
+            >
+              Vous gérez vos contenus quand vous le souhaitez,
+              sans dépendre d’un prestataire pour chaque modification.
+            </motion.p>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
 }

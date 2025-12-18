@@ -1730,6 +1730,11 @@ framer-motion@^12.23.24:
     motion-utils "^12.23.6"
     tslib "^2.4.0"
 
+fullpage.js@^4.0.37:
+  version "4.0.37"
+  resolved "https://registry.yarnpkg.com/fullpage.js/-/fullpage.js-4.0.37.tgz#15ad8e7d113b0127f97ae56c041ebfd6366b02e2"
+  integrity sha512-wrGSdwlriCuDwHtNogsv5B4/utZIWapjhN+UA7xz0teM4u481ZZ5A9EaM9weMfTR5AVzGKdFf6CG/pjqa32D5Q==
+
 function-bind@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.2.tgz#2c02d864d97f3ea6c8830c464cbd11ab6eab7a1c"

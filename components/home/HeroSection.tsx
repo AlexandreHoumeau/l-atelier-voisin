@@ -1,58 +1,68 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function HeroSection() {
-  const [pinned, setPinned] = useState(false)
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setPinned(!entry.isIntersecting)
+    const navbar = document.getElementById("site-navbar");
+    if (!navbar || !sectionRef.current) return;
+
+    gsap.set(navbar, {
+      opacity: 0,
+      y: -16,
+      pointerEvents: "none",
+    });
+
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "bottom top+=200",
+      onEnter: () => {
+        gsap.to(navbar, {
+          opacity: 1,
+          y: 0,
+          duration: 0.25,
+          ease: "power2.out",
+          pointerEvents: "auto",
+        });
       },
-      { threshold: 0.5 }
-    )
+      onLeaveBack: () => {
+        gsap.to(navbar, {
+          opacity: 0,
+          y: -16,
+          duration: 0.2,
+          ease: "power2.in",
+          pointerEvents: "none",
+        });
+      },
+    });
 
-    const section = document.getElementById('hero')
-    if (section) observer.observe(section)
-
-    return () => observer.disconnect()
-  }, [])
+    return () => ScrollTrigger.killAll();
+  }, []);
 
   return (
     <section
-      id="hero"
-      className="flex flex-col items-center justify-center gap-8 h-screen w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative"
+      ref={sectionRef}
+      className="h-screen flex flex-col items-center justify-center
+                 bg-hero bg-cover bg-center px-6"
     >
-      <motion.div
-        layout
-        className={`transition-all duration-300 ${
-          pinned
-            ? 'fixed -top-3 z-50 transform scale-50'
-            : 'static'
-        }`}
-      >
-        <Image
-          src="/logo-mini.svg"
-          width={160}
-          height={100}
-          alt="Atelier Voisin Logo"
-        />
-      </motion.div>
+      <Image
+        src="/logo-mini.svg"
+        width={160}
+        height={100}
+        alt="Atelier Voisin Logo"
+        priority
+      />
 
-      {!pinned && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <p className="text-2xl font-lexend text-white max-w-xl">
-            Votre agence web de quartier à Bordeaux.
-          </p>
-        </motion.div>
-      )}
+      <p className="mt-6 text-2xl font-lexend text-white max-w-xl text-center">
+        Votre agence web de quartier à Bordeaux.
+      </p>
     </section>
-  )
+  );
 }
