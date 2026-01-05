@@ -33,14 +33,14 @@ export default function AboutSection() {
 					description1Ref.current,
 					description2Ref.current,
 				],
-				{ opacity: 0, y: 30 }
+				{ opacity: 0, y: 50 }
 			);
 
 			const tl = gsap.timeline({
 				scrollTrigger: {
 					trigger: sectionRef.current,
 					start: "top top",
-					end: "+=300%", // THIS is your scroll distance
+					end: "+=200%", // THIS is your scroll distance
 					scrub: true,
 					pin: true,
 					anticipatePin: 1,
@@ -48,25 +48,15 @@ export default function AboutSection() {
 			});
 
 			tl
-				// Image shrinks
 				.to(imageWrapperRef.current, {
 					scale: 0.55,
 					ease: "none",
 				})
-
-				// First description
-				.to(description1Ref.current, {
-					opacity: 1,
-					y: 0,
-				})
-
-				// Alex bubble
 				.to([alexBubbleRef.current, claraBubbleRef.current], {
 					zIndex: 50
 				})
-
-				// Second description
-				.to(description2Ref.current, {
+				.to([imageWrapperRef.current, alexBubbleRef.current, claraBubbleRef.current], { duration: 0.5, y: -350 }) // spacer
+				.to([description1Ref.current, description2Ref.current], {
 					opacity: 1,
 					y: 0,
 				})
@@ -104,31 +94,43 @@ export default function AboutSection() {
 					Le duo derrière l’Atelier voisin
 				</h2>
 
-				{/* DESCRIPTION 1 */}
-				<div
-					ref={description1Ref}
-					className="absolute max-w-xs md:max-w-sm max-w-md bg-[#FBE8D8] text-[#C87056] md:px-6 md:py-8 px-4 py-2 rounded-xl shadow-lg top-1/3 left-4 md:left-10">
-					<h3 className="text-md md:text-2xl mb-2">
-						Deux parcours complémentaires
-					</h3>
-					<p className="text-sm md:text-lg">
-						Clara, designeuse UX/UI et Alex, développeur full-stack depuis 6 ans.
-					</p>
-				</div>
 
-				{/* DESCRIPTION 2 */}
-				<div
-					ref={description2Ref}
-					className="absolute max-w-md bg-[#FBE8D8] text-[#C87056] px-6 py-8 rounded-xl shadow-lg top-2/3 right-4 md:right-10"
-				>
-					<h3 className="text-xl md:text-2xl mb-2">
-						L’Atelier voisin est né d’un retour à Bordeaux
-					</h3>
-					<p>
-						Une agence pensée pour des sites clairs, humains et simples à gérer.
-					</p>
-				</div>
+				<div className="absolute bottom-10 flex w-full justify-center">
+					<div className="w-full">
+						<div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-20">
 
+							{/* DESCRIPTION 1 */}
+							<div ref={description1Ref} className="text-white max-w-md">
+								<h3 className="text-md md:text-2xl mb-3">
+									Deux parcours complémentaires
+								</h3>
+								<p className="text-sm md:text-lg leading-relaxed">
+									Clara, designeuse UX/UI et Alex, développeur full-stack depuis 6 ans.
+									Nous avons tous les deux acquis notre expérience au sein de grandes
+									entreprises à Paris et Amsterdam. Pendant plusieurs années, nous avons
+									travaillé sur des projets d`&qpos;`envergure, collaborant avec des équipes
+									internationales et développant une expertise solide dans nos domaines
+									respectifs.
+								</p>
+							</div>
+
+							{/* DESCRIPTION 2 */}
+							<div ref={description2Ref} className="text-white max-w-md">
+								<h3 className="text-md md:text-2xl mb-3">
+									L’Atelier voisin est né d’un retour à Bordeaux
+								</h3>
+								<p className="text-sm md:text-lg leading-relaxed">
+									En rentrant vivre dans notre ville d’origine, nous nous sommes réunis
+									autour d’une envie simple : faire du digital quelque chose de plus humain
+									et accessible. Nous avons crée une agence web, pensée pour les entreprises
+									et particuliers qui veulent un site fiable, clair et facile à gérer, sans
+									jargon, sans complications inutiles.
+								</p>
+							</div>
+
+						</div>
+					</div>
+				</div>
 				{/* BUBBLES */}
 				<Image
 					ref={alexBubbleRef}
@@ -152,14 +154,13 @@ export default function AboutSection() {
 			<div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
 				<div
 					ref={bannerRef}
-					className="absolute top-1/2 -translate-y-1/2 flex whitespace-nowrap text-[18vw] font-momo text-white/100"
+					className="absolute top-1/2 -translate-y-1/2 flex whitespace-nowrap text-[10vw] font-momo text-white/100"
 				>
-					<h1 className="">CLARA&ALEX&BEAN&</h1>
-					<h1 className="">CLARA&ALEX&BEAN&</h1>
-					<h1 className="">CLARA&ALEX&BEAN&</h1>
+					<h1 className="">CLARA-ALEX-BEAN-</h1>
+					<h1 className="">CLARA-ALEX-BEAN-</h1>
+					<h1 className="">CLARA-ALEX-BEAN-</h1>
 				</div>
 			</div>
-
 		</section>
 	);
 }
