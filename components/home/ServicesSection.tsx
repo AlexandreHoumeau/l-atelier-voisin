@@ -40,10 +40,10 @@ export default function ServicesPage() {
       <div className="max-w-7xl mx-auto w-full">
         {/* Header */}
         <div className="max-w-2xl mb-16">
-          <h2 className="text-4xl font-momo text-black mb-4">
+          <h2 className="text-4xl font-momo text-white mb-4">
             Des formules claires, sans surprise
           </h2>
-          <p className="text-black text-lg">
+          <p className="text-white text-lg">
             Que vous ayez besoin d’un site simple ou d’un outil évolutif,
             nous concevons une solution adaptée — sans jargon, sans usine à gaz.
           </p>

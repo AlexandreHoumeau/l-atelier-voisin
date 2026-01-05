@@ -12,9 +12,9 @@ const Navbar = forwardRef<HTMLDivElement>((_, ref) => {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        gsap.set(ref as any, { y: -80, opacity: 0, pointerEvents: "none" });
+        gsap.set(ref, { y: -80, opacity: 0, pointerEvents: "none" });
         gsap.set(menuRef.current, { y: -20, opacity: 0 });
-    }, []);
+    }, [ref]);
 
     useEffect(() => {
         if (!menuRef.current) return;
@@ -27,7 +27,8 @@ const Navbar = forwardRef<HTMLDivElement>((_, ref) => {
             pointerEvents: open ? "auto" : "none",
         });
 
-        gsap.to(burgerRef.current?.children!, {
+        if (!burgerRef.current) return;
+        gsap.to(burgerRef.current?.children, {
             rotate: open ? 45 : 0,
             y: (i) => (open ? (i === 0 ? 6 : -6) : 0),
             opacity: (i) => (open && i === 1 ? 0 : 1),

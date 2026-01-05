@@ -8,7 +8,6 @@ export interface ButtonProps
      * Icon component (e.g. from lucide-react). Rendered on the left when provided.
      */
     icon?: IconComponent;
-    variant?: "primary" | "secondary" | "ghost";
     size?: "sm" | "md" | "lg";
 }
 
@@ -23,7 +22,7 @@ const SIZE_STYLES: Record<string, string> = {
 };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ children, className, icon: Icon, variant = "primary", size = "md", disabled, ...rest }, ref) => {
+    ({ children, className, icon: Icon, size = "md", disabled, ...rest }, ref) => {
         const base = "inline-flex items-center justify-center rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-150 ease-in-out hover:scale-[0.98] cursor-pointer";
         const disabledClasses = disabled ? "opacity-50 cursor-not-allowed" : "active:scale-[0.99]";
         const sizeClass = SIZE_STYLES[size] ?? SIZE_STYLES.md;
