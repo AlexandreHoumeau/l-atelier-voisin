@@ -91,7 +91,7 @@ export default function ServicesPage() {
                   className="flex items-start gap-3"
                 >
                   <CircleCheck size={16} className="mt-1 text-[#C87056]" />
-                  <span>{t}</span>
+                  <p>{t}</p>
                 </motion.li>
               ))}
 
@@ -106,7 +106,7 @@ export default function ServicesPage() {
                   className="flex items-start gap-3 opacity-40"
                 >
                   <CircleX size={16} className="mt-1" />
-                  <span>{t}</span>
+                  <p>{t}</p>
                 </motion.li>
               ))}
             </motion.ul>
@@ -126,9 +126,9 @@ export default function ServicesPage() {
             "
           >
             {/* Badge */}
-            <span className="absolute -top-4 left-8 bg-[#C87056] text-white text-xs px-4 py-1 rounded-full">
+            <p className="absolute -top-4 left-8 bg-[#C87056] text-white text-xs px-4 py-1 rounded-full">
               Personnalisée
-            </span>
+            </p>
 
             <h3 className="text-sm uppercase tracking-wide text-[#C87056] mb-2">
               Formule premium
@@ -165,7 +165,7 @@ export default function ServicesPage() {
                   className="flex items-start gap-3"
                 >
                   <CircleCheck size={16} className="mt-1 text-[#C87056]" />
-                  <span>{t}</span>
+                  <p>{t}</p>
                 </motion.li>
               ))}
             </motion.ul>
