@@ -2,6 +2,7 @@ import Navbar from "@/components/ui/Navbar";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Atelier Voisin",
@@ -33,6 +34,7 @@ export default function RootLayout({
         className={`bg-[#0D654E] scroll-smooth`}
       >
         <Navbar />
+        <Toaster position="top-center" />
         {children}
       </body>
     </html>

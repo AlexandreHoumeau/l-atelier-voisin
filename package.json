@@ -9,13 +9,16 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@react-email/components": "^1.0.3",
     "fullpage.js": "^4.0.37",
     "gsap": "^3.13.0",
     "lucide-react": "^0.552.0",
     "motion": "^12.23.24",
     "next": "16.0.10",
+    "nodemailer": "^7.0.12",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "react-hot-toast": "^2.6.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

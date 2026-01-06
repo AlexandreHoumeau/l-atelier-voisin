@@ -1,7 +1,10 @@
 "use client";
 
+import { sendContactEmail } from "@/app/actions/contact";
 import { motion, Variants } from "framer-motion";
-import { MessageCircle, MapPinned, Phone } from "lucide-react";
+import { MapPinned, MessageCircle, Phone } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 const container: Variants = {
     hidden: {},
@@ -18,8 +21,36 @@ const item: Variants = {
 };
 
 export default function ContactSection() {
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (
+        formData: FormData,
+        formEl: HTMLFormElement
+    ) => {
+        if (loading) return;
+
+        try {
+            setLoading(true);
+
+            await sendContactEmail(formData);
+
+            toast.success(
+                "Merci ! Votre message a été envoyé. Nous vous contacterons très rapidement."
+            );
+
+            formEl.reset();
+        } catch (err) {
+            console.error(err);
+            toast.error(
+                "Une erreur est survenue. Veuillez réessayer plus tard."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
-        <section className="min-h-screen bg-[#FBE8D8] flex items-center justify-center px-6 sm:px-10 lg:px-20 py-20">
+        <section className="min-h-screen bg-[#FBE8D8] flex items-center justify-center px-6 sm:px-10 lg:px-20 py-8 relative">
             <div className="w-full max-w-7xl flex flex-col-reverse lg:flex-row items-start gap-12 lg:gap-24">
 
                 {/* LEFT — CONTACT INFO */}
@@ -33,6 +64,7 @@ export default function ContactSection() {
                     >
                         Contactez-nous
                     </motion.h2>
+
                     <motion.div
                         variants={container}
                         initial="hidden"
@@ -91,10 +123,7 @@ export default function ContactSection() {
                         Nous avons les compétences pour le réaliser.
                     </motion.h2>
 
-                    <motion.p
-                        variants={item}
-                        className="text-[#C87056]s mt-4"
-                    >
+                    <motion.p variants={item} className="text-[#C87056] mt-4">
                         Dites-nous en plus sur vous et ce que vous avez en tête.
                     </motion.p>
 
@@ -103,17 +132,26 @@ export default function ContactSection() {
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
-                        onSubmit={(e) => e.preventDefault()}
+                        onSubmit={async (e) => {
+                            e.preventDefault();
+                            const formData = new FormData(e.currentTarget);
+                            await handleSubmit(formData, e.currentTarget);
+                        }}
                         className="mt-8 space-y-6"
                     >
                         {[
-                            { label: "Votre nom", type: "text" },
-                            { label: "Votre email", type: "email" },
-                            { label: "Votre message", type: "textarea", rows: 4 },
+                            { label: "Votre nom", type: "text", name: "name" },
+                            { label: "Votre email", type: "email", name: "email" },
+                            {
+                                label: "Votre message",
+                                type: "textarea",
+                                rows: 4,
+                                name: "message",
+                            },
                         ].map((field) => (
                             <motion.div
                                 variants={item}
-                                key={field.label}
+                                key={field.name}
                                 className="space-y-2"
                             >
                                 <label className="text-[#C87056] text-sm">
@@ -121,13 +159,19 @@ export default function ContactSection() {
                                 </label>
                                 {field.type === "textarea" ? (
                                     <textarea
+                                        name={field.name}
                                         rows={field.rows}
-                                        className="w-full border-b border-[#C87056] focus:outline-none py-1 resize-none"
+                                        required
+                                        disabled={loading}
+                                        className="w-full border-b border-[#C87056] focus:outline-none py-1 resize-none disabled:opacity-50"
                                     />
                                 ) : (
                                     <input
+                                        name={field.name}
                                         type={field.type}
-                                        className="w-full border-b border-[#C87056] focus:outline-none py-1"
+                                        required
+                                        disabled={loading}
+                                        className="w-full border-b border-[#C87056] focus:outline-none py-1 disabled:opacity-50"
                                     />
                                 )}
                             </motion.div>
@@ -142,12 +186,23 @@ export default function ContactSection() {
 
                         <motion.button
                             variants={item}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.97 }}
+                            whileHover={!loading ? { scale: 1.05 } : undefined}
+                            whileTap={!loading ? { scale: 0.97 } : undefined}
                             type="submit"
-                            className="w-full bg-black text-white font-semibold px-12 py-3 rounded-lg"
+                            disabled={loading}
+                            className="
+                                w-full
+                                bg-black
+                                text-white
+                                font-semibold
+                                px-12
+                                py-3
+                                rounded-lg
+                                disabled:opacity-60
+                                disabled:cursor-not-allowed
+                            "
                         >
-                            ENVOYER
+                            {loading ? "ENVOI EN COURS…" : "ENVOYER"}
                         </motion.button>
                     </motion.form>
                 </div>

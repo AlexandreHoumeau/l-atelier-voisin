@@ -62,7 +62,7 @@ export default function AboutSection() {
 							alexBubbleRef.current,
 							claraBubbleRef.current,
 						],
-						{ duration: 0.5, y: -300 }
+						{ duration: 0.5, y: -200 }
 					)
 					.to(titleRef.current, { opacity: 0, y: -50, duration: 0 }, "<0.2")
 					.to(
@@ -110,7 +110,7 @@ export default function AboutSection() {
 						Le duo derrière l’Atelier voisin
 					</h2>
 
-					<div className="absolute bottom-5 xl:bottom-10 flex w-full">
+					<div className="absolute bottom-14 flex w-full">
 						<div className="w-full">
 							<div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 								<div ref={description1Ref} className="text-white">
@@ -187,7 +187,7 @@ export default function AboutSection() {
 					Le duo derrière l’Atelier voisin
 				</h2>
 
-				<div className="space-y-8 text-white">
+				<div className="space-y-2 text-white">
 					<div>
 						<h3 className="text-lg mb-3">Deux parcours complémentaires</h3>
 						<p className="leading-relaxed">

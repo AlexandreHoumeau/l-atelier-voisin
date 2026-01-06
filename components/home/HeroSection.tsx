@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { motion } from "framer-motion";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HeroSection() {
@@ -52,17 +52,19 @@ export default function HeroSection() {
       className="h-screen flex flex-col items-center justify-center
                  bg-hero bg-cover bg-center px-6"
     >
-      <Image
-        src="/logo-mini.svg"
-        width={160}
-        height={100}
-        alt="Atelier Voisin Logo"
-        priority
-      />
-
-      <p className="mt-6 text-2xl font-lexend text-white max-w-xl text-center">
-        Votre agence web de quartier à Bordeaux.
-      </p>
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      >
+        <Image
+          src="/logo-mini.svg"
+          width={160}
+          height={100}
+          alt="Atelier Voisin Logo"
+          priority
+        />
+      </motion.div>
     </section>
   );
 }
