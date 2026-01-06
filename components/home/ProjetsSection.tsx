@@ -37,56 +37,106 @@ export default function ProjectsSections() {
         </h3>
 
         {/* Images stage */}
-        <div className="relative w-full max-w-3xs lg:max-w-6xl xl:max-w-7xl flex items-center justify-center lg:mt-12">
+        <div className="w-full my-8 max-w-3xs lg:max-w-6xl xl:max-w-7xl lg:mt-12">
 
-          {/* LEFT IMAGE */}
-          <motion.div
-            initial={{ x: 0, scale: 0.9, opacity: 0.6 }}
-            whileInView={{ x: "-60%", scale: 1, opacity: 1 }}
-            transition={transition}
-            className="absolute cursor-pointer hidden md:block"
-          >
-            <Image
-              src={imgs[1]}
-              alt="center project"
-              width={400}
-              height={400}
-              className="rounded-xl shadow-2xl w-auto h-auto"
-            />
+          {/* Desktop / Tablet layout (center with left/right accents) */}
+          <div className="hidden md:flex relative items-center justify-center">
+            {/* LEFT IMAGE */}
+            <motion.div
+              initial={{ x: 0, scale: 0.9, opacity: 0.6 }}
+              whileInView={{ x: "-60%", scale: 1, opacity: 1 }}
+              transition={transition}
+              className="absolute cursor-pointer"
+            >
+              <Image
+                src={imgs[1]}
+                alt="left project"
+                width={400}
+                height={400}
+                className="rounded-xl shadow-2xl w-auto h-auto"
+              />
+            </motion.div>
 
-          </motion.div>
+            {/* CENTER IMAGE */}
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              whileInView={{ scale: 1.15, opacity: 1 }}
+              transition={transition}
+              className="cursor-pointer z-20"
+            >
+              <Image
+                src={imgs[0]}
+                alt="center project"
+                width={400}
+                height={400}
+                className="rounded-xl shadow-2xl w-auto h-auto"
+              />
+            </motion.div>
 
-          {/* CENTER IMAGE */}
-          <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            whileInView={{ scale: 1.15, opacity: 1 }}
-            transition={transition}
-            className="cursor-pointer z-20"
-          >
-            <Image
-              src={imgs[0]}
-              alt="center project"
-              width={400}
-              height={400}
-              className="rounded-xl shadow-2xl w-auto h-auto"
-            />
+            {/* RIGHT IMAGE */}
+            <motion.div
+              initial={{ x: 0, scale: 0.9, opacity: 0.6 }}
+              whileInView={{ x: "60%", scale: 1, opacity: 1 }}
+              transition={transition}
+              className="absolute cursor-pointer"
+            >
+              <Image
+                src={imgs[2]}
+                alt="right project"
+                width={400}
+                height={400}
+                className="rounded-xl shadow-2xl w-auto h-auto"
+              />
+            </motion.div>
+          </div>
 
-          </motion.div>
-          <motion.div
-            initial={{ x: 0, scale: 0.9, opacity: 0.6 }}
-            whileInView={{ x: "60%", scale: 1, opacity: 1 }}
-            transition={transition}
-            className="absolute cursor-pointer hidden md:block"
-          >
-            <Image
-              src={imgs[2]}
-              alt="center project"
-              width={400}
-              height={400}
-              className="rounded-xl shadow-2xl w-auto h-auto"
-            />
+          {/* Mobile layout: stacked vertically */}
+          <div className="flex flex-col gap-4 md:hidden items-center">
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={transition}
+              className="w-full flex justify-center"
+            >
+              <Image
+                src={imgs[0]}
+                alt="project image 1"
+                width={800}
+                height={600}
+                className="rounded-xl shadow-2xl w-full max-w-sm h-auto"
+              />
+            </motion.div>
 
-          </motion.div>
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ ...transition, delay: 0.08 }}
+              className="w-full flex justify-center"
+            >
+              <Image
+                src={imgs[1]}
+                alt="project image 2"
+                width={800}
+                height={600}
+                className="rounded-xl shadow-2xl w-full max-w-sm h-auto"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ ...transition, delay: 0.16 }}
+              className="w-full flex justify-center"
+            >
+              <Image
+                src={imgs[2]}
+                alt="project image 3"
+                width={800}
+                height={600}
+                className="rounded-xl shadow-2xl w-full max-w-sm h-auto"
+              />
+            </motion.div>
+          </div>
 
         </div>
         {/* Navigation for mobile */}
