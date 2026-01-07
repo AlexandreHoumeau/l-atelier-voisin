@@ -185,6 +185,7 @@ export default function ContactSection() {
                         </motion.p>
 
                         <motion.button
+                            aria-label="Sumbit button"
                             variants={item}
                             whileHover={!loading ? { scale: 1.05 } : undefined}
                             whileTap={!loading ? { scale: 0.97 } : undefined}

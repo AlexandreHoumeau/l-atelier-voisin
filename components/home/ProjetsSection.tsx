@@ -190,6 +190,7 @@ export default function ProjectsSections() {
             </p>
             <div className="flex justify-center md:justify-start">
               <Button
+                aria-label="see website"
                 className="bg-white flex mt-6 p-10 text-[#E07A5F]"
                 onClick={() =>
                   window.open(

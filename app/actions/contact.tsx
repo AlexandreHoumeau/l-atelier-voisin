@@ -1,6 +1,5 @@
 "use server";
 import { render } from '@react-email/components';
-import { Email } from "../emails/email";
 import ConfirmationEmail from '../emails/ConfirmationEmail';
 const nodemailer = require("nodemailer");
 
