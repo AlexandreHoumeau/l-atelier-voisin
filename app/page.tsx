@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "développeur web Bordeaux",
     "UX UI Bordeaux",
   ],
+  icons: {
+    icon: "/icon.png",
+  },
   authors: [{ name: "Atelier Voisin" }],
   metadataBase: new URL("https://atelier-voisin.fr"),
   alternates: {
