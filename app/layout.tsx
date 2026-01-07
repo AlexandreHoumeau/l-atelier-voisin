@@ -1,13 +1,8 @@
 import Navbar from "@/components/ui/Navbar";
-import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
 import { Toaster } from "react-hot-toast";
-
-export const metadata: Metadata = {
-  title: "Atelier Voisin",
-  description: "Agence de création de sites web pour architectes et designers. Nous concevons des expériences numériques élégantes et fonctionnelles qui mettent en valeur vos projets et votre vision.",
-};
+import "./globals.css";
+import Footer from "@/components/ui/Footer";
 
 const momo = localFont({
   src: "../public/fonts/MomoTrustDisplay-Regular.ttf",
@@ -18,7 +13,6 @@ const lexend = localFont({
   src: "../public/fonts/Lexend-VariableFont_wght.ttf",
   variable: "--font-lexend",
 });
-
 
 
 export default function RootLayout({
@@ -36,6 +30,7 @@ export default function RootLayout({
         <Navbar />
         <Toaster position="top-center" />
         {children}
+        <Footer />
       </body>
     </html>
   );
