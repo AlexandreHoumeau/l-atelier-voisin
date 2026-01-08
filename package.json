@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-email/components": "^1.0.3",
+    "@vercel/analytics": "^1.6.1",
     "fullpage.js": "^4.0.37",
     "gsap": "^3.13.0",
     "lucide-react": "^0.552.0",

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import Footer from "@/components/ui/Footer";
+import { Analytics } from "@vercel/analytics/next";
 
 const momo = localFont({
   src: "../public/fonts/MomoTrustDisplay-Regular.ttf",
@@ -30,6 +31,7 @@ export default function RootLayout({
         <Navbar />
         <Toaster position="top-center" />
         {children}
+        <Analytics />
         <Footer />
       </body>
     </html>
