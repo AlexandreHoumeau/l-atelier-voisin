@@ -30,23 +30,24 @@ export const projects: Project[] = [
             author: 'Charlotte & Arthur'
         }
     },
-    // {
-    //     title: 'Atelier Nautique',
-    //     slug: 'atelier-nautique',
-    //     description:
-    //         'A compact coastal workshop and studio redesigned for boat maintenance and small-scale fabrication, with durable finishes and maximised storage.',
-    //     photos: [
-    //         '/public/images/project/atelier-nautique_1.jpg',
-    //         '/public/images/project/atelier-nautique_2.jpg',
-    //         '/public/images/project/atelier-nautique_3.jpg'
-    //     ],
-    //     website: 'https://ateliervoisin.com/atelier-nautique',
-    //     review: {
-    //         quote:
-    //             'Efficient, practical and beautifully detailed — the new workshop has transformed how we work and host clients.',
-    //         author: 'Marc Lefèvre'
-    //     }
-    // },
+    {
+        title: 'Portfolio Alexandre Houmeau',
+        subtitle: 'Développeur web',
+        slug: 'ah-portfolio',
+        description:
+            'Refonte complète du portfolio personnel. Design sur mesure et développement avec Next.js pour une performance optimale et une expérience utilisateur fluide.',
+        photos: [
+            '/images/projects/ah_1.png',
+            '/images/projects/ah_2.png',
+            '/images/projects/ah_3.png'
+        ],
+        website: 'https://alexandre-houmeau.fr',
+        review: {
+            quote:
+                'Le nouveau portfolio met vraiment en valeur mes compétences et projets. Le design est épuré et moderne, exactement ce que je recherchais.',
+            author: 'Alexandre Houmeau'
+        }
+    }
     // {
     //     title: 'Loft Atelier',
     //     slug: 'loft-atelier',
