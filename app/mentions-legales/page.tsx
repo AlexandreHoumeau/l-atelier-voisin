@@ -120,6 +120,16 @@ export default function MentionsLegalesPage() {
                             compétents.
                         </p>
                     </div>
+                    <div>
+                        <h2 className="text-xl font-semibold mb-2">
+                            7. Utilisation de Vercel Analytics
+                        </h2>
+                        <p>
+                            Ce site internet utilise Vercel analytics pour collecter des données
+                            de navigation de manière anonyme afin d’améliorer l’expérience
+                            utilisateur.
+                        </p>
+                    </div>
                 </section>
             </div>
         </main>
