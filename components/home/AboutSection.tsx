@@ -22,6 +22,7 @@ export default function AboutSection() {
 	useEffect(() => {
 		const mm = gsap.matchMedia();
 
+		// Banner continuous scroll
 		gsap.to(bannerRef.current, {
 			xPercent: -50,
 			repeat: -1,
@@ -41,20 +42,23 @@ export default function AboutSection() {
 					scrollTrigger: {
 						trigger: sectionRef.current,
 						start: "top top",
-						end: "+=200%",
-						scrub: true,
+						end: "+=0%",
 						pin: true,
 						anticipatePin: 1,
+						scrub: false,  // animation plays automatically
+						once: true,    // optional: only play once
 					},
 				});
 
 				tl
 					.to(imageWrapperRef.current, {
 						scale: 0.55,
-						ease: "none",
+						duration: 1,
+						ease: "power2.out",
 					})
 					.to([alexBubbleRef.current, claraBubbleRef.current], {
 						zIndex: 50,
+						duration: 0,
 					})
 					.to(
 						[
@@ -62,14 +66,13 @@ export default function AboutSection() {
 							alexBubbleRef.current,
 							claraBubbleRef.current,
 						],
-						{ duration: 0.5, y: -200 }
+						{ y: -200, duration: 1, ease: "power2.out" }
 					)
-					.to(titleRef.current, { opacity: 0, y: -50, duration: 0 }, "<0.2")
+					.to(titleRef.current, { opacity: 0, y: -50, duration: 0.4 }, "<0.2")
 					.to(
 						[description1Ref.current, description2Ref.current],
-						{ opacity: 1, y: 0, duration: 0 }
-					)
-					.to({}, { duration: 0.5 });
+						{ opacity: 1, y: 0, duration: 0.6, stagger: 0.2 }
+					);
 			});
 		}, sectionRef);
 
@@ -173,6 +176,8 @@ export default function AboutSection() {
 					</div>
 				</div>
 			</section>
+
+			{/* MOBILE FALLBACK */}
 			<section className="md:hidden bg-[#7FA3A1] px-6 py-10">
 				<div className="w-full relative h-[60vh] rounded-xl overflow-hidden shadow-2xl mb-8">
 					<Image
