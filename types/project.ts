@@ -23,7 +23,7 @@ export const projects: Project[] = [
             '/images/projects/pile_xp_2.png',
             '/images/projects/pile_xp_3.png'
         ],
-        website: 'https://ateliervoisin.com/maison-lierre',
+        website: 'https://pile-xp.com',
         review: {
             quote:
                 "Superbe travail ! Le site reflète parfaitement l'identité de notre agence et la collaboration a été fluide et agréable du début à la fin.",
@@ -41,7 +41,7 @@ export const projects: Project[] = [
             '/images/projects/ah_2.png',
             '/images/projects/ah_3.png'
         ],
-        website: 'https://alexandre-houmeau.fr',
+        website: 'https://alexandre-houmeau.com',
         review: {
             quote:
                 'Le nouveau portfolio met vraiment en valeur mes compétences et projets. Le design est épuré et moderne, exactement ce que je recherchais.',
