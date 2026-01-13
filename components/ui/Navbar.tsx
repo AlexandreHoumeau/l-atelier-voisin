@@ -17,9 +17,9 @@ const Navbar = forwardRef<HTMLDivElement>((_, ref) => {
         <div
             ref={ref}
             id="site-navbar"
-            className="fixed top-0 opacity-0 left-0 w-full z-50 pointer-events-none  bg-opacity-90 backdrop-blur-md"
+            className="fixed top-0 opacity-0 left-0 w-full z-50 pointer-events-none  bg-opacity-10 backdrop-blur-sm"
         >
-            <nav className="flex justify-around px-6 py-2 md:py-4 ">
+            <nav className="flex justify-around px-6 py-2 ">
                 <div ref={logoRef} className="pointer-events-auto">
                     <Image
                         src="/logo-mini.svg"

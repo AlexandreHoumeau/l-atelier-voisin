@@ -23,14 +23,16 @@ export default function ProjectsSections() {
     setActiveProjectIndex((prev) => (prev + 1) % projects.length);
 
   const prevProject = () =>
-    setActiveProjectIndex((prev) => (prev - 1 + projects.length) % projects.length);
+    setActiveProjectIndex(
+      (prev) => (prev - 1 + projects.length) % projects.length
+    );
 
   return (
     <div
       id="projects"
       className="px-4 flex h-full justify-center sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-16"
     >
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center w-full">
 
         <AnimatePresence mode="wait">
           <motion.div
@@ -39,7 +41,7 @@ export default function ProjectsSections() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={transition}
-            className="flex flex-col items-center"
+            className="flex flex-col items-center w-full"
           >
             {/* Titles */}
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white text-center">
@@ -50,20 +52,20 @@ export default function ProjectsSections() {
             </h3>
 
             {/* Images */}
-            <div className="w-full my-8 max-w-3xs md:max-w-6xl xl:max-w-7xl lg:mt-12">
+            <div className="w-full my-10 max-w-none xl:max-w-[1600px] mx-auto lg:mt-16">
 
               {/* Desktop */}
               <div className="hidden md:flex relative items-center justify-center">
 
                 <motion.div
                   className="
-    hidden md:flex
-    justify-center
-    items-center
-    gap-4
-    max-w-[100vw]
-    overflow-hidden
-  "
+                    hidden md:flex
+                    justify-center
+                    items-center
+                    gap-6
+                    w-full
+                    overflow-hidden
+                  "
                   initial="rest"
                   whileHover="hover"
                   animate="rest"
@@ -89,9 +91,9 @@ export default function ProjectsSections() {
                     <Image
                       src={imgs[0]}
                       alt="project image"
-                      width={400}
-                      height={400}
-                      className="rounded-xl shadow-2xl max-w-[24vw] h-auto"
+                      width={500}
+                      height={500}
+                      className="rounded-xl shadow-2xl w-[26vw] max-w-[420px] h-auto"
                     />
                   </motion.div>
 
@@ -116,9 +118,9 @@ export default function ProjectsSections() {
                     <Image
                       src={imgs[1]}
                       alt="project image"
-                      width={400}
-                      height={400}
-                      className="rounded-xl shadow-2xl max-w-[24vw] h-auto"
+                      width={500}
+                      height={500}
+                      className="rounded-xl shadow-2xl w-[26vw] max-w-[420px] h-auto"
                     />
                   </motion.div>
 
@@ -143,61 +145,12 @@ export default function ProjectsSections() {
                     <Image
                       src={imgs[2]}
                       alt="project image"
-                      width={400}
-                      height={400}
-                      className="rounded-xl shadow-2xl max-w-[24vw] h-auto"
+                      width={500}
+                      height={500}
+                      className="rounded-xl shadow-2xl w-[26vw] max-w-[420px] h-auto"
                     />
                   </motion.div>
                 </motion.div>
-                {/* LEFT IMAGE */}
-                {/* <motion.div
-                  initial={{ x: "-60%", opacity: 0.7, scale: 0.8 }}
-                  animate={{ x: "-60%", opacity: 1 }}
-                  whileHover={{ x: "-100%", scale: 0.95 }}
-                  transition={transition}
-                  className="absolute cursor-pointer"
-                >
-                  <Image
-                    src={imgs[1]}
-                    alt="left project"
-                    width={400}
-                    height={400}
-                    className="rounded-xl shadow-2xl w-auto h-auto"
-                  />
-                </motion.div> */}
-
-                {/* CENTER IMAGE (NO SIZE CHANGE) */}
-                {/* <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={transition}
-                  className="cursor-pointer z-20"
-                >
-                  <Image
-                    src={imgs[0]}
-                    alt="center project"
-                    width={400}
-                    height={400}
-                    className="rounded-xl shadow-2xl w-auto h-auto"
-                  />
-                </motion.div> */}
-
-                {/* RIGHT IMAGE */}
-                {/* <motion.div
-                  initial={{ x: "60%", opacity: 0.7, scale: 0.8 }}
-                  animate={{ x: "60%", opacity: 1 }}
-                  whileHover={{ x: "100%", scale: 0.95 }}
-                  transition={transition}
-                  className="absolute cursor-pointer"
-                >
-                  <Image
-                    src={imgs[2]}
-                    alt="right project"
-                    width={400}
-                    height={400}
-                    className="rounded-xl shadow-2xl w-auto h-auto"
-                  />
-                </motion.div> */}
               </div>
 
               {/* Mobile */}
@@ -224,7 +177,7 @@ export default function ProjectsSections() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Mobile navigation — UNCHANGED */}
+        {/* Mobile navigation */}
         <div className="flex mb-8 justify-center gap-2 md:hidden">
           <NavButton onClick={prevProject}>
             <MoveLeft size={18} />
@@ -233,7 +186,8 @@ export default function ProjectsSections() {
             <MoveRight size={18} />
           </NavButton>
         </div>
-        {/* Desktop navigation — UNCHANGED */}
+
+        {/* Desktop navigation */}
         <div className="hidden md:flex gap-6 mt-6">
           <NavButton onClick={prevProject}>
             <MoveLeft size={28} />
@@ -242,7 +196,6 @@ export default function ProjectsSections() {
             <MoveRight size={28} />
           </NavButton>
         </div>
-
 
         {/* Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 max-w-7xl mx-auto md:mt-24">
