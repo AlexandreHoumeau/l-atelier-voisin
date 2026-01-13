@@ -89,11 +89,11 @@ export default function ProjectsSections() {
                     transition={transition}
                   >
                     <Image
-                      src={imgs[0]}
+                      src={imgs[1]}
                       alt="project image"
-                      width={500}
-                      height={500}
-                      className="rounded-xl shadow-2xl w-[26vw] max-w-[420px] h-auto"
+                      width={600}
+                      height={600}
+                      className="rounded-xl  w-[26vw] max-w-[420px] h-auto"
                     />
                   </motion.div>
 
@@ -116,11 +116,11 @@ export default function ProjectsSections() {
                     transition={transition}
                   >
                     <Image
-                      src={imgs[1]}
+                      src={imgs[0]}
                       alt="project image"
-                      width={500}
-                      height={500}
-                      className="rounded-xl shadow-2xl w-[26vw] max-w-[420px] h-auto"
+                      width={600}
+                      height={600}
+                      className="rounded-xl  w-[26vw] max-w-[420px] h-auto"
                     />
                   </motion.div>
 
@@ -145,9 +145,9 @@ export default function ProjectsSections() {
                     <Image
                       src={imgs[2]}
                       alt="project image"
-                      width={500}
-                      height={500}
-                      className="rounded-xl shadow-2xl w-[26vw] max-w-[420px] h-auto"
+                      width={600}
+                      height={600}
+                      className="rounded-xl  w-[26vw] max-w-[420px] h-auto"
                     />
                   </motion.div>
                 </motion.div>
@@ -168,7 +168,7 @@ export default function ProjectsSections() {
                       alt={`project image ${i + 1}`}
                       width={800}
                       height={600}
-                      className="rounded-xl shadow-2xl w-full max-w-sm h-auto"
+                      className="rounded-xl  w-full max-w-sm h-auto"
                     />
                   </motion.div>
                 ))}
@@ -178,27 +178,27 @@ export default function ProjectsSections() {
         </AnimatePresence>
 
         {/* Mobile navigation */}
-        <div className="flex mb-8 justify-center gap-2 md:hidden">
+        <div className="flex mb-8 justify-center gap-6 ">
           <NavButton onClick={prevProject}>
-            <MoveLeft size={18} />
+            <MoveLeft size={20} />
           </NavButton>
           <NavButton onClick={nextProject}>
-            <MoveRight size={18} />
+            <MoveRight size={20} />
           </NavButton>
         </div>
 
         {/* Desktop navigation */}
-        <div className="hidden md:flex gap-6 mt-6">
+        {/* <div className="hidden md:flex gap-6">
           <NavButton onClick={prevProject}>
             <MoveLeft size={28} />
           </NavButton>
           <NavButton onClick={nextProject}>
             <MoveRight size={28} />
           </NavButton>
-        </div>
+        </div> */}
 
         {/* Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 max-w-7xl mx-auto md:mt-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 max-w-7xl mx-auto">
           <Section title="LE PROJET">
             {project.description}
           </Section>
@@ -245,7 +245,7 @@ function NavButton({
       onClick={onClick}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.92 }}
-      className="border-white border-2 p-4 rounded-full shadow-lg text-white"
+      className="border-white border-2 p-3 rounded-full shadow-lg text-white"
     >
       {children}
     </motion.button>
