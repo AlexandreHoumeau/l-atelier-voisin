@@ -144,7 +144,6 @@ export default function ContactSection() {
                             {
                                 label: "Votre message",
                                 type: "textarea",
-                                rows: 4,
                                 name: "message",
                             },
                         ].map((field) => (
@@ -159,7 +158,6 @@ export default function ContactSection() {
                                 {field.type === "textarea" ? (
                                     <textarea
                                         name={field.name}
-                                        rows={field.rows}
                                         required
                                         disabled={loading}
                                         className="w-full border-b border-[#C87056] focus:outline-none py-1 resize-none disabled:opacity-50"
