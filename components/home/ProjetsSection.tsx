@@ -28,7 +28,7 @@ export default function ProjectsSections() {
   return (
     <div
       id="projects"
-      className="px-4 flex h-full justify-center sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-24"
+      className="px-4 flex h-full justify-center sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-16"
     >
       <div className="flex flex-col items-center">
 
@@ -43,19 +43,114 @@ export default function ProjectsSections() {
           >
             {/* Titles */}
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white text-center">
-              {project.title}
+              NOS PROJETS
             </h2>
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-light text-white text-center md:mt-2">
-              {project.subtitle}
+              {project.title} - {project.subtitle}
             </h3>
 
             {/* Images */}
-            <div className="w-full my-8 max-w-3xs lg:max-w-6xl xl:max-w-7xl lg:mt-12">
+            <div className="w-full my-8 max-w-3xs md:max-w-6xl xl:max-w-7xl lg:mt-12">
 
               {/* Desktop */}
               <div className="hidden md:flex relative items-center justify-center">
-                {/* LEFT IMAGE */}
+
                 <motion.div
+                  className="
+    hidden md:flex
+    justify-center
+    items-center
+    gap-4
+    max-w-[100vw]
+    overflow-hidden
+  "
+                  initial="rest"
+                  whileHover="hover"
+                  animate="rest"
+                >
+                  {/* LEFT */}
+                  <motion.div
+                    variants={{
+                      rest: {
+                        scale: 0.85,
+                        x: 120,
+                        zIndex: 1,
+                        opacity: 0.75,
+                      },
+                      hover: {
+                        scale: 1,
+                        x: 0,
+                        zIndex: 1,
+                        opacity: 1,
+                      },
+                    }}
+                    transition={transition}
+                  >
+                    <Image
+                      src={imgs[0]}
+                      alt="project image"
+                      width={400}
+                      height={400}
+                      className="rounded-xl shadow-2xl max-w-[24vw] h-auto"
+                    />
+                  </motion.div>
+
+                  {/* CENTER */}
+                  <motion.div
+                    variants={{
+                      rest: {
+                        scale: 1,
+                        x: 0,
+                        zIndex: 3,
+                        opacity: 1,
+                      },
+                      hover: {
+                        scale: 1,
+                        x: 0,
+                        zIndex: 3,
+                        opacity: 1,
+                      },
+                    }}
+                    transition={transition}
+                  >
+                    <Image
+                      src={imgs[1]}
+                      alt="project image"
+                      width={400}
+                      height={400}
+                      className="rounded-xl shadow-2xl max-w-[24vw] h-auto"
+                    />
+                  </motion.div>
+
+                  {/* RIGHT */}
+                  <motion.div
+                    variants={{
+                      rest: {
+                        scale: 0.85,
+                        x: -120,
+                        zIndex: 1,
+                        opacity: 0.75,
+                      },
+                      hover: {
+                        scale: 1,
+                        x: 0,
+                        zIndex: 1,
+                        opacity: 1,
+                      },
+                    }}
+                    transition={transition}
+                  >
+                    <Image
+                      src={imgs[2]}
+                      alt="project image"
+                      width={400}
+                      height={400}
+                      className="rounded-xl shadow-2xl max-w-[24vw] h-auto"
+                    />
+                  </motion.div>
+                </motion.div>
+                {/* LEFT IMAGE */}
+                {/* <motion.div
                   initial={{ x: "-60%", opacity: 0.7, scale: 0.8 }}
                   animate={{ x: "-60%", opacity: 1 }}
                   whileHover={{ x: "-100%", scale: 0.95 }}
@@ -69,10 +164,10 @@ export default function ProjectsSections() {
                     height={400}
                     className="rounded-xl shadow-2xl w-auto h-auto"
                   />
-                </motion.div>
+                </motion.div> */}
 
                 {/* CENTER IMAGE (NO SIZE CHANGE) */}
-                <motion.div
+                {/* <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={transition}
@@ -85,10 +180,10 @@ export default function ProjectsSections() {
                     height={400}
                     className="rounded-xl shadow-2xl w-auto h-auto"
                   />
-                </motion.div>
+                </motion.div> */}
 
                 {/* RIGHT IMAGE */}
-                <motion.div
+                {/* <motion.div
                   initial={{ x: "60%", opacity: 0.7, scale: 0.8 }}
                   animate={{ x: "60%", opacity: 1 }}
                   whileHover={{ x: "100%", scale: 0.95 }}
@@ -102,7 +197,7 @@ export default function ProjectsSections() {
                     height={400}
                     className="rounded-xl shadow-2xl w-auto h-auto"
                   />
-                </motion.div>
+                </motion.div> */}
               </div>
 
               {/* Mobile */}
