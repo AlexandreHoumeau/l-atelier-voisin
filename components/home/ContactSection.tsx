@@ -40,7 +40,6 @@ export default function ContactSection() {
 
             formEl.reset();
         } catch (err) {
-            console.error(err);
             toast.error(
                 "Une erreur est survenue. Veuillez réessayer plus tard."
             );

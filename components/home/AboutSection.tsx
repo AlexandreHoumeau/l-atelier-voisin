@@ -94,15 +94,17 @@ export default function AboutSection() {
 						ref={imageWrapperRef}
 						className="absolute inset-0 flex items-center justify-center px-4 md:px-0"
 					>
-						<div className="w-full max-w-6xl h-[65vh] md:h-[90vh] rounded-xl overflow-hidden shadow-2xl">
-							<Image
-								src="/images/team/about_us.png"
-								alt="Le duo derrière l’Atelier voisin"
-								fill
-								className="object-cover"
-								priority
-							/>
-						</div>
+						{/* <div className="w-full max-w-6xl h-[65vh] md:h-[90vh] rounded-xl overflow-hidden shadow-2xl"> */}
+						<Image
+							src="/images/team/about_us.png"
+							alt="Le duo derrière l’Atelier voisin"
+							// fill
+							width={1200}
+							height={800}
+							className="object-cover"
+							priority
+						/>
+						{/* </div> */}
 					</div>
 
 					{/* TITLE */}
@@ -168,7 +170,7 @@ export default function AboutSection() {
 				<div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
 					<div
 						ref={bannerRef}
-						className="absolute top-1/2 -translate-y-1/2 flex whitespace-nowrap text-[10vw] font-momo text-white/100"
+						className="absolute top-[50%] -translate-y-1/2 flex whitespace-nowrap text-[10vw] font-momo text-white/100"
 					>
 						<h1>L'ATELIER VOISIN-</h1>
 						<h1>L'ATELIER VOISIN-</h1>
@@ -179,14 +181,16 @@ export default function AboutSection() {
 
 			{/* MOBILE FALLBACK */}
 			<section className="md:hidden bg-[#7FA3A1] px-6 py-10">
-				<div className="w-full relative h-[60vh] rounded-xl overflow-hidden shadow-2xl mb-8">
-					<Image
-						src="/images/team/about_us.png"
-						alt="Le duo derrière l’Atelier voisin"
-						fill
-						className="object-cover"
-					/>
-				</div>
+				{/* <div className="w-[100vw] h-[60vh] w-full rounded-xl  shadow-2xl mb-8"> */}
+				<Image
+					src="/images/team/about_us.png"
+					alt="Le duo derrière l’Atelier voisin"
+					width={1200}
+					height={800}
+					priority
+					className="z-10 object-cover w-full rounded-xl shadow-2xl mb-8"
+				/>
+				{/* </div> */}
 
 				<h2 className="text-white text-2xl font-momo mb-6">
 					Le duo derrière l’Atelier voisin
