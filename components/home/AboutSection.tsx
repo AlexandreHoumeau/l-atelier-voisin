@@ -115,14 +115,14 @@ export default function AboutSection() {
 						Le duo derrière l’Atelier voisin
 					</h2>
 
-					<div className="absolute bottom-14 flex w-full">
+					<div className="absolute bottom-[10%] xs:bottom-[15%] flex w-full">
 						<div className="w-full">
 							<div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 								<div ref={description1Ref} className="text-white">
-									<h3 className="text-lg lg:text-lg mb-3">
+									<h3 className="text-base lg:text-lg mb-3">
 										Deux parcours complémentaires
 									</h3>
-									<p className="text-md xl:text-lg leading-relaxed">
+									<p className="text-sm lg:text-lg leading-relaxed">
 										Clara, designeuse UX/UI et Alex, développeur full-stack depuis 6 ans.
 										Nous avons tous les deux acquis notre expérience au sein de grandes
 										entreprises à Paris et Amsterdam. Pendant plusieurs années, nous avons
@@ -133,10 +133,10 @@ export default function AboutSection() {
 								</div>
 
 								<div ref={description2Ref} className="text-white">
-									<h3 className="text-lg lg:text-lg mb-3">
+									<h3 className="text-base lg:text-lg mb-3">
 										L’Atelier voisin est né d’un retour à Bordeaux
 									</h3>
-									<p className="text-md xl:text-lg leading-relaxed">
+									<p className="text-sm lg:text-lg leading-relaxed">
 										En rentrant vivre dans notre ville d’origine, nous nous sommes réunis
 										autour d’une envie simple : faire du digital quelque chose de plus humain
 										et accessible. Nous avons crée une agence web, pensée pour les entreprises
@@ -170,7 +170,7 @@ export default function AboutSection() {
 				<div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
 					<div
 						ref={bannerRef}
-						className="absolute top-[50%] -translate-y-1/2 flex whitespace-nowrap text-[10vw] font-momo text-white/100"
+						className="absolute top-[50%] -translate-y-1/2 flex whitespace-nowrap text-[8vw] xl:text-[10vw] font-momo text-white/100"
 					>
 						<h1>L'ATELIER VOISIN-</h1>
 						<h1>L'ATELIER VOISIN-</h1>
