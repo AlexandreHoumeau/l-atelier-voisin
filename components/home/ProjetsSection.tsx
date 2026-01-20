@@ -30,7 +30,7 @@ export default function ProjectsSections() {
   return (
     <div
       id="projects"
-      className="px-4 flex h-full justify-center sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-16"
+      className="px-4 -pt-10 flex h-full justify-center sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-16"
     >
       <div className="flex flex-col items-center w-full">
 

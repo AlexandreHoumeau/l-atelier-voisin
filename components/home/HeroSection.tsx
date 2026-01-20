@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, AnimatePresence } from "framer-motion";
+import HeroLogo from "./HeroLogo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,7 +58,19 @@ export default function HeroSection() {
                  bg-hero bg-cover bg-center px-6"
     >
       {/* Logo */}
+      <HeroLogo />
       <motion.div
+        className="mt-8"
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.8, ease: "easeOut" }}
+      >
+        <p className="text-3xl font-lexend text-[#FF9B54] sm:text-4xl lg:text-5xl text-center">
+          atelier voisin
+        </p>
+      </motion.div>
+
+      {/* <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
@@ -69,7 +82,7 @@ export default function HeroSection() {
           alt="Atelier Voisin Logo"
           priority
         />
-      </motion.div>
+      </motion.div> */}
 
       {/* Scroll invite */}
       <AnimatePresence>
@@ -78,7 +91,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.3, delay: 0.8 }}
             className="absolute bottom-8 flex flex-col items-center gap-3"
           >
             <span className="text-xs uppercase tracking-widest text-white/70">
