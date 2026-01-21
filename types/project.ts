@@ -13,6 +13,24 @@ export type Project = {
 
 export const projects: Project[] = [
     {
+        title: 'Chez Aimée',
+        subtitle: 'Prothésiste Ongulaire — Bordeaux',
+        slug: 'chez-aimee',
+        description:
+            'Développement du site vitrine pour Chez Aimée avec Next.js et déployé sur Vercel. Design épuré et moderne mettant en avant les services proposés et facilitant la prise de rendez-vous en ligne.',
+        photos: [
+            '/images/projects/chez_aimee_1.png',
+            '/images/projects/chez_aimee_2.png',
+            '/images/projects/chez_aimee_3.png'
+        ],
+        website: 'https://chez-aimee.vercel.app/',
+        review: {
+            quote:
+                'Clara et Alexandre ont su capturer exactement ce que je voulais : un site à l’image de mon institut, original, clair et facile à naviguer pour mes clientes.',
+            author: 'Aimée — Prothésiste Ongulaire'
+        }
+    },
+    {
         title: 'PILE.XP',
         subtitle: 'Agence d’architecture',
         slug: 'pile_xp',
@@ -48,23 +66,6 @@ export const projects: Project[] = [
             author: 'Alexandre Houmeau'
         }
     }
-    // {
-    //     title: 'Loft Atelier',
-    //     slug: 'loft-atelier',
-    //     description:
-    //         'Conversion of an industrial loft into a flexible live-work space that balances open communal areas with private studios and thoughtful acoustics.',
-    //     photos: [
-    //         '/public/images/project/loft-atelier_1.jpg',
-    //         '/public/images/project/loft-atelier_2.jpg',
-    //         '/public/images/project/loft-atelier_3.jpg'
-    //     ],
-    //     website: 'https://ateliervoisin.com/loft-atelier',
-    //     review: {
-    //         quote:
-    //             'They delivered a space that feels generous and calm — perfect for creative work and everyday living.',
-    //         author: 'Sophie Martin'
-    //     }
-    // }
 ];
 
 export default projects;
