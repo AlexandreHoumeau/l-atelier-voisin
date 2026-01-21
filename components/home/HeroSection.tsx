@@ -11,10 +11,24 @@ gsap.registerPlugin(ScrollTrigger);
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [showScrollHint, setShowScrollHint] = useState(true);
+  const logoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const navbar = document.getElementById("site-navbar");
     if (!navbar || !sectionRef.current) return;
+
+    gsap.to(logoRef.current, {
+      y: () => -(window.innerHeight / 2) + 40,
+      scale: 0.2,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+
 
     gsap.set(navbar, {
       opacity: 0,
@@ -56,8 +70,9 @@ export default function HeroSection() {
       className="relative h-screen flex flex-col items-center justify-center
                  bg-hero bg-cover bg-center px-6"
     >
-      {/* Logo */}
-      <HeroLogo />
+      <motion.div ref={logoRef}>
+        <HeroLogo />
+      </motion.div>
       <motion.div
         className="mt-8"
         initial={{ scale: 0.95, opacity: 0 }}
