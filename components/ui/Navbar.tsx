@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef, useState, forwardRef } from "react";
 import gsap from "gsap";
+import { forwardRef, useEffect, useRef } from "react";
+import Logo from "../home/Logo";
 
 const Navbar = forwardRef<HTMLDivElement>((_, ref) => {
     const logoRef = useRef<HTMLDivElement>(null);
@@ -21,13 +21,7 @@ const Navbar = forwardRef<HTMLDivElement>((_, ref) => {
         >
             <nav className="flex justify-around px-6 py-2 ">
                 <div ref={logoRef} className="pointer-events-auto">
-                    <Image
-                        src="/logo-mini.svg"
-                        alt="Atelier Voisin"
-                        width={70}
-                        height={70}
-                        priority
-                    />
+                    <Logo className="w-10 h-10 sm:w-18 sm:h-18" />
                 </div>
             </nav>
         </div>
