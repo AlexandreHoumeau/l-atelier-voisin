@@ -17,7 +17,7 @@ export const projects: Project[] = [
         subtitle: 'Prothésiste Ongulaire — Bordeaux',
         slug: 'chez-aimee',
         description:
-            'Développement du site vitrine pour Chez Aimée avec Next.js et déployé sur Vercel. Design épuré et moderne mettant en avant les services proposés et facilitant la prise de rendez-vous en ligne.',
+            'Développement du site vitrine pour Chez Aimée, prothésiste ongulaire basée à Bordeaux. Design épuré et moderne mettant en avant les services proposés et facilitant la prise de rendez-vous en ligne.',
         photos: [
             '/images/projects/chez_aimee_1.png',
             '/images/projects/chez_aimee_2.png',
