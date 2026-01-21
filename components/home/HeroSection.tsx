@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import HeroLogo from "./HeroLogo";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -69,21 +68,6 @@ export default function HeroSection() {
           atelier voisin
         </p>
       </motion.div>
-
-      {/* <motion.div
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-      >
-        <Image
-          src="/logo-mini.svg"
-          width={160}
-          height={100}
-          alt="Atelier Voisin Logo"
-          priority
-        />
-      </motion.div> */}
-
       {/* Scroll invite */}
       <AnimatePresence>
         {showScrollHint && (
