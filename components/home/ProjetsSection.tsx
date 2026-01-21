@@ -30,7 +30,7 @@ export default function ProjectsSections() {
   return (
     <div
       id="projects"
-      className="px-4 -pt-10 flex h-full justify-center sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-16"
+      className="px-4 flex h-full justify-center sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-16"
     >
       <div className="flex flex-col items-center w-full">
 
@@ -55,17 +55,9 @@ export default function ProjectsSections() {
             <div className="w-full my-10 max-w-none xl:max-w-[1600px] mx-auto lg:mt-16">
 
               {/* Desktop */}
-              <div className="hidden md:flex relative items-center justify-center">
-
+              <div className="hidden md:flex relative items-center justify-center sm:h-24 md:h-48 xl:h-96">
                 <motion.div
-                  className="
-                    hidden md:flex
-                    justify-center
-                    items-center
-                    gap-6
-                    w-full
-                    overflow-hidden
-                  "
+                  className="hidden md:flex justify-center items-center gap-6 w-full overflow-hidden"
                   initial="rest"
                   whileHover="hover"
                   animate="rest"
