@@ -11,6 +11,24 @@ export type Project = {
     };
 };
 
+export type Sanity_Project = {
+  title: string
+  subtitle?: string
+  slug: string
+  description: string
+  photos: {
+    asset: {
+      _ref: string
+    }
+  }[]
+  website?: string
+  review?: {
+    quote: string
+    author: string
+  }
+}
+
+
 export const projects: Project[] = [
     {
         title: 'Chez Aimée',

@@ -6,12 +6,28 @@ import { ExternalLink, MoveLeft, MoveRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import Button from "../ui/Button";
+import { client } from "@/sanity/lib/client";
 
-export default function ProjectsSections() {
+const projectsQuery = `
+  *[_type == "project"] | order(title asc) {
+    title,
+    subtitle,
+    "slug": slug.current,
+    description,
+    photos,
+    website,
+    review
+  }
+`
+
+export default async function ProjectsSections() {
+
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const project = projects[activeProjectIndex];
   const imgs = project.photos;
 
+  const sanity_projects = await client.fetch(projectsQuery)
+  console.log(sanity_projects)
   const transition: Transition = {
     duration: 0.25,
     type: "spring",
