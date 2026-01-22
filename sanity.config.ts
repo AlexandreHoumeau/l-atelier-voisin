@@ -3,20 +3,12 @@ import { defineConfig } from "sanity";
 import { visionTool } from "@sanity/vision";
 import { structureTool } from "sanity/structure";
 
+import { schema } from "./sanity/schemaTypes";
+
 export default defineConfig({
   basePath: "/studio",
-
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
-
-  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-01-01",
-
-  schema: {
-    types: [],
-  },
-
-  plugins: [
-    structureTool(),
-    visionTool(),
-  ],
+  schema,
+  plugins: [structureTool(), visionTool()],
 });
