@@ -1,33 +1,26 @@
-'use client';
+"use client";
 
-import projects from "@/types/project";
-import { motion, AnimatePresence, Transition } from "framer-motion";
+import { AnimatePresence, motion, Transition } from "framer-motion";
 import { ExternalLink, MoveLeft, MoveRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import Button from "../ui/Button";
-import { client } from "@/sanity/lib/client";
+import type { Project } from "@/types/project";
+import { urlFor } from "@/sanity/lib/image";
 
-const projectsQuery = `
-  *[_type == "project"] | order(title asc) {
-    title,
-    subtitle,
-    "slug": slug.current,
-    description,
-    photos,
-    website,
-    review
-  }
-`
+type Props = {
+  projects: Project[];
+};
 
-export default async function ProjectsSections() {
-
+export default function ProjectsSection({ projects }: Props) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  console.log(projects);
+  // Safety guard (important with CMS data)
+  if (!projects || projects.length === 0) return null;
+
   const project = projects[activeProjectIndex];
   const imgs = project.photos;
 
-  const sanity_projects = await client.fetch(projectsQuery)
-  console.log(sanity_projects)
   const transition: Transition = {
     duration: 0.25,
     type: "spring",
@@ -46,10 +39,9 @@ export default async function ProjectsSections() {
   return (
     <div
       id="projects"
-      className="px-4 flex h-full justify-center sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-16"
+      className="px-4 flex h-full justify-center sm:px-8 lg:px-16 xl:px-24 py-16"
     >
       <div className="flex flex-col items-center w-full">
-
         <AnimatePresence mode="wait">
           <motion.div
             key={activeProjectIndex}
@@ -64,100 +56,45 @@ export default async function ProjectsSections() {
               NOS PROJETS
             </h2>
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-light text-white text-center md:mt-2">
-              {project.title} - {project.subtitle}
+              {project.title} – {project.subtitle}
             </h3>
 
             {/* Images */}
-            <div className="w-full my-10 max-w-none xl:max-w-[1600px] mx-auto lg:mt-16">
-
+            <div className="w-full my-10 xl:max-w-[1600px] mx-auto lg:mt-16">
               {/* Desktop */}
-              <div className="hidden md:flex relative items-center justify-center sm:h-24 md:h-48 xl:h-96">
+              <div className="hidden md:flex relative items-center justify-center xl:h-96">
                 <motion.div
-                  className="hidden md:flex justify-center items-center gap-6 w-full overflow-hidden"
+                  className="flex justify-center items-center gap-6 w-full overflow-hidden"
                   initial="rest"
                   whileHover="hover"
                   animate="rest"
                 >
-                  {/* LEFT */}
-                  <motion.div
-                    variants={{
-                      rest: {
-                        scale: 0.85,
-                        x: 120,
-                        zIndex: 1,
-                        opacity: 0.75,
-                      },
-                      hover: {
-                        scale: 1,
-                        x: 0,
-                        zIndex: 1,
-                        opacity: 1,
-                      },
-                    }}
-                    transition={transition}
-                  >
-                    <Image
-                      src={imgs[1]}
-                      alt="project image"
-                      width={600}
-                      height={600}
-                      className="rounded-xl  w-[26vw] max-w-[420px] h-auto"
-                    />
-                  </motion.div>
-
-                  {/* CENTER */}
-                  <motion.div
-                    variants={{
-                      rest: {
-                        scale: 1,
-                        x: 0,
-                        zIndex: 3,
-                        opacity: 1,
-                      },
-                      hover: {
-                        scale: 1,
-                        x: 0,
-                        zIndex: 3,
-                        opacity: 1,
-                      },
-                    }}
-                    transition={transition}
-                  >
-                    <Image
-                      src={imgs[0]}
-                      alt="project image"
-                      width={600}
-                      height={600}
-                      className="rounded-xl  w-[26vw] max-w-[420px] h-auto"
-                    />
-                  </motion.div>
-
-                  {/* RIGHT */}
-                  <motion.div
-                    variants={{
-                      rest: {
-                        scale: 0.85,
-                        x: -120,
-                        zIndex: 1,
-                        opacity: 0.75,
-                      },
-                      hover: {
-                        scale: 1,
-                        x: 0,
-                        zIndex: 1,
-                        opacity: 1,
-                      },
-                    }}
-                    transition={transition}
-                  >
-                    <Image
-                      src={imgs[2]}
-                      alt="project image"
-                      width={600}
-                      height={600}
-                      className="rounded-xl  w-[26vw] max-w-[420px] h-auto"
-                    />
-                  </motion.div>
+                  {[1, 0, 2].map((index, i) => (
+                    <motion.div
+                      key={index}
+                      variants={{
+                        rest: {
+                          scale: index === 0 ? 1 : 0.85,
+                          x: index === 1 ? 120 : index === 2 ? -120 : 0,
+                          opacity: index === 0 ? 1 : 0.75,
+                        },
+                        hover: {
+                          scale: 1,
+                          x: 0,
+                          opacity: 1,
+                        },
+                      }}
+                      transition={transition}
+                    >
+                      <Image
+                        src={urlFor(imgs[index]).width(800).url()}
+                        alt="project image"
+                        width={800}
+                        height={600}
+                        className={`rounded-xl w-[26vw] max-w-[420px] relative h-auto ${index === 0 ? "z-50" : "z-0"}`}
+                      />
+                    </motion.div>
+                  ))}
                 </motion.div>
               </div>
 
@@ -172,11 +109,11 @@ export default async function ProjectsSections() {
                     className="w-full flex justify-center"
                   >
                     <Image
-                      src={img}
+                      src={urlFor(img).width(800).url()}
                       alt={`project image ${i + 1}`}
                       width={800}
                       height={600}
-                      className="rounded-xl  w-full max-w-sm h-auto"
+                      className="rounded-xl w-full max-w-sm h-auto"
                     />
                   </motion.div>
                 ))}
@@ -185,8 +122,8 @@ export default async function ProjectsSections() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Mobile navigation */}
-        <div className="flex mb-8 justify-center gap-6 ">
+        {/* Navigation */}
+        <div className="flex mb-8 justify-center gap-6">
           <NavButton onClick={prevProject}>
             <MoveLeft size={20} />
           </NavButton>
@@ -195,21 +132,9 @@ export default async function ProjectsSections() {
           </NavButton>
         </div>
 
-        {/* Desktop navigation */}
-        {/* <div className="hidden md:flex gap-6">
-          <NavButton onClick={prevProject}>
-            <MoveLeft size={28} />
-          </NavButton>
-          <NavButton onClick={nextProject}>
-            <MoveRight size={28} />
-          </NavButton>
-        </div> */}
-
         {/* Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 max-w-7xl mx-auto">
-          <Section title="LE PROJET">
-            {project.description}
-          </Section>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto">
+          <Section title="LE PROJET">{project.description}</Section>
 
           <Section title="L’AVIS DE NOS CLIENTS">
             <>
@@ -238,6 +163,7 @@ export default async function ProjectsSections() {
     </div>
   );
 }
+
 
 /* ---------- Helpers ---------- */
 

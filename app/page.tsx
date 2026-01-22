@@ -1,4 +1,5 @@
 import Home from "@/components/home/Home";
+import { client } from "@/sanity/lib/client";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -37,10 +38,20 @@ export const metadata: Metadata = {
     type: "website",
   },
 };
+const projectsQuery = `
+  *[_type == "project"] | order(orderRank asc) {
+    title,
+    subtitle,
+    "slug": slug.current,
+    description,
+    photos,
+    website,
+    review
+  }
+`;
 
+export default async function HomePage() {
+  const projects = await client.fetch(projectsQuery);
 
-export default function HomePage() {
-  return <Home />;
+  return <Home projects={projects} />;
 }
-
-

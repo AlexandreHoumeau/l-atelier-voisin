@@ -1,32 +1,17 @@
+import { SanityImageSource } from "@sanity/image-url";
+
 export type Project = {
     title: string;
     subtitle: string;
     slug: string;
     description: string;
-    photos: string[]; // paths relative to project root, e.g. public/images/project/[slug]_1.jpg
     website: string;
+    photos: SanityImageSource[];
     review: {
         quote: string;
         author: string;
     };
 };
-
-export type Sanity_Project = {
-  title: string
-  subtitle?: string
-  slug: string
-  description: string
-  photos: {
-    asset: {
-      _ref: string
-    }
-  }[]
-  website?: string
-  review?: {
-    quote: string
-    author: string
-  }
-}
 
 
 export const projects: Project[] = [

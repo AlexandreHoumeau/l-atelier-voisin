@@ -1,18 +1,22 @@
 "use client";
+
 import ProjetsSection from "@/components/home/ProjetsSection";
 import ServicesPage from "@/components/home/ServicesSection";
 import AboutSection from "@/components/home/AboutSection";
 import ContactSection from "@/components/home/ContactSection";
 import HeroSection from "@/components/home/HeroSection";
 import { useEffect } from "react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Home() {
+type Props = {
+    projects: any[]; // replace with Project[] later
+};
+
+export default function Home({ projects }: Props) {
     useEffect(() => {
-        // HERO
         ScrollTrigger.create({
             trigger: ".section.hero",
             start: "top top",
@@ -21,7 +25,6 @@ export default function Home() {
             pinSpacing: false,
         });
 
-        // SERVICES → PROJECTS
         ScrollTrigger.create({
             trigger: ".section.services-projects",
             start: "top top",
@@ -33,33 +36,31 @@ export default function Home() {
 
     return (
         <main>
-            {/* HERO */}
             <div className="section hero z-0">
                 <HeroSection />
             </div>
 
-            {/* SERVICES → PROJECTS */}
             <div className="min-h-screen relative bg-[#E07A5F]">
-                <ProjetsSection />
+                <ProjetsSection projects={projects} />
             </div>
+
             <div className="md:section md:services-projects">
                 <div className="min-h-screen bg-[#F2CC8F]">
                     <ServicesPage />
                 </div>
             </div>
 
-            {/* ABOUT */}
             <div className="bg-[#7FA3A1]">
                 <AboutSection />
             </div>
 
-            {/* CONTACT */}
             <div className="bg-white">
                 <ContactSection />
             </div>
         </main>
     );
 }
+
 
 <script type="application/ld+json">
     {JSON.stringify({
