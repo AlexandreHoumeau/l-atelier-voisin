@@ -14,8 +14,7 @@ type Props = {
 
 export default function ProjectsSection({ projects }: Props) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
-  console.log(projects);
-  // Safety guard (important with CMS data)
+
   if (!projects || projects.length === 0) return null;
 
   const project = projects[activeProjectIndex];
