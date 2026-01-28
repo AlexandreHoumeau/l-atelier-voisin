@@ -1,6 +1,6 @@
 "use server";
 import { render } from '@react-email/components';
-import ConfirmationEmail from '../emails/ConfirmationEmail';
+import ConfirmationEmail from '../email/ConfirmationEmail';
 const nodemailer = require("nodemailer");
 
 export async function sendContactEmail(formData: FormData) {
