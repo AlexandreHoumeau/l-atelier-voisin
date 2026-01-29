@@ -1,11 +1,7 @@
-export default function EmailLayout({
+export default function Layout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  return (
-    <html>
-      <body>{children}</body>
-    </html>
-  )
+  return <>{children}</>;
 }
