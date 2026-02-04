@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, Transition } from "framer-motion";
 import { ExternalLink, MoveLeft, MoveRight } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../ui/Button";
 import type { Project } from "@/types/project";
 import { urlFor } from "@/sanity/lib/image";
@@ -14,6 +14,7 @@ type Props = {
 
 export default function ProjectsSection({ projects }: Props) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const [expanded, setExpanded] = useState(false);
 
   if (!projects || projects.length === 0) return null;
 
@@ -98,24 +99,46 @@ export default function ProjectsSection({ projects }: Props) {
               </div>
 
               {/* Mobile */}
-              <div className="flex flex-col gap-4 md:hidden items-center">
-                {imgs.map((img, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ y: 12, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ ...transition, delay: i * 0.04 }}
-                    className="w-full flex justify-center"
-                  >
-                    <Image
-                      src={urlFor(img).width(800).url()}
-                      alt={`project image ${i + 1}`}
-                      width={800}
-                      height={600}
-                      className="rounded-xl w-full max-w-sm h-auto"
-                    />
-                  </motion.div>
-                ))}
+              <div
+                className="flex flex-col md:hidden items-center w-full max-w-sm mx-auto">
+                <div className="w-full">
+                  {imgs.map((img, i) => {
+                    const collapsedOffset = i === 0 ? 0 : -260;
+                    const expandedOffset = 10;
+                    const isTop = i === 0;
+
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: i === 0 ? 1 : 0.6, marginTop: expanded ? expandedOffset : collapsedOffset, }}
+                        layout={expanded}
+                        animate={{
+                          marginTop: expanded ? expandedOffset : collapsedOffset,
+                          opacity: expanded || i === 0 ? 1 : 0.6,
+                        }}
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        className="cursor-pointer rounded-xl shadow-lg overflow-hidden"
+                        onClick={() => {
+                          if (i === 0) setExpanded((prev) => !prev);
+                        }}
+                      >
+                        <div className="relative">
+                          <Image
+                            src={urlFor(img).width(800).url()}
+                            alt={`project image ${i + 1}`}
+                            width={800}
+                            height={600}
+                            className={`w-full h-auto rounded-xl relative ${i === 0 ? 'z-50' : 'z-0'}`}
+                          />
+                          {/* Overlay for non-top images when collapsed */}
+                          {!isTop && !expanded && (
+                            <div className="absolute inset-0 bg-white/60 rounded-xl pointer-events-none" />
+                          )}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </motion.div>
