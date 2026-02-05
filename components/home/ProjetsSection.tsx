@@ -113,8 +113,9 @@ export default function ProjectsSection({ projects }: Props) {
                         initial={{ opacity: i === 0 ? 1 : 0.6, marginTop: expanded ? expandedOffset : collapsedOffset, }}
                         layout={expanded}
                         animate={{
+                          scale: expanded ? 1 : 1 - i * 0.1, // top: 1, 2nd: 0.9, 3rd: 0.8
                           marginTop: expanded ? expandedOffset : collapsedOffset,
-                          opacity: expanded || i === 0 ? 1 : 0.6,
+                          opacity: expanded || i === 0 ? 1 : 0.8,
                         }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         className="cursor-pointer rounded-xl shadow-lg overflow-hidden"
