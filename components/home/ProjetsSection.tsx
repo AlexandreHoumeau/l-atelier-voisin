@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, Transition } from "framer-motion";
 import { ExternalLink, MoveLeft, MoveRight } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../ui/Button";
 import type { Project } from "@/types/project";
 import { urlFor } from "@/sanity/lib/image";
@@ -15,6 +15,20 @@ type Props = {
 export default function ProjectsSection({ projects }: Props) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const [imgHeight, setImgHeight] = useState(0);
+
+  useEffect(() => {
+    if (!imageRef.current) return;
+
+    const update = () => {
+      setImgHeight(imageRef.current!.offsetHeight);
+    };
+
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [activeProjectIndex]);
 
   if (!projects || projects.length === 0) return null;
 
@@ -103,37 +117,40 @@ export default function ProjectsSection({ projects }: Props) {
                 className="flex flex-col md:hidden items-center w-full max-w-sm mx-auto">
                 <div className="w-full">
                   {imgs.map((img, i) => {
-                    const collapsedOffset = i === 0 ? 0 : -260;
-                    const expandedOffset = 10;
                     const isTop = i === 0;
+
+                    const stackOffset = imgHeight * 0.85; // controls overlap
+                    const collapsedOffset = isTop ? 0 : -stackOffset;
+                    const expandedOffset = 12;
+
+                    const scaleCollapsed = Math.max(1 - i * 0.1, 0.7);
 
                     return (
                       <motion.div
                         key={i}
-                        initial={{ opacity: i === 0 ? 1 : 0.6, marginTop: expanded ? expandedOffset : collapsedOffset, }}
                         layout={expanded}
+                        initial={false}
                         animate={{
-                          scale: expanded ? 1 : 1 - i * 0.1, // top: 1, 2nd: 0.9, 3rd: 0.8
                           marginTop: expanded ? expandedOffset : collapsedOffset,
-                          opacity: expanded || i === 0 ? 1 : 0.8,
+                          scale: expanded ? 1 : scaleCollapsed,
                         }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className="cursor-pointer rounded-xl shadow-lg overflow-hidden"
+                        style={{ zIndex: imgs.length - i }}
+                        className="cursor-pointer rounded-xl shadow-lg overflow-hidden relative"
                         onClick={() => {
-                          if (i === 0) setExpanded((prev) => !prev);
+                          if (isTop) setExpanded((p) => !p);
                         }}
                       >
-                        <div className="relative">
+                        <div ref={isTop ? imageRef : undefined} className="relative" style={{ zIndex: imgs.length - i }}>
                           <Image
                             src={urlFor(img).width(800).url()}
-                            alt={`project image ${i + 1}`}
+                            alt=""
                             width={800}
                             height={600}
-                            className={`w-full h-auto rounded-xl relative ${i === 0 ? 'z-50' : 'z-0'}`}
+                            className="w-full h-auto rounded-xl relative"
                           />
-                          {/* Overlay for non-top images when collapsed */}
-                          {!isTop && !expanded && (
-                            <div className="absolute inset-0 bg-white/60 rounded-xl pointer-events-none" />
+                          {!expanded && !isTop && (
+                            <div className="absolute inset-0  w-full h-full bg-white/80 rounded-xl pointer-events-none" />
                           )}
                         </div>
                       </motion.div>
@@ -183,7 +200,7 @@ export default function ProjectsSection({ projects }: Props) {
           </Section>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
