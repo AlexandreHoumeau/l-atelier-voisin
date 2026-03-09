@@ -1,10 +1,9 @@
 "use client";
 
-import { AnimatePresence, motion, Transition } from "framer-motion";
-import { ExternalLink, MoveLeft, MoveRight } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ExternalLink, MoveRight, MoveUp } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import Button from "../ui/Button";
+import { useEffect, useState } from "react";
 import type { Project } from "@/types/project";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -13,234 +12,189 @@ type Props = {
 };
 
 export default function ProjectsSection({ projects }: Props) {
-  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
-  const [expanded, setExpanded] = useState(false);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const [imgHeight, setImgHeight] = useState(0);
-
-  useEffect(() => {
-    if (!imageRef.current) return;
-
-    const update = () => {
-      setImgHeight(imageRef.current!.offsetHeight);
-    };
-
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [activeProjectIndex]);
+  // 1. Changed to null so everything is closed at first
+  const [activeProjectIndex, setActiveProjectIndex] = useState<number | null>(null);
 
   if (!projects || projects.length === 0) return null;
 
-  const project = projects[activeProjectIndex];
-  const imgs = project.photos;
-
-  const transition: Transition = {
-    duration: 0.25,
-    type: "spring",
-    stiffness: 300,
-    damping: 30,
+  const toggleProject = (index: number) => {
+    setActiveProjectIndex((prev) => (prev === index ? null : index));
   };
-
-  const nextProject = () =>
-    setActiveProjectIndex((prev) => (prev + 1) % projects.length);
-
-  const prevProject = () =>
-    setActiveProjectIndex(
-      (prev) => (prev - 1 + projects.length) % projects.length
-    );
 
   return (
     <div
       id="projects"
-      className="px-4 flex h-full justify-center sm:px-8 lg:px-16 xl:px-24 py-16"
+      className="min-h-screen bg-[#EBE9E4] px-4 sm:px-8 lg:px-16 xl:px-32 py-20 text-[#333333]"
     >
-      <div className="flex flex-col items-center w-full">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeProjectIndex}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={transition}
-            className="flex flex-col items-center w-full"
-          >
-            {/* Titles */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white text-center">
-              NOS PROJETS
-            </h2>
-            <h3 className="text-xl sm:text-2xl lg:text-3xl font-light text-white text-center md:mt-2">
-              {project.title} – {project.subtitle}
-            </h3>
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium mb-12">
+          Nos projets
+        </h2>
 
-            {/* Images */}
-            <div className="w-full my-10 xl:max-w-[1600px] mx-auto lg:mt-16">
-              {/* Desktop */}
-              <div className="hidden md:flex relative items-center justify-center xl:h-96">
+        <div className="border-t border-gray-400">
+          {projects.map((project, index) => {
+            const isActive = activeProjectIndex === index;
+
+            return (
+              <div key={index} className="border-b border-gray-400">
+                {/* --- Accordion Header --- */}
                 <motion.div
-                  className="flex justify-center items-center gap-6 w-full overflow-hidden"
-                  initial="rest"
-                  whileHover="hover"
-                  animate="rest"
+                  onClick={() => toggleProject(index)}
+                  className="py-8 flex justify-between items-center cursor-pointer group"
+                  whileHover={{ x: 4 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  {[1, 0, 2].map((index, i) => (
-                    <motion.div
-                      key={index}
-                      variants={{
-                        rest: {
-                          scale: index === 0 ? 1 : 0.85,
-                          x: index === 1 ? 120 : index === 2 ? -120 : 0,
-                          opacity: index === 0 ? 1 : 0.75,
-                        },
-                        hover: {
-                          scale: 1,
-                          x: 0,
-                          opacity: 1,
-                        },
-                      }}
-                      transition={transition}
-                    >
-                      <Image
-                        src={urlFor(imgs[index]).width(800).url()}
-                        alt="project image"
-                        width={800}
-                        height={600}
-                        className={`rounded-xl w-[26vw] max-w-[420px] relative h-auto ${index === 0 ? "z-50" : "z-0"}`}
-                      />
-                    </motion.div>
-                  ))}
+                  <div className="flex flex-col">
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-black uppercase text-[#3A3A3A] group-hover:text-black transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-lg md:text-xl font-light text-gray-600 mt-1">
+                      {project.subtitle}
+                    </p>
+                  </div>
+                  
+                  {/* Animated Arrow */}
+                  <motion.div
+                    initial={false}
+                    animate={{ rotate: isActive ? 0 : 0 }}
+                    className="text-gray-600 group-hover:text-black transition-colors"
+                  >
+                    {isActive ? (
+                      <MoveUp strokeWidth={1.5} size={32} />
+                    ) : (
+                      <MoveRight strokeWidth={1.5} size={32} />
+                    )}
+                  </motion.div>
                 </motion.div>
-              </div>
 
-              {/* Mobile */}
-              <div
-                className="flex flex-col md:hidden items-center w-full max-w-sm mx-auto">
-                <div className="w-full">
-                  {imgs.map((img, i) => {
-                    const isTop = i === 0;
-
-                    const stackOffset = imgHeight * 0.85; // controls overlap
-                    const collapsedOffset = isTop ? 0 : -stackOffset;
-                    const expandedOffset = 12;
-
-                    const scaleCollapsed = Math.max(1 - i * 0.1, 0.7);
-
-                    return (
-                      <motion.div
-                        key={i}
-                        layout={expanded}
-                        initial={false}
-                        animate={{
-                          marginTop: expanded ? expandedOffset : collapsedOffset,
-                          scale: expanded ? 1 : scaleCollapsed,
-                        }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        style={{ zIndex: imgs.length - i }}
-                        className="cursor-pointer rounded-xl shadow-lg overflow-hidden relative"
-                        onClick={() => {
-                          if (isTop) setExpanded((p) => !p);
-                        }}
-                      >
-                        <div ref={isTop ? imageRef : undefined} className="relative" style={{ zIndex: imgs.length - i }}>
-                          <Image
-                            src={urlFor(img).width(800).url()}
-                            alt=""
-                            width={800}
-                            height={600}
-                            className="w-full h-auto rounded-xl relative"
-                          />
-                          {!expanded && !isTop && (
-                            <div className="absolute inset-0  w-full h-full bg-white/80 rounded-xl pointer-events-none" />
-                          )}
+                {/* --- Accordion Expanded Content --- */}
+                <AnimatePresence initial={false}>
+                  {isActive && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.5, ease: [0.04, 0.62, 0.23, 0.98] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pb-12 pt-4 flex flex-col lg:flex-row gap-12 lg:gap-24">
+                        
+                        {/* Left Side: Auto-rotating Gallery */}
+                        <div className="w-full lg:w-3/5 flex flex-col gap-6">
+                          <ProjectGallery photos={project.photos} />
+                          <a
+                            href={project.website}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center gap-2 w-fit font-bold text-gray-700 hover:text-black transition-colors group"
+                          >
+                            <ExternalLink size={20} className="group-hover:scale-110 transition-transform" /> 
+                            voir le site
+                          </a>
                         </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
+
+                        {/* Right Side: Text Information */}
+                        <div className="w-full lg:w-2/5 flex flex-col justify-center gap-12">
+                          <motion.div 
+                            initial={{ y: 20, opacity: 0 }} 
+                            animate={{ y: 0, opacity: 1 }} 
+                            transition={{ delay: 0.2, duration: 0.5 }}
+                          >
+                            <h4 className="font-bold text-lg mb-2 text-[#4A4A4A]">le projet</h4>
+                            <p className="text-[#5A5A5A] leading-relaxed text-sm md:text-base whitespace-pre-line">
+                              {project.description}
+                            </p>
+                          </motion.div>
+
+                          <motion.div
+                            initial={{ y: 20, opacity: 0 }} 
+                            animate={{ y: 0, opacity: 1 }} 
+                            transition={{ delay: 0.3, duration: 0.5 }}
+                          >
+                            <h4 className="font-bold text-lg mb-2 text-[#4A4A4A]">l'avis de nos clients</h4>
+                            <p className="text-[#5A5A5A] leading-relaxed text-sm md:text-base">
+                              {project.review.quote}
+                            </p>
+                            <p className="text-[#5A5A5A] mt-2 text-sm md:text-base">
+                              – {project.review.author}
+                            </p>
+                          </motion.div>
+                        </div>
+
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Navigation */}
-        <div className="flex mb-8 justify-center gap-6">
-          <NavButton onClick={prevProject}>
-            <MoveLeft size={20} />
-          </NavButton>
-          <NavButton onClick={nextProject}>
-            <MoveRight size={20} />
-          </NavButton>
-        </div>
-
-        {/* Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto">
-          <Section title="LE PROJET">{project.description}</Section>
-
-          <Section title="L’AVIS DE NOS CLIENTS">
-            <>
-              <p>{project.review.quote}</p>
-              <p className="italic mt-3">– {project.review.author}</p>
-            </>
-          </Section>
-
-          <Section title="LE SITE EN LIGNE">
-            <>
-              <p>
-                Pour une meilleure expérience, vous pouvez accéder à l’entièreté
-                du site en cliquant sur ce bouton.
-              </p>
-              <Button
-                className="bg-white mt-6 p-10 text-[#E07A5F]"
-                onClick={() => window.open(project.website, "_blank")}
-                icon={() => <ExternalLink size={22} />}
-              >
-                <span className="ml-2 font-bold text-xl">VOIR LE SITE</span>
-              </Button>
-            </>
-          </Section>
+            );
+          })}
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 
+/* ---------- Gallery Sub-Component ---------- */
 
-/* ---------- Helpers ---------- */
+function ProjectGallery({ photos }: { photos: any[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-function NavButton({
-  children,
-  onClick,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-}) {
+  useEffect(() => {
+    if (photos.length <= 1) return;
+    
+    // The timer now resets every time currentIndex changes
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % photos.length);
+    }, 3500);
+    
+    return () => clearInterval(timer);
+  }, [photos.length, currentIndex]); // <-- Added currentIndex here!
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % photos.length);
+  };
+
+  if (!photos || photos.length === 0) return null;
+
+  // Custom cursor SVG
+  const customCursor = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='11' fill='black' opacity='0.6' stroke='none'/%3E%3Cpath d='M9 12h6m-3-3 3 3-3 3'/%3E%3C/svg%3E") 20 20, pointer`;
+
   return (
-    <motion.button
-      onClick={onClick}
-      whileHover={{ scale: 1.08 }}
-      whileTap={{ scale: 0.92 }}
-      className="border-white border-2 p-3 rounded-full shadow-lg text-white"
+    <div
+      className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg"
+      onClick={handleNext}
+      style={{ cursor: customCursor }}
     >
-      {children}
-    </motion.button>
-  );
-}
+      {photos.map((photo, idx) => (
+        <motion.div
+          key={idx}
+          initial={false}
+          animate={{ opacity: idx === currentIndex ? 1 : 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={urlFor(photo).width(1200).url()}
+            alt={`Project photo ${idx + 1}`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 60vw"
+            priority={idx === 0}
+          />
+        </motion.div>
+      ))}
 
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25 }}
-    >
-      <h4 className="text-white font-bold text-2xl mb-3">{title}</h4>
-      <div className="text-white text-lg leading-relaxed">{children}</div>
-    </motion.div>
+      {/* Dots indicator at the bottom */}
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10 pointer-events-none">
+        {photos.map((_, idx) => (
+          <div
+            key={idx}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              idx === currentIndex ? "w-6 bg-white shadow-md" : "w-2 bg-white/60"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
