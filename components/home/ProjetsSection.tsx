@@ -48,9 +48,11 @@ export default function ProjectsSection({ projects }: Props) {
                     <h3 className="text-2xl md:text-3xl lg:text-4xl font-black uppercase text-[#3A3A3A] group-hover:text-black transition-colors">
                       {project.title}
                     </h3>
-                    <p className="text-lg md:text-xl font-light text-gray-600 mt-1">
-                      {project.subtitle}
-                    </p>
+                    {project.subtitle && (
+                      <p className="text-lg md:text-xl font-light text-gray-600 mt-1">
+                        {project.subtitle}
+                      </p>
+                    )}
                   </div>
                   
                   {/* Animated Arrow */}
@@ -81,23 +83,26 @@ export default function ProjectsSection({ projects }: Props) {
                         
                         {/* Left Side: Auto-rotating Gallery */}
                         <div className="w-full lg:w-3/5 flex flex-col gap-6">
-                          <ProjectGallery photos={project.photos} />
-                          <a
-                            href={project.website}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center gap-2 w-fit font-bold text-gray-700 hover:text-black transition-colors group"
-                          >
-                            <ExternalLink size={20} className="group-hover:scale-110 transition-transform" /> 
-                            voir le site
-                          </a>
+                          {project.photos && <ProjectGallery photos={project.photos} />}
+                          {project.website && (
+                            <a
+                              href={project.website}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="flex items-center gap-2 w-fit font-bold text-gray-700 hover:text-black transition-colors group"
+                            >
+                              <ExternalLink size={20} className="group-hover:scale-110 transition-transform" />
+                              voir le site
+                            </a>
+                          )}
                         </div>
 
                         {/* Right Side: Text Information */}
                         <div className="w-full lg:w-2/5 flex flex-col justify-center gap-12">
-                          <motion.div 
-                            initial={{ y: 20, opacity: 0 }} 
-                            animate={{ y: 0, opacity: 1 }} 
+                          {project.description && (
+                          <motion.div
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.2, duration: 0.5 }}
                           >
                             <h4 className="font-bold text-lg mb-2 text-[#4A4A4A]">le projet</h4>
@@ -105,10 +110,12 @@ export default function ProjectsSection({ projects }: Props) {
                               {project.description}
                             </p>
                           </motion.div>
+                          )}
 
+                          {project?.review && (
                           <motion.div
-                            initial={{ y: 20, opacity: 0 }} 
-                            animate={{ y: 0, opacity: 1 }} 
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.3, duration: 0.5 }}
                           >
                             <h4 className="font-bold text-lg mb-2 text-[#4A4A4A]">l'avis de nos clients</h4>
@@ -119,6 +126,7 @@ export default function ProjectsSection({ projects }: Props) {
                               – {project.review.author}
                             </p>
                           </motion.div>
+                          )}
                         </div>
 
                       </div>
@@ -140,7 +148,7 @@ function ProjectGallery({ photos }: { photos: any[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (photos.length <= 1) return;
+    if (!photos || photos.length <= 1) return;
     
     // The timer now resets every time currentIndex changes
     const timer = setInterval(() => {
