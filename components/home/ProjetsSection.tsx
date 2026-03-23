@@ -45,16 +45,16 @@ export default function ProjectsSection({ projects }: Props) {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <div className="flex flex-col">
-                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-black uppercase text-[#3A3A3A] group-hover:text-black transition-colors">
+                    <p className="text-2xl md:text-3xl lg:text-4xl font-black uppercase text-[#3A3A3A] group-hover:text-black transition-colors">
                       {project.title}
-                    </h3>
+                    </p>
                     {project.subtitle && (
                       <p className="text-lg md:text-xl font-light text-gray-600 mt-1">
                         {project.subtitle}
                       </p>
                     )}
                   </div>
-                  
+
                   {/* Animated Arrow */}
                   <motion.div
                     initial={false}
@@ -79,55 +79,58 @@ export default function ProjectsSection({ projects }: Props) {
                       transition={{ duration: 0.5, ease: [0.04, 0.62, 0.23, 0.98] }}
                       className="overflow-hidden"
                     >
-                      <div className="pb-12 pt-4 flex flex-col lg:flex-row gap-12 lg:gap-24">
-                        
-                        {/* Left Side: Auto-rotating Gallery */}
-                        <div className="w-full lg:w-3/5 flex flex-col gap-6">
-                          {project.photos && <ProjectGallery photos={project.photos} />}
-                          {project.website && (
-                            <a
-                              href={project.website}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="flex items-center gap-2 w-fit font-bold text-gray-700 hover:text-black transition-colors group"
-                            >
-                              <ExternalLink size={20} className="group-hover:scale-110 transition-transform" />
-                              voir le site
-                            </a>
-                          )}
-                        </div>
+                      <div className="pb-12">
+                        <div className="pt-4 items-end flex flex-col lg:flex-row gap-12 lg:gap-24">
 
-                        {/* Right Side: Text Information */}
-                        <div className="w-full lg:w-2/5 flex flex-col justify-center gap-12">
-                          {project.description && (
-                          <motion.div
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.2, duration: 0.5 }}
-                          >
-                            <h4 className="font-bold text-lg mb-2 text-[#4A4A4A]">le projet</h4>
-                            <p className="text-[#5A5A5A] leading-relaxed text-sm md:text-base whitespace-pre-line">
-                              {project.description}
-                            </p>
-                          </motion.div>
-                          )}
+                          {/* Left Side: Auto-rotating Gallery */}
+                          <div className="w-full lg:w-3/5 flex flex-col gap-6">
+                            {project.photos && <ProjectGallery photos={project.photos} />}
+                          </div>
 
-                          {project?.review && (
-                          <motion.div
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.3, duration: 0.5 }}
-                          >
-                            <h4 className="font-bold text-lg mb-2 text-[#4A4A4A]">l'avis de nos clients</h4>
-                            <p className="text-[#5A5A5A] leading-relaxed text-sm md:text-base">
-                              {project.review.quote}
-                            </p>
-                            <p className="text-[#5A5A5A] mt-2 text-sm md:text-base">
-                              – {project.review.author}
-                            </p>
-                          </motion.div>
-                          )}
+                          {/* Right Side: Text Information */}
+                          <div className="w-full lg:w-2/5 flex flex-col justify-center gap-12">
+                            {project.description && (
+                              <motion.div
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.2, duration: 0.5 }}
+                              >
+                                <h4 className="font-bold text-lg mb-2 text-[#4A4A4A]">le projet</h4>
+                                <p className="text-[#5A5A5A] leading-relaxed text-sm md:text-base whitespace-pre-line">
+                                  {project.description}
+                                </p>
+                              </motion.div>
+                            )}
+
+                            {project?.review && (
+                              <motion.div
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.3, duration: 0.5 }}
+                              >
+                                <h4 className="font-bold text-lg mb-2 text-[#4A4A4A]">l'avis de nos clients</h4>
+                                <p className="text-[#5A5A5A] leading-relaxed text-sm md:text-base">
+                                  {project.review.quote}
+                                </p>
+                                <p className="text-[#5A5A5A] mt-2 text-sm md:text-base">
+                                  – {project.review.author}
+                                </p>
+                              </motion.div>
+                            )}
+                          </div>
+
                         </div>
+                        {project.website && (
+                          <a
+                            href={project.website}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center pt-4 gap-2 w-fit font-bold text-gray-700 hover:text-black transition-colors group"
+                          >
+                            <ExternalLink size={20} className="group-hover:scale-110 transition-transform" />
+                            voir le site
+                          </a>
+                        )}
 
                       </div>
                     </motion.div>
@@ -149,12 +152,12 @@ function ProjectGallery({ photos }: { photos: any[] }) {
 
   useEffect(() => {
     if (!photos || photos.length <= 1) return;
-    
+
     // The timer now resets every time currentIndex changes
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % photos.length);
     }, 3500);
-    
+
     return () => clearInterval(timer);
   }, [photos.length, currentIndex]); // <-- Added currentIndex here!
 
@@ -197,9 +200,8 @@ function ProjectGallery({ photos }: { photos: any[] }) {
         {photos.map((_, idx) => (
           <div
             key={idx}
-            className={`h-2 rounded-full transition-all duration-300 ${
-              idx === currentIndex ? "w-6 bg-white shadow-md" : "w-2 bg-white/60"
-            }`}
+            className={`h-2 rounded-full transition-all duration-300 ${idx === currentIndex ? "w-6 bg-white shadow-md" : "w-2 bg-white/60"
+              }`}
           />
         ))}
       </div>

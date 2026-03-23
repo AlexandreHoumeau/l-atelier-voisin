@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
 };
 const projectsQuery = `
-  *[_type == "project"] | order(orderRank asc) {
+  *[_type == "project"] | order(_createdAt desc) {
     title,
     subtitle,
     "slug": slug.current,
