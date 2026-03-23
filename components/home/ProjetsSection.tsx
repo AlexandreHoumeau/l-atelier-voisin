@@ -185,7 +185,7 @@ function ProjectGallery({ photos }: { photos: any[] }) {
           className="absolute inset-0"
         >
           <Image
-            src={urlFor(photo).width(1200).url()}
+            src={urlFor(photo).width(1200).height(900).url()} 
             alt={`Project photo ${idx + 1}`}
             fill
             className="object-cover"
