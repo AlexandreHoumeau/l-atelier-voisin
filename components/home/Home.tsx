@@ -29,7 +29,6 @@ type Props = {
 };
 
 const introWords = ["fluide", "clair", "précis"];
-const heroSceneRevealDelay = 2.35;
 const heroSceneZoomDuration = 3.25;
 
 const formulas = [
@@ -172,14 +171,14 @@ export default function Home({ projects }: Props) {
         opacity: 1,
         duration: 1,
         ease: "power2.out",
-        delay: heroSceneRevealDelay + heroSceneZoomDuration - 0.55,
+        delay: heroSceneZoomDuration - 0.55,
       });
 
       gsap.to(".grain-overlay", {
         opacity: 0.045,
         duration: 0.45,
         ease: "power2.out",
-        delay: heroSceneRevealDelay + heroSceneZoomDuration + 0.5,
+        delay: heroSceneZoomDuration + 0.5,
       });
 
       gsap.fromTo(
@@ -257,7 +256,7 @@ function IntroReveal() {
         className="absolute inset-0 bg-[#7FA3A1]"
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
-        transition={{ duration: 0.45, delay: 1.72, ease: "easeOut" }}
+        transition={{ duration: 0.45, delay: 2.75, ease: "easeOut" }}
       />
       <div className="relative flex h-44 w-full items-center justify-center px-6">
         {introWords.map((word, index) => (
@@ -458,18 +457,8 @@ function GranularHeroScene() {
     housesData[atelierHouseIndex].baseRotY = 0;
     housesData[atelierHouseIndex].scaleMultiplier = 1.65;
 
-    const introTween = gsap.timeline({ delay: heroSceneRevealDelay });
+    const introTween = gsap.timeline();
     introTween
-      .to(
-        cameraTarget,
-        {
-          x: -6,
-          y: 0,
-          duration: heroSceneZoomDuration,
-          ease: "power3.inOut",
-        },
-        0
-      )
       .to(camera.position, {
         x: 0,
         y: 14,
@@ -480,10 +469,11 @@ function GranularHeroScene() {
       .to(
         cameraTarget,
         {
-          duration: 2.1,
+          y: 0,
+          duration: heroSceneZoomDuration,
           ease: "power2.inOut",
         },
-        1.15
+        0
       );
 
     const numInstances = housesData.length;
