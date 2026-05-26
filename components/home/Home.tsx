@@ -29,6 +29,8 @@ type Props = {
 };
 
 const introWords = ["fluide", "clair", "précis"];
+const heroSceneRevealDelay = 2.35;
+const heroSceneZoomDuration = 3.25;
 
 const formulas = [
   {
@@ -170,14 +172,14 @@ export default function Home({ projects }: Props) {
         opacity: 1,
         duration: 1,
         ease: "power2.out",
-        delay: 4.05,
+        delay: heroSceneRevealDelay + heroSceneZoomDuration - 0.55,
       });
 
       gsap.to(".grain-overlay", {
         opacity: 0.045,
         duration: 0.45,
         ease: "power2.out",
-        delay: 6.1,
+        delay: heroSceneRevealDelay + heroSceneZoomDuration + 0.5,
       });
 
       gsap.fromTo(
@@ -456,14 +458,14 @@ function GranularHeroScene() {
     housesData[atelierHouseIndex].baseRotY = 0;
     housesData[atelierHouseIndex].scaleMultiplier = 1.65;
 
-    const introTween = gsap.timeline();
+    const introTween = gsap.timeline({ delay: heroSceneRevealDelay });
     introTween
       .to(
         cameraTarget,
         {
           x: -6,
           y: 0,
-          duration: 3.25,
+          duration: heroSceneZoomDuration,
           ease: "power3.inOut",
         },
         0
@@ -472,7 +474,7 @@ function GranularHeroScene() {
         x: 0,
         y: 14,
         z: 22,
-        duration: 3.25,
+        duration: heroSceneZoomDuration,
         ease: "power3.inOut",
       })
       .to(
@@ -483,34 +485,6 @@ function GranularHeroScene() {
         },
         1.15
       );
-
-    //   const introTween = gsap.timeline();
-    // introTween
-    //   .to(
-    //     cameraTarget,
-    //     {
-    //       x: -6, // <-- ADD THIS: Pans the camera's focal point to the left
-    //       y: 0,
-    //       duration: 3.25,
-    //       ease: "power3.inOut",
-    //     },
-    //     0
-    //   )
-    //   .to(camera.position, {
-    //     x: -6, // <-- CHANGE TO -6: Moves the camera to the left
-    //     y: 14,
-    //     z: 22,
-    //     duration: 3.25,
-    //     ease: "power3.inOut",
-    //   }, 0)
-    //   .to(
-    //     cameraTarget,
-    //     {
-    //       duration: 2.1,
-    //       ease: "power2.inOut",
-    //     },
-    //     1.15
-    //   );
 
     const numInstances = housesData.length;
     const instancedMesh = new THREE.InstancedMesh(geometry, material, numInstances);
