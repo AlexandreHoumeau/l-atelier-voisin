@@ -1,223 +1,96 @@
 "use client";
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
+const aboutNotes = [
+  {
+    label: "Ecoute",
+    className: "left-3 top-6 -rotate-6 sm:left-8 lg:-left-7 lg:top-10",
+  },
+  {
+    label: "Design",
+    className: "right-3 top-1/3 rotate-6 sm:right-8 lg:-right-8",
+  },
+  {
+    label: "Code",
+    className: "bottom-12 left-6 rotate-3 sm:left-12 lg:-left-5",
+  },
+  {
+    label: "Suivi",
+    className: "bottom-5 right-5 -rotate-4 sm:right-10 lg:right-6",
+  },
+];
 
 export default function AboutSection() {
-	const sectionRef = useRef<HTMLDivElement>(null);
-	const pinRef = useRef<HTMLDivElement>(null);
+  return (
+    <section className="about-stage relative overflow-hidden bg-[#7FA3A1] px-5 py-24 text-white sm:px-8 lg:px-12 lg:py-32">
+      <div className="wall-marquee absolute top-8 flex whitespace-nowrap font-bold font-momo text-[13vw] leading-none text-white/10">
+        <span>CLARA + ALEX - CLARA + ALEX - </span>
+        <span>CLARA + ALEX - CLARA + ALEX - </span>
+      </div>
+      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+        <motion.div
+          className="reveal relative"
+          whileHover={{ rotate: -1.5, y: -8 }}
+          transition={{ type: "spring", stiffness: 220, damping: 20 }}
+        >
+          <div className="float-item absolute -inset-4 rotate-3 rounded-md border border-white/24" />
+          <div className="about-portrait relative aspect-[4/5] overflow-hidden rounded-md bg-[#EBE9E4] shadow-2xl shadow-[#333333]/18">
+            <Image
+              src="/images/team/about_us.png"
+              alt="Clara et Alex, le duo Atelier Voisin"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 45vw"
+            />
+          </div>
+          <Image
+            src="/images/team/alex_pixel-speech-bubble.png"
+            alt=""
+            width={118}
+            height={118}
+            className="about-pop about-drift pointer-events-none absolute left-[10%] top-[25%] z-20 w-20 sm:w-24 lg:w-28"
+          />
+          <Image
+            src="/images/team/clara_pixel-speech-bubble.png"
+            alt=""
+            width={104}
+            height={104}
+            className="about-pop about-drift pointer-events-none absolute right-[8%] top-[38%] z-20 w-16 sm:w-20 lg:w-24"
+          />
+          {aboutNotes.map((note) => (
+            <span
+              key={note.label}
+              className={`about-pop about-drift absolute z-20 rounded-full border border-white/24 bg-[#EBE9E4] px-4 py-2 text-sm font-semibold text-[#C87056] shadow-lg shadow-[#333333]/10 ${note.className}`}
+            >
+              {note.label}
+            </span>
+          ))}
+        </motion.div>
 
-	const imageWrapperRef = useRef<HTMLDivElement>(null);
-	const description1Ref = useRef<HTMLDivElement>(null);
-	const description2Ref = useRef<HTMLDivElement>(null);
-	const alexBubbleRef = useRef<HTMLImageElement>(null);
-	const claraBubbleRef = useRef<HTMLImageElement>(null);
-	const bannerRef = useRef<HTMLDivElement>(null);
-	const titleRef = useRef<HTMLHeadingElement>(null);
-
-	useEffect(() => {
-		const mm = gsap.matchMedia();
-
-		// Banner continuous scroll
-		gsap.to(bannerRef.current, {
-			xPercent: -50,
-			repeat: -1,
-			duration: 30,
-			ease: "linear",
-		});
-
-		const ctx = gsap.context(() => {
-			gsap.set(imageWrapperRef.current, { scale: 1 });
-			gsap.set(
-				[description1Ref.current, description2Ref.current],
-				{ opacity: 0, y: 50 }
-			);
-
-			mm.add("(min-width: 768px)", () => {
-				const tl = gsap.timeline({
-					scrollTrigger: {
-						trigger: sectionRef.current,
-						start: "top top",
-						end: "+=0%",
-						pin: true,
-						anticipatePin: 1,
-						scrub: false,  // animation plays automatically
-						once: true,    // optional: only play once
-					},
-				});
-
-				tl
-					.to(imageWrapperRef.current, {
-						scale: 0.55,
-						duration: 1,
-						ease: "power2.out",
-					})
-					.to([alexBubbleRef.current, claraBubbleRef.current], {
-						zIndex: 50,
-						duration: 0,
-					})
-					.to(
-						[
-							imageWrapperRef.current,
-							alexBubbleRef.current,
-							claraBubbleRef.current,
-						],
-						{ y: -200, duration: 1, ease: "power2.out" }
-					)
-					.to(titleRef.current, { opacity: 0, y: -50, duration: 0.4 }, "<0.2")
-					.to(
-						[description1Ref.current, description2Ref.current],
-						{ opacity: 1, y: 0, duration: 0.6, stagger: 0.2 }
-					);
-			});
-		}, sectionRef);
-
-		return () => {
-			mm.revert();
-			ctx.revert();
-		};
-	}, []);
-
-	return (
-		<>
-			<section
-				ref={sectionRef}
-				className="relative hidden md:block px-16 h-screen w-full overflow-hidden bg-[#7FA3A1]"
-			>
-				<div ref={pinRef} className="sticky top-0 h-screen overflow-hidden">
-					{/* IMAGE */}
-					<div
-						ref={imageWrapperRef}
-						className="absolute inset-0 flex items-center justify-center px-4 md:px-0"
-					>
-						{/* <div className="w-full max-w-6xl h-[65vh] md:h-[90vh] rounded-xl overflow-hidden shadow-2xl"> */}
-						<Image
-							src="/images/team/about_us.png"
-							alt="Le duo derrière l’Atelier voisin"
-							// fill
-							width={1200}
-							height={800}
-							className="object-cover"
-							priority
-						/>
-						{/* </div> */}
-					</div>
-
-					{/* TITLE */}
-					<h2
-						ref={titleRef}
-						className="absolute top-20 md:top-8 md:top-20 z-10 max-w-xl text-white text-2xl md:text-5xl font-momo"
-					>
-						Le duo derrière l’Atelier voisin
-					</h2>
-
-					<div className="absolute bottom-[10%] xs:bottom-[15%] flex w-full">
-						<div className="w-full">
-							<div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-								<div ref={description1Ref} className="text-white">
-									<h3 className="text-base lg:text-lg mb-3">
-										Deux parcours complémentaires
-									</h3>
-									<p className="text-sm lg:text-lg leading-relaxed">
-										Clara, designeuse UX/UI et Alex, développeur full-stack depuis 6 ans.
-										Nous avons tous les deux acquis notre expérience au sein de grandes
-										entreprises à Paris et Amsterdam. Pendant plusieurs années, nous avons
-										travaillé sur des projets d&apos;envergure, collaborant avec des équipes
-										internationales et développant une expertise solide dans nos domaines
-										respectifs.
-									</p>
-								</div>
-
-								<div ref={description2Ref} className="text-white">
-									<h3 className="text-base lg:text-lg mb-3">
-										L’Atelier voisin est né d’un retour à Bordeaux
-									</h3>
-									<p className="text-sm lg:text-lg leading-relaxed">
-										En rentrant vivre dans notre ville d’origine, nous nous sommes réunis
-										autour d’une envie simple : faire du digital quelque chose de plus humain
-										et accessible. Nous avons créé un atelier web pour les organisations,
-										équipes et indépendants qui veulent des sites fiables, des outils clairs
-										et des workflows plus faciles à gérer, sans jargon ni complications inutiles.
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<Image
-						ref={alexBubbleRef}
-						src="/images/team/alex_pixel-speech-bubble.png"
-						alt=""
-						width={140}
-						height={140}
-						className="left-7/28 top-7/20 lg:left-9/28 lg:top-7/20 -z-10 hidden lg:absolute"
-					/>
-
-					<Image
-						ref={claraBubbleRef}
-						src="/images/team/clara_pixel-speech-bubble.png"
-						alt=""
-						width={110}
-						height={110}
-						className="hidden lg:absolute -z-10 right-6/18 lg:right-7/18 top-9/20"
-					/>
-				</div>
-
-				<div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-					<div
-						ref={bannerRef}
-						className="absolute top-[50%] -translate-y-1/2 flex whitespace-nowrap text-[8vw] xl:text-[10vw] font-momo text-white/100"
-					>
-						<h1>L&apos;ATELIER VOISIN-</h1>
-						<h1>L&apos;ATELIER VOISIN-</h1>
-						<h1>L&apos;ATELIER VOISIN-</h1>
-					</div>
-				</div>
-			</section>
-
-			{/* MOBILE FALLBACK */}
-			<section className="md:hidden bg-[#7FA3A1] px-6 py-10">
-				{/* <div className="w-[100vw] h-[60vh] w-full rounded-xl  shadow-2xl mb-8"> */}
-				<Image
-					src="/images/team/about_us.png"
-					alt="Le duo derrière l’Atelier voisin"
-					width={1200}
-					height={800}
-					priority
-					className="z-10 object-cover w-full rounded-xl shadow-2xl mb-8"
-				/>
-				{/* </div> */}
-
-				<h2 className="text-white text-2xl font-momo mb-6">
-					Le duo derrière l’Atelier voisin
-				</h2>
-
-				<div className="space-y-2 text-white">
-					<div>
-						<h3 className="text-lg mb-3">Deux parcours complémentaires</h3>
-						<p className="leading-relaxed">
-							Clara, designeuse UX/UI et Alex, développeur full-stack depuis 6 ans.
-							Nous avons tous les deux acquis notre expérience au sein de grandes
-							entreprises à Paris et Amsterdam.
-						</p>
-					</div>
-
-					<div>
-						<h3 className="text-lg mb-3">
-							L’Atelier voisin est né d’un retour à Bordeaux
-						</h3>
-						<p className="leading-relaxed">
-							En rentrant vivre dans notre ville d’origine, nous nous sommes réunis
-							autour d’une envie simple : faire du digital quelque chose de plus humain
-							et accessible.
-						</p>
-					</div>
-				</div>
-			</section>
-		</>
-	);
+        <div className="reveal relative z-10">
+          <p className="mb-5 text-sm uppercase tracking-[0.3em] text-[#F2CC8F]">
+            Atelier
+          </p>
+          <h2 className="font-momo text-5xl leading-none sm:text-7xl">
+            Deux profils, une même attention au détail.
+          </h2>
+          <div className="mt-10 space-y-6 text-white/82">
+            <p className="text-lg leading-relaxed">
+              Clara, designeuse UX/UI, et Alex, développeur full-stack, ont
+              travaillé plusieurs années dans des environnements exigeants à
+              Paris et Amsterdam avant de revenir à Bordeaux.
+            </p>
+            <p className="text-lg leading-relaxed">
+              L&apos;Atelier Voisin est né de cette envie: faire du digital
+              quelque chose de plus lisible, plus humain et plus facile à gérer
+              pour les organisations, équipes et indépendants qui veulent des
+              outils clairs, utiles et faciles à faire évoluer.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

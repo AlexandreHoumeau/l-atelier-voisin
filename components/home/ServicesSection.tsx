@@ -1,195 +1,165 @@
 "use client";
 
-import { CircleCheck, CircleX } from "lucide-react";
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
+import ServiceList from "./ServiceList";
+import { automationOffers, automationProblems, automationSolutions, capabilities, formulas, pillars } from "./servicesData";
 
-const card: Variants = {
-  hidden: { opacity: 0, y: 60 },
-  visible: (i = 1) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.15,
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  }),
-};
-
-const list: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const item: Variants = {
-  hidden: { opacity: 0, x: 12 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.35, ease: "easeOut" },
-  },
-};
-
-export default function ServicesPage() {
+export default function ServicesSection() {
   return (
-    <section className="min-h-screen flex items-center bg-[#F2CC8F] py-24 px-6">
-      <div className="max-w-7xl mx-auto w-full">
-        {/* Header */}
-        <div className="max-w-2xl mb-16">
-          <h2 className="text-4xl font-momo text-white mb-4">
-            Des formules claires, sans surprise
-          </h2>
-          <p className="text-white text-lg">
-            Que vous ayez besoin d’un site simple ou d’un outil évolutif,
-            nous concevons une solution adaptée — sans jargon, sans usine à gaz.
+    <section
+      id="services"
+      className="relative overflow-hidden bg-[#F2CC8F] px-5 py-24 sm:px-8 lg:px-12 lg:py-32"
+    >
+      <div className="wall-marquee mb-10 flex whitespace-nowrap font-momo font-bold text-[13vw] leading-none text-[#C87056]/16">
+        <span>SERVICES - SITES - OUTILS - WORKFLOWS - </span>
+        <span>SERVICES - SITES - OUTILS - WORKFLOWS - </span>
+      </div>
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="reveal">
+            <p className="mb-5 text-sm uppercase tracking-[0.3em] text-[#C87056]">
+            Services
+            </p>
+            <h2 className="font-momo text-5xl leading-none sm:text-7xl">
+              Créer, connecter, automatiser.
+            </h2>
+          </div>
+          <p className="reveal max-w-2xl self-end text-xl leading-relaxed text-[#333333]/72">
+            Atelier Voisin conçoit des sites web, systèmes connectés et
+            automatisations utiles pour aider les organisations, équipes et
+            indépendants à mieux gérer leurs demandes, leurs outils et leurs
+            workflows.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-10 items-start">
-          {/* ESSENTIAL */}
-          <motion.div
-            custom={0}
-            variants={card}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="bg-white backdrop-blur rounded-3xl p-10 shadow-md"
-          >
-            <h3 className="text-sm uppercase tracking-wide text-[#C87056] mb-2">
-              Formule essentielle
+        <div className="mt-14 grid gap-5 md:grid-cols-3">
+          {pillars.map((pillar) => (
+            <motion.article
+              key={pillar.title}
+              className="reveal rounded-md border border-[#C87056]/14 bg-white/58 p-6 shadow-sm"
+              whileHover={{ y: -8 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            >
+              <h3 className="font-momo text-4xl text-[#C87056]">
+                {pillar.title}
+              </h3>
+              <p className="mt-4 leading-relaxed text-[#333333]/70">
+                {pillar.text}
+              </p>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="reveal mt-12 flex flex-wrap gap-3">
+          {capabilities.map((item, index) => (
+            <motion.span
+              key={item}
+              className="rounded-full border border-[#C87056]/18 bg-white/46 px-5 py-3 text-sm text-[#C87056] shadow-sm"
+              whileHover={{
+                y: -8,
+                rotate: index % 2 === 0 ? -3 : 3,
+                scale: 1.05,
+              }}
+              transition={{ type: "spring", stiffness: 280, damping: 18 }}
+            >
+              {item}
+            </motion.span>
+          ))}
+        </div>
+
+        <div className="mt-16 grid gap-7 lg:grid-cols-2">
+          {formulas.map((formula, index) => (
+            <motion.article
+              key={formula.name}
+              className="reveal relative min-h-[620px] overflow-hidden rounded-md border border-[#C87056]/14 bg-white p-8 shadow-2xl shadow-[#C87056]/10 md:p-12"
+              whileHover={{ y: -14, rotateY: index === 0 ? -5 : 5, rotateX: 4 }}
+              transition={{ type: "spring", stiffness: 220, damping: 20 }}
+            >
+              {index === 1 && (
+                <span className="absolute right-6 top-6 rounded-full bg-[#C87056] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white">
+                  Personnalisée
+                </span>
+              )}
+              <p className="mb-3 text-sm uppercase tracking-[0.22em] text-[#C87056]">
+                {formula.name}
+              </p>
+              <h3 className="font-momo text-4xl leading-none">{formula.title}</h3>
+              <p className="mt-6 max-w-xl leading-relaxed text-[#333333]/70">
+                {formula.text}
+              </p>
+              <div className="mt-10 grid gap-8 md:grid-cols-2">
+                <ServiceList title="Inclus" items={formula.included} active />
+                <ServiceList
+                  title={formula.excluded.length > 0 ? "Non inclus" : "En plus"}
+                  items={
+                    formula.excluded.length > 0
+                      ? formula.excluded
+                      : ["Formation à la prise en main", "Accompagnement après lancement"]
+                  }
+                  active={formula.excluded.length === 0}
+                />
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="mt-20 grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="reveal">
+            <p className="mb-5 text-sm uppercase tracking-[0.3em] text-[#C87056]">
+              Automatisation
+            </p>
+            <h2 className="font-momo text-5xl leading-none sm:text-7xl">
+              Automatisez vos demandes, relances et workflows.
+            </h2>
+          </div>
+          <div className="reveal self-end">
+            <p className="max-w-2xl text-xl leading-relaxed text-[#333333]/72">
+              Des systèmes simples pour centraliser vos informations, gagner du
+              temps et ne plus laisser passer d&apos;opportunités.
+            </p>
+            <p className="mt-5 max-w-2xl leading-relaxed text-[#333333]/62">
+              Pour les indépendants, associations, PME, équipes internes,
+              agences, organismes de formation, prestataires de services et
+              organisations qui veulent structurer leurs outils.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-12 grid gap-7 lg:grid-cols-2">
+          <section className="reveal rounded-md border border-[#C87056]/14 bg-white/58 p-8 md:p-10">
+            <h3 className="font-momo text-4xl text-[#C87056]">
+              Ce qui ralentit
             </h3>
-            <h4 className="text-2xl font-semibold mb-4">
-              L’essentiel pour exister
-            </h4>
-
-            <p className="text-gray-700 mb-8 leading-relaxed">
-              Un site clair et professionnel pour présenter votre activité,
-              inspirer confiance et être contacté facilement.
-            </p>
-
-            <motion.ul
-              variants={list}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="space-y-3 text-gray-700"
-            >
-              {[
-                "Design sur mesure",
-                "3 à 5 pages",
-                "Responsive",
-                "Formulaire de contact",
-                "SEO de base",
-              ].map((t) => (
-                <motion.li
-                  key={t}
-                  variants={item}
-                  className="flex items-start gap-3"
-                >
-                  <CircleCheck size={16} className="mt-1 text-[#C87056]" />
-                  <p>{t}</p>
-                </motion.li>
-              ))}
-
-              {[
-                "Base de données",
-                "Analytics",
-                "Sécurisation avancée",
-              ].map((t) => (
-                <motion.li
-                  key={t}
-                  variants={item}
-                  className="flex items-start gap-3 opacity-40"
-                >
-                  <CircleX size={16} className="mt-1" />
-                  <p>{t}</p>
-                </motion.li>
-              ))}
-            </motion.ul>
-          </motion.div>
-
-          {/* PREMIUM */}
-          <motion.div
-            custom={1}
-            variants={card}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="
-              relative bg-white rounded-3xl p-10 shadow-xl
-              border-2 border-[#C87056]
-              scale-[1.03]
-            "
-          >
-            {/* Badge */}
-            <p className="absolute -top-4 left-8 bg-[#C87056] text-white text-xs px-4 py-1 rounded-full">
-              Personnalisée
-            </p>
-
-            <h3 className="text-sm uppercase tracking-wide text-[#C87056] mb-2">
-              Formule premium
+            <ServiceList title="Problèmes fréquents" items={automationProblems} active />
+          </section>
+          <section className="reveal rounded-md border border-[#C87056]/14 bg-white p-8 md:p-10">
+            <h3 className="font-momo text-4xl text-[#C87056]">
+              Ce qu&apos;on met en place
             </h3>
-            <h4 className="text-2xl font-semibold mb-4">
-              Un vrai outil de travail
-            </h4>
+            <ServiceList title="Solutions possibles" items={automationSolutions} active />
+          </section>
+        </div>
 
-            <p className="text-gray-700 mb-8 leading-relaxed">
-              Un site évolutif, performant et administrable,
-              pensé pour accompagner la croissance de votre activité.
-            </p>
-
-            <motion.ul
-              variants={list}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="space-y-3 text-gray-700 mb-8"
+        <div className="mt-12 grid gap-7 lg:grid-cols-3">
+          {automationOffers.map((offer) => (
+            <motion.article
+              key={offer.name}
+              className="reveal rounded-md border border-[#C87056]/14 bg-white p-8 shadow-2xl shadow-[#C87056]/10"
+              whileHover={{ y: -12, rotateX: 3 }}
+              transition={{ type: "spring", stiffness: 220, damping: 20 }}
             >
-              {[
-                "Design sur mesure",
-                "Pages illimitées",
-                "Responsive",
-                "SEO avancé",
-                "Base de données",
-                "Sécurisation des données",
-                "Analytics",
-                "Espace d’administration",
-              ].map((t) => (
-                <motion.li
-                  key={t}
-                  variants={item}
-                  className="flex items-start gap-3"
-                >
-                  <CircleCheck size={16} className="mt-1 text-[#C87056]" />
-                  <p>{t}</p>
-                </motion.li>
-              ))}
-            </motion.ul>
-
-            <motion.p
-              variants={item}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="font-semibold mb-2"
-            >
-              Vous êtes autonome
-            </motion.p>
-            <motion.p
-              variants={item}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="text-gray-700 leading-relaxed"
-            >
-              Vous gérez vos contenus quand vous le souhaitez,
-              sans dépendre d’un prestataire pour chaque modification.
-            </motion.p>
-          </motion.div>
+              <p className="mb-3 text-sm uppercase tracking-[0.22em] text-[#C87056]">
+                {offer.name}
+              </p>
+              <h3 className="font-momo text-4xl leading-none">{offer.title}</h3>
+              <p className="mt-6 leading-relaxed text-[#333333]/70">
+                {offer.text}
+              </p>
+              <div className="mt-8">
+                <ServiceList title="Inclus" items={offer.included} active />
+              </div>
+            </motion.article>
+          ))}
         </div>
       </div>
     </section>
