@@ -29,6 +29,7 @@ type Props = {
 };
 
 const introWords = ["fluide", "clair", "précis"];
+const heroSceneZoomDelay = 2.75;
 const heroSceneZoomDuration = 3.25;
 
 const formulas = [
@@ -171,14 +172,14 @@ export default function Home({ projects }: Props) {
         opacity: 1,
         duration: 1,
         ease: "power2.out",
-        delay: heroSceneZoomDuration - 0.55,
+        delay: heroSceneZoomDelay + heroSceneZoomDuration - 0.55,
       });
 
       gsap.to(".grain-overlay", {
         opacity: 0.045,
         duration: 0.45,
         ease: "power2.out",
-        delay: heroSceneZoomDuration + 0.5,
+        delay: heroSceneZoomDelay + heroSceneZoomDuration + 0.5,
       });
 
       gsap.fromTo(
@@ -256,7 +257,7 @@ function IntroReveal() {
         className="absolute inset-0 bg-[#7FA3A1]"
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
-        transition={{ duration: 0.45, delay: 2.75, ease: "easeOut" }}
+        transition={{ duration: 0.45, delay: 1.72, ease: "easeOut" }}
       />
       <div className="relative flex h-44 w-full items-center justify-center px-6">
         {introWords.map((word, index) => (
@@ -363,11 +364,10 @@ function GranularHeroScene() {
     if (!mount) return;
 
     const scene = new THREE.Scene();
-    // The central house is scaled by 1.65. Its flat face sits exactly around Y=0.66 and Z=0.726.
-    const cameraTarget = new THREE.Vector3(0, 2, 0);
+    const introHouseFaceY = 0.66;
+    const cameraTarget = new THREE.Vector3(0, introHouseFaceY, 0);
     const camera = new THREE.PerspectiveCamera(35, mount.clientWidth / mount.clientHeight, 0.02, 100);
-    // Placed at Z=0.76, the camera sits just 0.034 units away from the flat wall, creating a solid green screen.
-    camera.position.set(0, 0.66, 0.76);
+    camera.position.set(0, introHouseFaceY, 0.76);
     camera.lookAt(cameraTarget);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -400,10 +400,10 @@ function GranularHeroScene() {
 
     // Matériau doux et mat
     const material = new THREE.MeshPhysicalMaterial({
-      roughness: 0.3,
-      metalness: 0.1,
-      clearcoat: 0.5,
-      clearcoatRoughness: 0.2,
+      roughness: 0.85,
+      metalness: 0,
+      clearcoat: 0,
+      clearcoatRoughness: 1,
     });
 
     // 2. Génération du quartier (disposition circulaire)
@@ -457,7 +457,7 @@ function GranularHeroScene() {
     housesData[atelierHouseIndex].baseRotY = 0;
     housesData[atelierHouseIndex].scaleMultiplier = 1.65;
 
-    const introTween = gsap.timeline();
+    const introTween = gsap.timeline({ delay: heroSceneZoomDelay });
     introTween
       .to(camera.position, {
         x: 0,
