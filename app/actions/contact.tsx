@@ -1,7 +1,7 @@
 "use server";
 import { render } from '@react-email/components';
 import ConfirmationEmail from '../email/ConfirmationEmail';
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 
 export async function sendContactEmail(formData: FormData) {
     const name = formData.get("name");
@@ -14,7 +14,7 @@ export async function sendContactEmail(formData: FormData) {
 
     const transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
+        port: Number(process.env.SMTP_PORT),
         secure: true,
         auth: {
             user: process.env.SMTP_USER,

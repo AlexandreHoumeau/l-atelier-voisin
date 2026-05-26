@@ -64,6 +64,80 @@ const formulas = [
   },
 ];
 
+const pillars = [
+  {
+    title: "Créer",
+    text: "Sites web, landing pages, refontes, interfaces et parcours orientés conversion.",
+  },
+  {
+    title: "Connecter",
+    text: "Formulaires, CRM, bases de données, outils métier, emails, calendriers, Notion, Airtable, Supabase, Google Sheets ou outils existants.",
+  },
+  {
+    title: "Automatiser",
+    text: "Relances, emails, qualification de demandes, suivi client, tableaux de bord, workflows internes, documents récurrents et IA utile.",
+  },
+];
+
+const automationProblems = [
+  "Les demandes arrivent par email, formulaire, téléphone, réseaux sociaux ou outils internes.",
+  "Les informations sont dispersées entre plusieurs outils.",
+  "Les relances sont faites manuellement ou oubliées.",
+  "Les équipes recopient les mêmes informations d'un outil à l'autre.",
+  "Le site ne communique pas avec les outils métier.",
+  "Il manque une vue claire sur les demandes, prospects, clients ou projets en cours.",
+];
+
+const automationSolutions = [
+  "Formulaires intelligents",
+  "CRM ou base de suivi simple",
+  "Notifications automatiques",
+  "Emails de confirmation",
+  "Relances automatiques",
+  "Tableaux de bord",
+  "Qualification des demandes",
+  "Brouillons d'emails, synthèses ou documents avec IA",
+  "Connexion entre site, CRM, emails, calendrier et outils internes",
+];
+
+const automationOffers = [
+  {
+    name: "Audit Automatisation",
+    title: "Identifier les gains utiles",
+    text: "Analyse des tâches répétitives, outils existants et parcours de demande pour prioriser les automatisations les plus pertinentes.",
+    included: [
+      "Cartographie des demandes et workflows",
+      "Audit des outils existants",
+      "Repérage des tâches répétitives",
+      "Priorisation des automatisations",
+    ],
+  },
+  {
+    name: "Pack Acquisition & Suivi",
+    title: "Transformer les demandes en suivi clair",
+    text: "Landing page ou amélioration d'une page existante, formulaire de demande, CRM simple, notifications, emails automatiques et relances.",
+    included: [
+      "Page ou parcours de demande",
+      "Formulaire qualifiant",
+      "CRM simple ou base de suivi",
+      "Notifications et emails automatiques",
+      "Relances structurées",
+    ],
+  },
+  {
+    name: "Pack Workflow & Organisation",
+    title: "Connecter les outils du quotidien",
+    text: "Automatisation des suivis, documents, emails, tableaux de bord et connexions entre les outils utilisés par vos équipes.",
+    included: [
+      "Connexions entre outils",
+      "Automatisation des suivis",
+      "Documents et emails récurrents",
+      "Tableaux de bord opérationnels",
+      "IA utile pour synthèses et brouillons",
+    ],
+  },
+];
+
 const contactItems = [
   {
     icon: MessageCircle,
@@ -89,6 +163,10 @@ const capabilities = [
   "UX/UI",
   "Next.js",
   "Sanity CMS",
+  "Automatisation",
+  "CRM simple",
+  "Workflows",
+  "IA utile",
   "SEO",
   "Responsive",
   "Formulaire",
@@ -171,6 +249,13 @@ export default function Home({ projects }: Props) {
       gsap.to(".hero-ui", {
         opacity: 1,
         duration: 1,
+        ease: "power2.out",
+        delay: heroSceneZoomDelay + heroSceneZoomDuration - 0.55,
+      });
+
+      gsap.to(".hero-readability-overlay", {
+        opacity: 1,
+        duration: 1.1,
         ease: "power2.out",
         delay: heroSceneZoomDelay + heroSceneZoomDuration - 0.55,
       });
@@ -309,14 +394,23 @@ function Hero() {
             Atelier Voisin
           </span>
         </a>
-        <nav className="hidden items-center gap-7 text-sm text-[#333333]/68 md:flex">
-          <a href="#services" className="hover:text-[#C87056]">
+        <nav className="hidden items-center gap-2 text-sm text-[#333333]/68 md:flex">
+          <a
+            href="#services"
+            className="inline-flex rounded-full px-3 py-2 transition hover:bg-white/50 hover:text-[#C87056]"
+          >
             Services
           </a>
-          <a href="#projects" className="hover:text-[#C87056]">
+          <a
+            href="#projects"
+            className="inline-flex rounded-full px-3 py-2 transition hover:bg-white/50 hover:text-[#C87056]"
+          >
             Projets
           </a>
-          <a href="#contact" className="hover:text-[#C87056]">
+          <a
+            href="#contact"
+            className="inline-flex rounded-full px-3 py-2 transition hover:bg-white/50 hover:text-[#C87056]"
+          >
             Contact
           </a>
         </nav>
@@ -324,7 +418,7 @@ function Hero() {
           href="#contact"
           className="rounded-full bg-[#C87056] px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#FF9B54]"
         >
-          Écrire
+          Diagnostic gratuit
         </a>
       </header>
 
@@ -332,24 +426,40 @@ function Hero() {
         <GranularHeroScene />
       </div>
 
+      <div className="hero-readability-overlay pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(235,233,228,0.96)_0%,rgba(235,233,228,0.86)_34%,rgba(235,233,228,0.34)_62%,rgba(235,233,228,0)_100%)] opacity-0" />
+
       <div className="hero-ui pointer-events-none relative z-10 flex min-h-[calc(100vh-5rem)] items-center pt-16 opacity-0">
-        <div className="w-full pb-12 lg:max-w-4xl">
-          <p className="pointer-events-auto float-item mb-8 inline-flex items-center gap-2 rounded-full border border-[#C87056]/20 bg-white/70 px-4 py-2 text-sm text-[#C87056] shadow-sm">
+        <div className="w-full max-w-2xl pb-12 lg:max-w-3xl">
+          <p className="pointer-events-auto float-item mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-[#C87056]/20 bg-white/78 px-4 py-2 text-sm text-[#C87056] shadow-sm">
             <Sparkles size={16} />
-            Studio web indépendant à Bordeaux
+            Sites web, systèmes connectés et automatisations utiles
           </p>
-          <h1 className="pointer-events-auto font-momo text-[clamp(3.6rem,10vw,11rem)] leading-[0.86] text-[#333333]">
-            {["Des sites", "faits avec", "du soin."].map((line) => (
+          <h1 className="pointer-events-auto max-w-3xl font-momo text-[clamp(3rem,6.8vw,7.4rem)] leading-[0.9] text-[#333333]">
+            {["Sites web,", "automatisation", "et outils IA."].map((line) => (
               <span className="block overflow-hidden" key={line}>
                 <span className="hero-word block origin-left">{line}</span>
               </span>
             ))}
           </h1>
-          <p className="pointer-events-auto mt-8 max-w-xl text-xl leading-relaxed text-[#333333]/72">
-            Nous créons des sites sur mesure, chaleureux et fiables pour les
-            indépendants, lieux et entreprises qui veulent être compris dès la
-            première visite.
+          <p className="pointer-events-auto mt-7 max-w-xl text-lg leading-relaxed text-[#333333]/78 sm:text-xl">
+            Atelier Voisin aide les organisations, équipes et indépendants à
+            créer des sites efficaces, connecter leurs outils et automatiser les
+            tâches répétitives.
           </p>
+          <div className="pointer-events-auto mt-8 flex flex-wrap gap-3">
+            <a
+              href="#contact"
+              className="inline-flex rounded-full bg-[#C87056] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#FF9B54]"
+            >
+              Demander un diagnostic gratuit
+            </a>
+            <a
+              href="#services"
+              className="inline-flex rounded-full border border-[#C87056]/20 bg-white/68 px-6 py-3 text-sm font-semibold text-[#C87056] transition hover:-translate-y-1 hover:bg-white"
+            >
+              Voir les offres
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -659,24 +769,43 @@ function Services() {
       className="relative overflow-hidden bg-[#F2CC8F] px-5 py-24 sm:px-8 lg:px-12 lg:py-32"
     >
       <div className="wall-marquee mb-10 flex whitespace-nowrap font-momo font-bold text-[13vw] leading-none text-[#C87056]/16">
-        <span>SERVICES - DESIGN - CODE - CONTENU - </span>
-        <span>SERVICES - DESIGN - CODE - CONTENU - </span>
+        <span>SERVICES - SITES - OUTILS - WORKFLOWS - </span>
+        <span>SERVICES - SITES - OUTILS - WORKFLOWS - </span>
       </div>
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="reveal">
             <p className="mb-5 text-sm uppercase tracking-[0.3em] text-[#C87056]">
-              Services
+            Services
             </p>
             <h2 className="font-momo text-5xl leading-none sm:text-7xl">
-              Des formules claires, sans surprise.
+              Créer, connecter, automatiser.
             </h2>
           </div>
           <p className="reveal max-w-2xl self-end text-xl leading-relaxed text-[#333333]/72">
-            Que vous ayez besoin d&apos;un site simple ou d&apos;un outil
-            évolutif, nous concevons une solution adaptée, sans jargon, sans
-            usine à gaz.
+            Atelier Voisin conçoit des sites web, systèmes connectés et
+            automatisations utiles pour aider les organisations, équipes et
+            indépendants à mieux gérer leurs demandes, leurs outils et leurs
+            workflows.
           </p>
+        </div>
+
+        <div className="mt-14 grid gap-5 md:grid-cols-3">
+          {pillars.map((pillar) => (
+            <motion.article
+              key={pillar.title}
+              className="reveal rounded-md border border-[#C87056]/14 bg-white/58 p-6 shadow-sm"
+              whileHover={{ y: -8 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            >
+              <h3 className="font-momo text-4xl text-[#C87056]">
+                {pillar.title}
+              </h3>
+              <p className="mt-4 leading-relaxed text-[#333333]/70">
+                {pillar.text}
+              </p>
+            </motion.article>
+          ))}
         </div>
 
         <div className="reveal mt-12 flex flex-wrap gap-3">
@@ -727,6 +856,65 @@ function Services() {
                   }
                   active={formula.excluded.length === 0}
                 />
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="mt-20 grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="reveal">
+            <p className="mb-5 text-sm uppercase tracking-[0.3em] text-[#C87056]">
+              Automatisation
+            </p>
+            <h2 className="font-momo text-5xl leading-none sm:text-7xl">
+              Automatisez vos demandes, relances et workflows.
+            </h2>
+          </div>
+          <div className="reveal self-end">
+            <p className="max-w-2xl text-xl leading-relaxed text-[#333333]/72">
+              Des systèmes simples pour centraliser vos informations, gagner du
+              temps et ne plus laisser passer d&apos;opportunités.
+            </p>
+            <p className="mt-5 max-w-2xl leading-relaxed text-[#333333]/62">
+              Pour les indépendants, associations, PME, équipes internes,
+              agences, organismes de formation, prestataires de services et
+              organisations qui veulent structurer leurs outils.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-12 grid gap-7 lg:grid-cols-2">
+          <section className="reveal rounded-md border border-[#C87056]/14 bg-white/58 p-8 md:p-10">
+            <h3 className="font-momo text-4xl text-[#C87056]">
+              Ce qui ralentit
+            </h3>
+            <ServiceList title="Problèmes fréquents" items={automationProblems} active />
+          </section>
+          <section className="reveal rounded-md border border-[#C87056]/14 bg-white p-8 md:p-10">
+            <h3 className="font-momo text-4xl text-[#C87056]">
+              Ce qu&apos;on met en place
+            </h3>
+            <ServiceList title="Solutions possibles" items={automationSolutions} active />
+          </section>
+        </div>
+
+        <div className="mt-12 grid gap-7 lg:grid-cols-3">
+          {automationOffers.map((offer) => (
+            <motion.article
+              key={offer.name}
+              className="reveal rounded-md border border-[#C87056]/14 bg-white p-8 shadow-2xl shadow-[#C87056]/10"
+              whileHover={{ y: -12, rotateX: 3 }}
+              transition={{ type: "spring", stiffness: 220, damping: 20 }}
+            >
+              <p className="mb-3 text-sm uppercase tracking-[0.22em] text-[#C87056]">
+                {offer.name}
+              </p>
+              <h3 className="font-momo text-4xl leading-none">{offer.title}</h3>
+              <p className="mt-6 leading-relaxed text-[#333333]/70">
+                {offer.text}
+              </p>
+              <div className="mt-8">
+                <ServiceList title="Inclus" items={offer.included} active />
               </div>
             </motion.article>
           ))}
@@ -1156,7 +1344,8 @@ function About() {
             <p className="text-lg leading-relaxed">
               L&apos;Atelier Voisin est né de cette envie: faire du digital
               quelque chose de plus lisible, plus humain et plus facile à gérer
-              pour les entreprises locales, créateurs, lieux et indépendants.
+              pour les organisations, équipes et indépendants qui veulent des
+              outils clairs, utiles et faciles à faire évoluer.
             </p>
           </div>
         </div>

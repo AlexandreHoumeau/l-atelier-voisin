@@ -3,12 +3,15 @@ import { client } from "@/sanity/lib/client";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Atelier Voisin",
+  title: "Atelier Voisin — Sites web, automatisation et outils IA",
   description:
-    "Atelier Voisin est une agence web à Bordeaux spécialisée en sites performants, design UX/UI et développement sur mesure.",
+    "Création de sites web, automatisation des demandes, relances, workflows, CRM simple et outils IA pour organisations, équipes, indépendants et entreprises.",
   keywords: [
     "agence web Bordeaux",
     "création site internet Bordeaux",
+    "automatisation workflow",
+    "outils IA utiles",
+    "CRM simple",
     "développeur web Bordeaux",
     "UX UI Bordeaux",
   ],
@@ -21,9 +24,9 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Atelier Voisin — Agence web à Bordeaux",
+    title: "Atelier Voisin — Sites web, automatisation et outils IA",
     description:
-      "Sites web fiables, design humain et développement sur mesure à Bordeaux.",
+      "Sites web, systèmes connectés et automatisations utiles pour mieux gérer vos demandes, outils et workflows.",
     url: "https://atelier-voisin.fr",
     siteName: "Atelier Voisin",
     images: [

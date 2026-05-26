@@ -11,7 +11,7 @@ export async function POST(request: Request) {
         revalidatePath('/', 'layout');
         
         return NextResponse.json({ message: 'Cache cleared successfully!' });
-    } catch (err) {
+    } catch {
         return NextResponse.json({ message: 'Error clearing cache' }, { status: 500 });
     }
 }

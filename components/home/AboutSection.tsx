@@ -139,9 +139,9 @@ export default function AboutSection() {
 									<p className="text-sm lg:text-lg leading-relaxed">
 										En rentrant vivre dans notre ville d’origine, nous nous sommes réunis
 										autour d’une envie simple : faire du digital quelque chose de plus humain
-										et accessible. Nous avons crée une agence web, pensée pour les entreprises
-										et particuliers qui veulent un site fiable, clair et facile à gérer, sans
-										jargon, sans complications inutiles.
+										et accessible. Nous avons créé un atelier web pour les organisations,
+										équipes et indépendants qui veulent des sites fiables, des outils clairs
+										et des workflows plus faciles à gérer, sans jargon ni complications inutiles.
 									</p>
 								</div>
 							</div>
@@ -172,9 +172,9 @@ export default function AboutSection() {
 						ref={bannerRef}
 						className="absolute top-[50%] -translate-y-1/2 flex whitespace-nowrap text-[8vw] xl:text-[10vw] font-momo text-white/100"
 					>
-						<h1>L'ATELIER VOISIN-</h1>
-						<h1>L'ATELIER VOISIN-</h1>
-						<h1>L'ATELIER VOISIN-</h1>
+						<h1>L&apos;ATELIER VOISIN-</h1>
+						<h1>L&apos;ATELIER VOISIN-</h1>
+						<h1>L&apos;ATELIER VOISIN-</h1>
 					</div>
 				</div>
 			</section>

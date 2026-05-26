@@ -108,7 +108,7 @@ export default function ProjectsSection({ projects }: Props) {
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ delay: 0.3, duration: 0.5 }}
                               >
-                                <h4 className="font-bold text-lg mb-2 text-[#4A4A4A]">l'avis de nos clients</h4>
+                                <h4 className="font-bold text-lg mb-2 text-[#4A4A4A]">l&apos;avis de nos clients</h4>
                                 <p className="text-[#5A5A5A] leading-relaxed text-sm md:text-base">
                                   {project.review.quote}
                                 </p>
@@ -147,7 +147,7 @@ export default function ProjectsSection({ projects }: Props) {
 
 /* ---------- Gallery Sub-Component ---------- */
 
-function ProjectGallery({ photos }: { photos: any[] }) {
+function ProjectGallery({ photos }: { photos: Project["photos"] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -159,7 +159,7 @@ function ProjectGallery({ photos }: { photos: any[] }) {
     }, 3500);
 
     return () => clearInterval(timer);
-  }, [photos.length, currentIndex]); // <-- Added currentIndex here!
+  }, [photos, photos.length, currentIndex]); // <-- Added currentIndex here!
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % photos.length);
