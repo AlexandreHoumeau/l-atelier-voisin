@@ -55,7 +55,7 @@ export default function IntroReveal() {
         >
           <Logo className="h-16 w-auto sm:h-20 [&_*]:fill-[#EBE9E4]" />
           <p className="font-momo text-[clamp(3rem,8vw,7rem)] leading-none text-[#EBE9E4]">
-            Atelier Voisin
+            atelier voisin
           </p>
         </motion.div>
       </div>

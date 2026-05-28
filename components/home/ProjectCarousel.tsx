@@ -145,7 +145,7 @@ export default function ProjectCarousel({ projects }: { projects: Project[] }) {
               key={`title-${project.slug || index}`}
               className="project-title-wrapper absolute inset-0 flex flex-col items-center justify-center w-full h-full px-5"
             >
-              <h2 className="font-momo text-[clamp(4.4rem,12vw,9rem)] leading-[0.8] text-white text-center uppercase drop-shadow-2xl">
+              <h2 className="font-momo text-[clamp(4.4rem,12vw,9rem)] leading-[0.8] text-black text-center uppercase drop-shadow-2xl">
                 {project.title}
               </h2>
 
@@ -153,7 +153,7 @@ export default function ProjectCarousel({ projects }: { projects: Project[] }) {
                 <button
                   type="button"
                   onClick={() => setSelectedProject(project)}
-                  className="inline-flex rounded-full bg-[#f4a1c6] px-8 py-3.5 text-sm font-bold text-black shadow-lg transition-transform hover:scale-105 hover:bg-[#ffb6d5]"
+                  className="inline-flex rounded-full bg-[#C87056] text-white px-8 py-3.5 text-sm font-bold text-black shadow-lg transition-transform hover:scale-105 hover:text-bold"
                 >
                   Voir en détail
                 </button>
