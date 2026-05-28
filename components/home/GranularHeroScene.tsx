@@ -20,6 +20,7 @@ export default function GranularHeroScene() {
     camera.lookAt(cameraTarget);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.domElement.style.pointerEvents = "none";
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     mount.appendChild(renderer.domElement);
@@ -178,8 +179,8 @@ export default function GranularHeroScene() {
       camera.updateProjectionMatrix();
     };
 
-    mount.addEventListener("pointermove", onPointerMove);
-    mount.addEventListener("pointerleave", onPointerLeave);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerleave", onPointerLeave);
     window.addEventListener("resize", resize);
     resize();
 
@@ -283,8 +284,8 @@ export default function GranularHeroScene() {
 
     return () => {
       cancelAnimationFrame(raf);
-      mount.removeEventListener("pointermove", onPointerMove);
-      mount.removeEventListener("pointerleave", onPointerLeave);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerleave", onPointerLeave);
       window.removeEventListener("resize", resize);
 
       geometry.dispose();
@@ -296,7 +297,7 @@ export default function GranularHeroScene() {
   }, []);
 
   return (
-    <div className="pointer-events-auto relative flex h-full w-full cursor-crosshair items-center justify-center">
+    <div className="pointer-events-none relative flex h-full w-full items-center justify-center">
       <div ref={mountRef} className="absolute inset-0 outline-none" />
     </div>
   );
