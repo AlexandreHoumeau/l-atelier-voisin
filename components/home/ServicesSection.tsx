@@ -69,14 +69,16 @@ export default function ServicesSection() {
               whileHover={{ y: -14, rotateY: index === 0 ? -5 : 5, rotateX: 4 }}
               transition={{ type: "spring", stiffness: 220, damping: 20 }}
             >
-              {index === 1 && (
-                <span className="absolute right-6 top-6 rounded-full bg-[#C87056] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white">
-                  Personnalisée
-                </span>
-              )}
-              <p className="mb-3 text-sm uppercase tracking-[0.22em] text-[#C87056]">
-                {formula.name}
-              </p>
+              <div className="mb-3 flex flex-col items-start gap-3 sm:flex-row sm:justify-between">
+                <p className="text-sm uppercase tracking-[0.22em] text-[#C87056]">
+                  {formula.name}
+                </p>
+                {index === 1 && (
+                  <span className="shrink-0 rounded-full bg-[#C87056] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white">
+                    Personnalisée
+                  </span>
+                )}
+              </div>
               <h3 className="font-momo text-4xl leading-none">{formula.title}</h3>
               <p className="mt-6 max-w-xl leading-relaxed text-[#333333]/70">
                 {formula.text}
