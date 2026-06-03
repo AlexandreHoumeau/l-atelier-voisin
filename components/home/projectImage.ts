@@ -5,5 +5,5 @@ export function getProjectImage(photo: Project["photos"][number] | string | unde
   if (!photo) return "/og-image.png";
   return typeof photo === "string"
     ? photo
-    : urlFor(photo).width(1800).height(1200).url();
+    : urlFor(photo).width(1800).url();
 }
