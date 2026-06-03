@@ -88,7 +88,7 @@ export default function ProjectOverview({
           photos.map((photo, index) => (
             <motion.figure
               key={`${project.slug || project.title}-photo-${index}`}
-              className={`relative overflow-hidden rounded-lg shadow-2xl shadow-[#333333]/10 ${index === 0 ? "aspect-[16/10] lg:col-span-2 lg:row-span-2" : "aspect-[4/3]"
+              className={`relative overflow-hidden rounded-lg ${index === 0 ? "aspect-[16/10] lg:col-span-2 lg:row-span-2" : "aspect-[4/3]"
                 }`}
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
@@ -136,10 +136,10 @@ export default function ProjectOverview({
                 <dd className="text-right font-medium">{project.slug}</dd>
               </div>
             )}
-            <div className="flex justify-between gap-6">
+            {/* <div className="flex justify-between gap-6">
               <dt className="text-[#333333]/52">Images</dt>
               <dd className="text-right font-medium">{photos.length}</dd>
-            </div>
+            </div> */}
           </dl>
         </section>
 

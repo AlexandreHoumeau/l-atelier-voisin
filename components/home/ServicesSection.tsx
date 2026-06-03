@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import ServiceList from "./ServiceList";
-import { automationOffers, automationProblems, automationSolutions, capabilities, formulas, pillars } from "./servicesData";
+import { automationProblems, automationSolutions, capabilities, formulas, pillars } from "./servicesData";
 
 export default function ServicesSection() {
   return (
@@ -15,7 +15,7 @@ export default function ServicesSection() {
         <span>SERVICES - SITES - OUTILS - WORKFLOWS - </span>
       </div>
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="">
           <div className="reveal">
             <p className="mb-5 text-sm uppercase tracking-[0.3em] text-[#C87056]">
             Services
@@ -24,19 +24,13 @@ export default function ServicesSection() {
               Créer, connecter, automatiser.
             </h2>
           </div>
-          <p className="reveal max-w-2xl self-end text-xl leading-relaxed text-[#333333]/72">
-            Atelier Voisin conçoit des sites web, systèmes connectés et
-            automatisations utiles pour aider les organisations, équipes et
-            indépendants à mieux gérer leurs demandes, leurs outils et leurs
-            workflows.
-          </p>
         </div>
 
         <div className="mt-14 grid gap-5 md:grid-cols-3">
           {pillars.map((pillar) => (
             <motion.article
               key={pillar.title}
-              className="reveal rounded-md border border-[#C87056]/14 bg-white/58 p-6 shadow-sm"
+              className="reveal rounded-md border border-[#C87056]/14 bg-white p-6 shadow-sm"
               whileHover={{ y: -8 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
             >
@@ -103,12 +97,12 @@ export default function ServicesSection() {
           ))}
         </div>
 
-        <div className="mt-20 grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="mt-20 gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="reveal">
             <p className="mb-5 text-sm uppercase tracking-[0.3em] text-[#C87056]">
               Automatisation
             </p>
-            <h2 className="font-momo text-5xl leading-none sm:text-7xl">
+            <h2 className="font-momo mb-10 text-5xl leading-none sm:text-7xl">
               Automatisez vos demandes, relances et workflows.
             </h2>
           </div>
@@ -140,7 +134,7 @@ export default function ServicesSection() {
           </section>
         </div>
 
-        <div className="mt-12 grid gap-7 lg:grid-cols-3">
+        {/* <div className="mt-12 grid gap-7 lg:grid-cols-3">
           {automationOffers.map((offer) => (
             <motion.article
               key={offer.name}
@@ -160,7 +154,7 @@ export default function ServicesSection() {
               </div>
             </motion.article>
           ))}
-        </div>
+        </div> */}
       </div>
     </section>
   );
