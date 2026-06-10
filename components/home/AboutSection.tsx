@@ -10,7 +10,7 @@ const aboutNotes = [
   },
   {
     label: "Design",
-    className: "right-3 top-1/3 rotate-6 sm:right-8 lg:-right-8",
+    className: "right-3 top-[52%] rotate-6 sm:right-8 sm:top-1/3 lg:-right-8",
   },
   {
     label: "Code",
